@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Project_programming.MainPage" BackgroundColor="White">
+    <ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200"/>
+                <RowDefinition Height="100"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="70"/>
+            </Grid.RowDefinitions>
+
+
+            <BoxView Color="Black" Grid.Row="0"/>
+            <BoxView Color="White" Grid.Row="1"/>
+            <StackLayout Grid.Row="2" >
+                <Label Text="Welcome back" TextColor="Black" FontSize="32"/>
+            </StackLayout>
+            <StackLayout Grid.Row="3"  WidthRequest="500" HorizontalOptions="Start">
+                <Entry IsPassword="False"  TextColor="Black" Placeholder="Email" PlaceholderColor="Grey" MaxLength="64" 
+                       x:Name="emailEntry" TextChanged="NameEntry_Email" />
+            </StackLayout>
+            <StackLayout Grid.Row="4" WidthRequest="500" HorizontalOptions="Start" >
+                <Entry  BackgroundColor="White"  TextColor="Black" PlaceholderColor="Grey" 
+                   Placeholder="Password" IsPassword="True" MaxLength="5" x:Name="passwordEntry" TextChanged="NameEntry_Password" />
+            </StackLayout>
+            <Button Grid.Row="5" BackgroundColor="White" Text="Sign in" TextColor="Black" 
+        WidthRequest="1000" HorizontalOptions="Center" Clicked="SignInButtonIsPressed"/>
+            <Button Grid.Row="6" BackgroundColor="White" Text="Forget Password?" TextColor="Black" 
+        WidthRequest="200" HorizontalOptions="Start" Clicked="ForgottenPassword" />
+            <Button Grid.Row="6" BackgroundColor="White" Text="Registration" TextColor="Black" 
+        WidthRequest="200" HorizontalOptions="End" Clicked="Registaration"/>
+
+
+        </Grid>
+    </ScrollView>
+
+
+</ContentPage>
