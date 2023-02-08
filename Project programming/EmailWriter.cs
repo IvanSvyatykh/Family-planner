@@ -7,13 +7,13 @@ using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project_programming
+namespace WorkWithEmail
 {
-    public class EmailWriter
+    public static class EmailWriter
     {
         private static string Password = "fieAHud2xqR4AxckyWMw";// пароль отправителя
         private static string Email = "family.planner@mail.ru";// адреса отправителя      
-        static void SendMessage(string adressTo, string messageSubject, string messageText)
+        public static void SendMessage(string adressTo, string messageSubject, string messageText)
         {
             try
             {                        
