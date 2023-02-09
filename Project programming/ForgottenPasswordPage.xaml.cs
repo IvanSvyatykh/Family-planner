@@ -49,7 +49,7 @@ public partial class ForgottenPasswordPage : ContentPage
                 }
                 else
                 {
-                    await DisplayAlert("Great", "Now you can restore your password", "Ok");
+                    await DisplayAlert("Great", "N+ow you can restore your password", "Ok");
                     break;
                 }
             }

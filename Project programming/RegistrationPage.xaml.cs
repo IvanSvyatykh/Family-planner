@@ -39,23 +39,25 @@ public partial class RegistrationPage : ContentPage
         }
         if (RegistrationLogic.IsPasswordEquals(Password, RepeatedPassword))
         {
-            int Ñonfirmationcode = PasswordLog.RandomNumberGenerator();
+            int confirmationCode = PasswordLog.RandomNumberGenerator();
             int countTry = 0;
-            
-            if(!EmailWriter.SendMessage(Email, "Ñonfirmation code", "Code: " + Ñonfirmationcode.ToString()))
+
+            if (!EmailWriter.SendMessage(Email, "Ñonfirmation code", "Code: " + confirmationCode.ToString()))
             {
                 await DisplayAlert("O_o", "You  have written a non-existent password", "Ok");
                 emailEntry.Text = string.Empty;
                 return;
             }
+
             Time = new DateTime();
             Time = DateTime.Now;
             Time = Time.AddMinutes(2);
+
             while (countTry != 3)
             {
                 if (int.TryParse(await DisplayPromptAsync("Confirmation", "Please write here code, which we sent you on Email", "Send", "", maxLength: 5, keyboard: Keyboard.Numeric), out int answer))
                 {
-                    if (answer != Ñonfirmationcode)
+                    if (answer != confirmationCode)
                     {
                         countTry++;
                         await DisplayAlert("Attention", "Check code correctness", "Ok");

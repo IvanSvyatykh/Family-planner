@@ -11,7 +11,7 @@ namespace WorkWithEmail
 {
     public static class EmailWriter
     {
-        private static string Password = "";// пароль отправителя
+        private static string Password = "MTH5NJzZgtuuWARxUVpc";// пароль отправителя
         private static string Email = "family.planner@mail.ru";// адреса отправителя      
         public static bool SendMessage(string adressTo, string messageSubject, string messageText)
         {
