@@ -13,7 +13,7 @@ namespace WorkWithEmail
     {
         private static string Password = "";// пароль отправителя
         private static string Email = "family.planner@mail.ru";// адреса отправителя      
-        public static void SendMessage(string adressTo, string messageSubject, string messageText)
+        public static bool SendMessage(string adressTo, string messageSubject, string messageText)
         {
             try
             {                        
@@ -30,11 +30,11 @@ namespace WorkWithEmail
                 client.DeliveryMethod = SmtpDeliveryMethod.Network;
                 client.Send(mess); // отправка пользователю              
                 mess.Dispose();
-                return;
+                return true;
             }
             catch (Exception e)
             {
-                throw new Exception("Mail.Send: " + e.Message);
+                return false;
             }
         }
 

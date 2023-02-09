@@ -11,7 +11,7 @@ public partial class MainPage : ContentPage
     {
         InitializeComponent();
     }
-    private async void Registaration(object sender, EventArgs args) => await Shell.Current.GoToAsync("RegistrationPage"); 
+    private async void Registaration(object sender, EventArgs args) => await Shell.Current.GoToAsync("RegistrationPage");
     private async void ForgottenPassword(object sender, EventArgs args) => await Shell.Current.GoToAsync("ForgottenPasswordPage");
     private void NameEntry_Password(object sender, TextChangedEventArgs e) => Password = passwordEntry.Text;
     private void NameEntry_Email(object sender, TextChangedEventArgs e) => Email = emailEntry.Text;
@@ -23,11 +23,11 @@ public partial class MainPage : ContentPage
             emailEntry.Text = string.Empty;
             return;
         }
-        if (Password == null ||  Email == null)
+        if (Password == null || Email == null)
         {
-            await DisplayAlert("Attention", "All fields must be field", "Ok");     
+            await DisplayAlert("Attention", "All fields must be field", "Ok");
             return;
-        }  
+        }
         else
         {
             await Shell.Current.GoToAsync("SignInPage");
@@ -35,4 +35,3 @@ public partial class MainPage : ContentPage
     }
 
 }
-

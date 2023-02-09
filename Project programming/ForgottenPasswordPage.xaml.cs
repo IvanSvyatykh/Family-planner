@@ -30,7 +30,12 @@ public partial class ForgottenPasswordPage : ContentPage
         int Ñonfirmationcode = PasswordLog.RandomNumberGenerator();
         int countTry = 0;
 
-        EmailWriter.SendMessage(Email, "Ñonfirmation code", "Code: " + Ñonfirmationcode.ToString());
+        if (!EmailWriter.SendMessage(Email, "Ñonfirmation code", "Code: " + Ñonfirmationcode.ToString()))
+        {
+            await DisplayAlert("O_o", "You  have written a non-existent password", "Ok");
+            emailEntry.Text = string.Empty;
+            return;
+        }
 
 
         while (countTry != 3)
@@ -44,7 +49,7 @@ public partial class ForgottenPasswordPage : ContentPage
                 }
                 else
                 {
-                    await DisplayAlert("Great", "Mow you can restore your password", "Ok");
+                    await DisplayAlert("Great", "Now you can restore your password", "Ok");
                     break;
                 }
             }

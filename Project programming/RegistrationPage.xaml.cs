@@ -31,7 +31,7 @@ public partial class RegistrationPage : ContentPage
             await DisplayAlert("", $"We have alredy sent you messege", "Ok");
             return;
         }
-        if (RegistrationLogic.IsFieldsCorrect(Password, RepeatedPassword, Email))
+        if (!RegistrationLogic.IsFieldsCorrect(Password, RepeatedPassword, Email))
         {
             await DisplayAlert("Attention", "All fields must be field", "Ok");
             return;
@@ -41,7 +41,13 @@ public partial class RegistrationPage : ContentPage
         {
             int Ñonfirmationcode = PasswordLog.RandomNumberGenerator();
             int countTry = 0;
-            EmailWriter.SendMessage(Email, "Ñonfirmation code", "Code: " + Ñonfirmationcode.ToString());
+            
+            if(!EmailWriter.SendMessage(Email, "Ñonfirmation code", "Code: " + Ñonfirmationcode.ToString()))
+            {
+                await DisplayAlert("O_o", "You  have written a non-existent password", "Ok");
+                emailEntry.Text = string.Empty;
+                return;
+            }
             Time = new DateTime();
             Time = DateTime.Now;
             Time = Time.AddMinutes(2);
