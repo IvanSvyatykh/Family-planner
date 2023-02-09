@@ -1,6 +1,5 @@
-using WorkWithEmail;
 using PasswordLogic;
-using EmailChecker;
+using Project_programming.WorkWithEmail;
 
 namespace Project_programming;
 public partial class ForgottenPasswordPage : ContentPage

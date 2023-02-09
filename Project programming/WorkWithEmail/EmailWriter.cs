@@ -7,7 +7,7 @@ using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorkWithEmail
+namespace Project_programming.WorkWithEmail
 {
     public static class EmailWriter
     {
@@ -16,7 +16,7 @@ namespace WorkWithEmail
         public static bool SendMessage(string adressTo, string messageSubject, string messageText)
         {
             try
-            {       
+            {
                 //пытаемся отправить сообщение по указаной почте
                 MailMessage mess = new MailMessage();
                 mess.To.Add(adressTo); // адрес получателя

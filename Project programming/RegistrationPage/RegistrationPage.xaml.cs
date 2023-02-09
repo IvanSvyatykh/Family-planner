@@ -1,7 +1,6 @@
 using Registration;
 using PasswordLogic;
-using WorkWithEmail;
-using EmailChecker;
+using Project_programming.WorkWithEmail;
 
 namespace Project_programming;
 public partial class RegistrationPage : ContentPage

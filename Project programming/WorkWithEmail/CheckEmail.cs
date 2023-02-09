@@ -5,7 +5,7 @@ using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EmailChecker
+namespace Project_programming.WorkWithEmail
 {
     public class CheckEmailCorectness
     {
