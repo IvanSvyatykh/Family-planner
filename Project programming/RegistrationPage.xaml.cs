@@ -1,6 +1,7 @@
 using Registration;
 using PasswordLogic;
 using WorkWithEmail;
+using EmailChecker;
 
 namespace Project_programming;
 public partial class RegistrationPage : ContentPage
@@ -18,6 +19,12 @@ public partial class RegistrationPage : ContentPage
     private void NameEntry_RepeatedPassword(object sender, TextChangedEventArgs e) => RepeatedPassword = repeatedPasswordEntry.Text;
     private async void ContinueButtonIsPressed(object sender, EventArgs e)
     {
+        if (!CheckEmailCorectness.IsValidEmail(Email))
+        {
+            await DisplayAlert("Attention", "Are you sure that you wrote Email address?", "Continue");
+            emailEntry.Text = string.Empty;
+            return;
+        }
 
         if (Time > DateTime.Now)
         {
