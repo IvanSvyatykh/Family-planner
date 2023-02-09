@@ -5,7 +5,6 @@ using WorkWithEmail;
 namespace Project_programming;
 public partial class RegistrationPage : ContentPage
 {
-    private string UserName;
     private string Password;
     private string RepeatedPassword;
     private string Email;
@@ -14,7 +13,6 @@ public partial class RegistrationPage : ContentPage
     {
         InitializeComponent();
     }
-    private void NameEntry_UserName(object sender, TextChangedEventArgs e) => UserName = nameEntry.Text;
     private void NameEntry_Password(object sender, TextChangedEventArgs e) => Password = passwordEntry.Text;
     private void NameEntry_Email(object sender, TextChangedEventArgs e) => Email = emailEntry.Text;
     private void NameEntry_RepeatedPassword(object sender, TextChangedEventArgs e) => RepeatedPassword = repeatedPasswordEntry.Text;
@@ -26,7 +24,7 @@ public partial class RegistrationPage : ContentPage
             await DisplayAlert("", $"We have alredy sent you messege", "Ok");
             return;
         }
-        if (RegistrationLogic.IsFieldsCorrect(Password, RepeatedPassword, Email, UserName))
+        if (RegistrationLogic.IsFieldsCorrect(Password, RepeatedPassword, Email))
         {
             await DisplayAlert("Attention", "All fields must be field", "Ok");
             return;

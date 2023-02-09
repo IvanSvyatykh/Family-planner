@@ -14,7 +14,6 @@
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="70"/>
-                <RowDefinition Height="70"/>
             </Grid.RowDefinitions>
 
 
@@ -23,29 +22,24 @@
             <StackLayout Grid.Row="2" >
                 <Label Text="Create your account" TextColor="Black" FontSize="32"/>
             </StackLayout>
-            
+
             <StackLayout Grid.Row="3"  WidthRequest="500" HorizontalOptions="Start">
-                <Entry IsPassword="False"  TextColor="Black" Placeholder="User name" PlaceholderColor="Grey" 
-                       MaxLength="64" x:Name="nameEntry"  TextChanged="NameEntry_UserName"/>
-            </StackLayout>
-            
-            <StackLayout Grid.Row="4"  WidthRequest="500" HorizontalOptions="Start">
                 <Entry IsPassword="False"  TextColor="Black" Placeholder="Email" PlaceholderColor="Grey" 
                        MaxLength="64" x:Name="emailEntry"  TextChanged="NameEntry_Email"/>
             </StackLayout>
             
-            <StackLayout Grid.Row="5" WidthRequest="500" HorizontalOptions="Start" >
+            <StackLayout Grid.Row="4" WidthRequest="500" HorizontalOptions="Start" >
                 <Entry BackgroundColor="White"  TextColor="Black" PlaceholderColor="Grey" 
                    Placeholder="Password" IsPassword="True" MaxLength="5" TextChanged="NameEntry_Password" x:Name="passwordEntry" Keyboard="Numeric" />
             </StackLayout>
             
-            <StackLayout Grid.Row="6" WidthRequest="500" HorizontalOptions="Start" >
+            <StackLayout Grid.Row="5" WidthRequest="500" HorizontalOptions="Start" >
                 <Entry  BackgroundColor="White"  TextColor="Black" PlaceholderColor="Grey" 
                    Placeholder="Repeat password" IsPassword="True" MaxLength="5" 
                         TextChanged="NameEntry_RepeatedPassword" x:Name="repeatedPasswordEntry" Keyboard="Numeric"/>
             </StackLayout>
             
-            <Button Grid.Row="7" BackgroundColor="White" Text="Continue" TextColor="Black" 
+            <Button Grid.Row="6" BackgroundColor="White" Text="Continue" TextColor="Black" 
         WidthRequest="1000" HorizontalOptions="Center" Clicked="ContinueButtonIsPressed" />
         </Grid>
     </ScrollView>

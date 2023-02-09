@@ -9,10 +9,13 @@ namespace Registration
    public  class RegistrationLogic
     {
         public static bool IsPasswordEquals(string Password , string RepeatedPassword) => Password.Equals(RepeatedPassword);
-        public static bool IsFieldsCorrect(string Password, string RepeatedPassword , string Email , string UserName)
+        public static bool IsFieldsCorrect(params string[] fields)
         {
-            return Password == null || RepeatedPassword == null || Email == null || UserName == null
-           || Password.Length != 5 || RepeatedPassword.Length != 5;
+            for(int i =0;i<fields.Length;i++) 
+            {
+                if (fields[i]==null) return false;  
+            }
+            return true;
         }
 
     }
