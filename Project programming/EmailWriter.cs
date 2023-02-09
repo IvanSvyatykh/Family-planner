@@ -16,7 +16,8 @@ namespace WorkWithEmail
         public static bool SendMessage(string adressTo, string messageSubject, string messageText)
         {
             try
-            {                        
+            {       
+                //пытаемся отправить сообщение по указаной почте
                 MailMessage mess = new MailMessage();
                 mess.To.Add(adressTo); // адрес получателя
                 mess.From = new MailAddress(Email);
@@ -34,6 +35,7 @@ namespace WorkWithEmail
             }
             catch (Exception e)
             {
+                //на случай если пользователь ошибся в почте и отправка не возможна
                 return false;
             }
         }
