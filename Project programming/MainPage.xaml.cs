@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using EmailChecker;
 namespace Project_programming;
 
 public partial class MainPage : ContentPage
@@ -16,6 +17,12 @@ public partial class MainPage : ContentPage
     private void NameEntry_Email(object sender, TextChangedEventArgs e) => Email = emailEntry.Text;
     private async void SignInButtonIsPressed(object sender, EventArgs e)
     {
+        if (!CheckEmailCorectness.IsValidEmail(Email))
+        {
+            await DisplayAlert("Attention", "Are you sure that you wrote Email address?", "Continue");
+            emailEntry.Text = string.Empty;
+            return;
+        }
         if (Password == null ||  Email == null)
         {
             await DisplayAlert("Attention", "All fields must be field", "Ok");     
