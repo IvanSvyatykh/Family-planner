@@ -13,6 +13,7 @@ namespace Project_programming.WorkWithEmail
         {
             try
             {
+                // Проверяем на то, что адрес хотя бы теоритически почта
                 MailAddress mail = new MailAddress(Email);
                 return true;
             }

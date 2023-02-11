@@ -1,5 +1,5 @@
 ﻿using System.Xml;
-using EmailChecker;
+using Project_programming.WorkWithEmail;
 namespace Project_programming;
 
 public partial class MainPage : ContentPage

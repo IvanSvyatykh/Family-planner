@@ -22,6 +22,7 @@ public partial class ForgottenPasswordPage : ContentPage
 
         if (Time > DateTime.Now)
         {
+            //Условие для проверки сколько осталось для нового нажатия
             await DisplayAlert("", $"We have alredy sent you messege", "Ok");
             return;
         }
