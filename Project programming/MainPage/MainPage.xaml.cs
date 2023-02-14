@@ -17,6 +17,11 @@ public partial class MainPage : ContentPage
     private void NameEntry_Email(object sender, TextChangedEventArgs e) => Email = emailEntry.Text;
     private async void SignInButtonIsPressed(object sender, EventArgs e)
     {
+        if (!CheckEmailCorectness.ConnectionAvailable())
+        {
+            await DisplayAlert("Attention", "There is no internet connection", "Ok");
+            return;
+        }
         if (Password == null || Email == null)
         {
             await DisplayAlert("Attention", "All fields must be field", "Ok");

@@ -1,19 +1,24 @@
-using PasswordLogic;
+ï»¿using PasswordLogic;
 using Project_programming.WorkWithEmail;
 
 namespace Project_programming;
 public partial class ForgottenPasswordPage : ContentPage
 {
-    private string Email;
+    private string _email;
     private DateTime Time;
     public ForgottenPasswordPage()
     {
         InitializeComponent();
     }
-    private void NameEntry_Email(object sender, TextChangedEventArgs e) => Email = emailEntry.Text;
+    private void NameEntry_Email(object sender, TextChangedEventArgs e) => _email = emailEntry.Text;
     private async void SendEmail(object sender, EventArgs e)
     {
-        if (!CheckEmailCorectness.IsValidEmail(Email))
+        if(!CheckEmailCorectness.ConnectionAvailable())
+        {
+            await DisplayAlert("Attention", "There is no internet connection", "Ok");
+            return;
+        }
+        if (!CheckEmailCorectness.IsValidEmail(_email))
         {
             await DisplayAlert("Attention", "Are you sure that you wrote Email address?", "Continue");
             emailEntry.Text = string.Empty;
@@ -22,15 +27,14 @@ public partial class ForgottenPasswordPage : ContentPage
 
         if (Time > DateTime.Now)
         {
-            //Óñëîâèå äëÿ ïğîâåğêè ñêîëüêî îñòàëîñü äëÿ íîâîãî íàæàòèÿ
             await DisplayAlert("", $"We have alredy sent you messege", "Ok");
             return;
         }
 
-        int Ñonfirmationcode = PasswordLog.RandomNumberGenerator();
+        int confirmationCode = PasswordLog.RandomNumberGenerator();
         int countTry = 0;
 
-        if (!EmailWriter.SendMessage(Email, "Ñonfirmation code", "Code: " + Ñonfirmationcode.ToString()))
+        if (!EmailWriter.SendMessage(_email, "confirmationCode code", "Code: " + confirmationCode.ToString()))
         {
             await DisplayAlert("O_o", "You  have written a non-existent password", "Ok");
             emailEntry.Text = string.Empty;
@@ -42,7 +46,7 @@ public partial class ForgottenPasswordPage : ContentPage
         {
             if (int.TryParse(await DisplayPromptAsync("Confirmation", "Please write here code, which we sent you on Email", "Send", "", maxLength: 5, keyboard: Keyboard.Numeric), out int answer))
             {
-                if (answer != Ñonfirmationcode)
+                if (answer != confirmationCode)
                 {
                     countTry++;
                     await DisplayAlert("Attention", "Check code correctness", "Ok");
