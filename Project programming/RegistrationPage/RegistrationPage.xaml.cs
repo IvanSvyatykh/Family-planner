@@ -69,6 +69,7 @@ public partial class RegistrationPage : ContentPage
                     else
                     {
                         await DisplayAlert("Great", "You have successfully registered", "Ok");
+                        await Shell.Current.GoToAsync("JoinFamilyPage");
                         break;
                     }
                 }

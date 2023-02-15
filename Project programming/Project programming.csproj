@@ -63,6 +63,9 @@
 		<MauiXaml Update="ForgottenPage\ForgottenPasswordPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="JoinFamily\JoinFamilyPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="RegistrationPage\RegistrationPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
