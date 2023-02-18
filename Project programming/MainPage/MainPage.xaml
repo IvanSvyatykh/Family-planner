@@ -22,18 +22,18 @@
             </StackLayout>
             <StackLayout Grid.Row="3"  WidthRequest="500" HorizontalOptions="Start">
                 <Entry IsPassword="False"  TextColor="Black" Placeholder="Email" PlaceholderColor="Grey" MaxLength="64" 
-                       x:Name="emailEntry" TextChanged="NameEntry_Email" />
+                      x:Name="emailEntry" TextChanged="NameEntry_Email" />
             </StackLayout>
             <StackLayout Grid.Row="4" WidthRequest="500" HorizontalOptions="Start" >
                 <Entry  BackgroundColor="White"  TextColor="Black" PlaceholderColor="Grey" 
-                   Placeholder="Password" IsPassword="True" MaxLength="5" x:Name="passwordEntry" TextChanged="NameEntry_Password" />
+                   Placeholder="Password" IsPassword="True" MaxLength="5"  x:Name="passwordEntry" TextChanged="NameEntry_Password" />
             </StackLayout>
             <Button Grid.Row="5" BackgroundColor="White" Text="Sign in" TextColor="Black" 
         WidthRequest="1000" HorizontalOptions="Center" Clicked="SignInButtonIsPressed"/>
             <Button Grid.Row="6" BackgroundColor="White" Text="Forget Password?" TextColor="Black" 
-        WidthRequest="200" HorizontalOptions="Start" Clicked="ForgottenPassword" />
+        WidthRequest="200" HorizontalOptions="Start" Command="{Binding ForgottenPasswordPage}" />
             <Button Grid.Row="6" BackgroundColor="White" Text="Registration" TextColor="Black" 
-        WidthRequest="200" HorizontalOptions="End" Clicked="Registaration"/>
+        WidthRequest="200" HorizontalOptions="End" Command="{Binding RegistarationPageCommand}"/>
 
 
         </Grid>

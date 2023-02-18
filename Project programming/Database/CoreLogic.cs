@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Project_programming.Database;
 
-namespace Project_programming.Database
+namespace MySQLApp
 {
     public class ApplicationContext : DbContext
     {
-        public DbSet<Family> Families { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public ApplicationContext()
         {
@@ -18,7 +14,7 @@ namespace Project_programming.Database
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySql(
-                "server=;user=;password=;database=;",
+                "server=localhost;user=s518530;password=XVCeY7nR;database=s518530_Family_Planner;",
                 new MySqlServerVersion(new Version(8, 0, 11))
             );
         }
