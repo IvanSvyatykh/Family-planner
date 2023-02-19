@@ -13,10 +13,10 @@ namespace Project_programming
 {
     public class MainPageViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
         public ICommand RegistarationPageCommand { get; set; }
         public ICommand ForgottenPasswordPage { get; set; }
-        public ICommand SignInIsPressed { get; set; }
+        public ICommand SignIn { get; set; }
         string _email { get; set; }
         string _password { get; set; }
         public MainPageViewModel()
@@ -29,30 +29,18 @@ namespace Project_programming
             {
                 Shell.Current.GoToAsync("ForgottenPasswordPage");
             });
-            SignInIsPressed = new Command(() =>
+            SignIn = new Command(() =>
             {
-                if (!CheckEmailCorectness.ConnectionAvailable())
-                {
-                    Application.Current.MainPage.DisplayAlert("Attention", "There is no internet connection", "Ok");
-                    return;
-                }
-                if (_password == null || _email == null)
-                {
-                    Application.Current.MainPage.DisplayAlert("Attention", "All fields must be field", "Ok");
-                    return;
-                }
-                else
-                {
-                    Shell.Current.GoToAsync("SignInPage");
-                }
-            });
+                Shell.Current.GoToAsync("SignInPage");
+            },
+            () => CheckEmailCorectness.IsValidEmail(Email) && Password!=null);
         }
         public string Password
         {
             get => _password;
             set
             {
-                if (value != null)
+                if (_password != value)
                 {
                     _password = value;
                     OnPropertyChanged();
@@ -64,7 +52,7 @@ namespace Project_programming
             get => _email;
             set
             {
-                if (value != null)
+                if (_email != value)
                 {
                     _email = value;
                     OnPropertyChanged();
@@ -74,6 +62,7 @@ namespace Project_programming
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            ((Command)SignIn).ChangeCanExecute();
         }
 
     }

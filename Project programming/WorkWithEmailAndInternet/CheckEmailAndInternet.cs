@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -12,16 +13,9 @@ namespace Project_programming.WorkWithEmail
     {
         public static bool IsValidEmail(string Email)
         {
-            try
-            {
-                // Проверяем на то, что адрес хотя бы теоритически почта
-                MailAddress mail = new MailAddress(Email);
-                return true;
-            }
-            catch (Exception e)
-            {
-                return false;
-            }
+            EmailAddressAttribute emailAddressAttribute = new EmailAddressAttribute();
+
+            return emailAddressAttribute.IsValid(Email);
         }
 
         public static bool ConnectionAvailable()

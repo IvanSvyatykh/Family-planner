@@ -28,18 +28,12 @@
                 <Entry  BackgroundColor="White"  TextColor="Black" PlaceholderColor="Grey" 
                    Placeholder="Password" IsPassword="True" MaxLength="5"  Text="{Binding Password}" />
             </StackLayout>
-            <Button Grid.Row="5" BackgroundColor="White" Text="Sign in" TextColor="Black" 
-        WidthRequest="1000" HorizontalOptions="Center" Command="{Binding SignInIsPressed}"/>
+            <Button Grid.Row="5" Text="Sign in" TextColor="Black" 
+        WidthRequest="1000" HorizontalOptions="Center" Command="{Binding SignIn }" BackgroundColor="White"/>
             <Button Grid.Row="6" BackgroundColor="White" Text="Forget Password?" TextColor="Black" 
         WidthRequest="200" HorizontalOptions="Start" Command="{Binding ForgottenPasswordPage}" />
             <Button Grid.Row="6" BackgroundColor="White" Text="Registration" TextColor="Black" 
-        WidthRequest="200" HorizontalOptions="End" Command="{Binding RegistarationPageCommand}"/>
-
-            <StackLayout>
-                <ContentView>
-
-                </ContentView>
-            </StackLayout>
+        WidthRequest="200" HorizontalOptions="End" Command="{Binding RegistarationPageCommand}" />
         </Grid>
     </ScrollView>
 </ContentPage>
