@@ -1,4 +1,4 @@
-﻿using PasswordLogic;
+using PasswordLogic;
 using Project_programming.WorkWithEmail;
 
 namespace Project_programming;
@@ -13,7 +13,7 @@ public partial class ForgottenPasswordPage : ContentPage
     private void NameEntry_Email(object sender, TextChangedEventArgs e) => _email = emailEntry.Text;
     private async void SendEmail(object sender, EventArgs e)
     {
-        if(!CheckEmailCorectness.ConnectionAvailable())
+        if (!CheckEmailCorectness.ConnectionAvailable())
         {
             await DisplayAlert("Attention", "There is no internet connection", "Ok");
             return;
