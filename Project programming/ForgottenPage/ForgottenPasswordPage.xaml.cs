@@ -9,5 +9,5 @@ public partial class ForgottenPasswordPage : ContentPage
     {
         InitializeComponent();
         BindingContext = new ForgottenPasswordPageViewModel();
-    }   
+    }
 }

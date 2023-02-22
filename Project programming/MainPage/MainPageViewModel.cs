@@ -31,7 +31,7 @@ namespace Project_programming
             });
             SignIn = new Command(() =>
             {
-                Shell.Current.GoToAsync("SignInPage");
+                
             },
             () => CheckEmailCorectness.IsValidEmail(Email) && Password!=null);
         }

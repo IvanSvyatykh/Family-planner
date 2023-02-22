@@ -15,7 +15,7 @@ namespace Project_programming.WorkWithEmail
         {
             EmailAddressAttribute emailAddressAttribute = new EmailAddressAttribute();
 
-            return emailAddressAttribute.IsValid(Email);
+            return Email!=null && emailAddressAttribute.IsValid(Email);
         }
 
         public static bool ConnectionAvailable()

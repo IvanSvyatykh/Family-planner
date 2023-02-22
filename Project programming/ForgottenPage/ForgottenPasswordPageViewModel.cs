@@ -13,70 +13,84 @@ namespace Project_programming.ForgottenPage
 {
     public class ForgottenPasswordPageViewModel : INotifyPropertyChanged
     {
-        public string _email { get; set; }
+        private string _email { get; set; }
+        private int? _answer { get; set; } = null;
         public ICommand SendEmail { get; set; }
+        public ICommand Continue { get; set; }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private int _confirmationCode = 0;
         public ForgottenPasswordPageViewModel()
         {
-            SendEmail = new Command(() =>
+            SendEmail = new Command(async () =>
             {
-                int confirmationCode = PasswordLog.RandomNumberGenerator();
-
-                if (!EmailWriter.SendMessage(_email, "confirmationCode code", "Code: " + confirmationCode.ToString()))
+                GiveANumberToCode();
+                if (!CheckEmailCorectness.ConnectionAvailable())
                 {
-                    Application.Current.MainPage.DisplayAlert("O_o", "You  have written a non-existent Email", "Ok");
-                    _email = string.Empty;
-                }
+                    await Task.Run(async () =>
+                    {
+                        await Task.Delay(500);
+                        App.AlertSvc.ShowAlert("Ooops ", "There is no internet, check your connection, please", "ОК ");
+                    });
 
-                int countTry = 0;
+                }
+                else if (!EmailWriter.SendMessage(Email, "Confirmation Code", "Code :" + _confirmationCode.ToString()))
+                {
+                    await Task.Run(async () =>
+                    {
+                        await Task.Delay(500);
+                        App.AlertSvc.ShowAlert("O_o ", "You wrote non-existed Email", "ОК ");
+                    });
+                }
+                else
+                {
+                    await Task.Run(async () =>
+                    {
+                        await Task.Delay(500);
+                        App.AlertSvc.ShowAlert("Confirmation Code", "We have sent you confirmation code on Email, write it here", "Ok");
+                    });
+                }
+            },
+            () => CheckEmailCorectness.IsValidEmail(Email));
 
-                while (countTry != 3)
+            Continue = new Command(async () =>
+            {
+
+                await Task.Run(async () =>
                 {
-                    if (int.TryParse(Application.Current.MainPage.
-                        DisplayPromptAsync("Confirmation", "Please write here code, which we sent you on Email", "Send", "").ToString(), out int answer))
-                    {
-                        if (answer != confirmationCode)
-                        {
-                            countTry++;
-                            Application.Current.MainPage.DisplayAlert("Attention", "Check code correctness", "Ok");
-                        }
-                        else
-                        {
-                            Application.Current.MainPage.DisplayAlert("Great", "N+ow you can restore your password", "Ok");
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        Application.Current.MainPage.DisplayAlert("Attention", "Check code correctness", "Ok");
-                        countTry++;
-                    }
-                    if (countTry == 2)
-                    {
-                        Application.Current.MainPage.DisplayAlert("Attention", "You have last attempt, then you will have to wait untill two minutes will be over", "Ok");
-                    }
-                }
-                if (countTry == 3)
-                {
-                    Application.Current.MainPage.DisplayAlert("Sorry", "You write wrong code three time, wait for two minutes", "Ok");
-                }
-            });
+                    await Task.Delay(500);
+                    App.AlertSvc.ShowAlert("", "We have sent you confirmation code on Email, write it here", "Ok");
+                });
+
+            },
+            () => Answer == _confirmationCode);
         }
+        private void GiveANumberToCode() => _confirmationCode = PasswordLog.RandomNumberGenerator();
         public string Email
         {
             get => _email;
             set
             {
-                if (CheckEmailCorectness.IsValidEmail(value))
+                if (_email != value)
                 {
                     _email = value;
                     OnPropertyChanged();
                 }
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
+        public int? Answer
+        {
+            get => _answer;
+            set
+            {
+                if (_answer != value)
+                {
+                    _answer = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

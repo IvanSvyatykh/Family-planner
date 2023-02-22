@@ -5,15 +5,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Project_programming"
     Shell.FlyoutBehavior="Disabled">
-  
+
     <ShellContent
         Title="Family Planner"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
-    <ShellContent
-        Title="Login"
-        ContentTemplate="{DataTemplate local:SignInPage}"
-        Route="LoginPage" />
     <ShellContent
         Title="Login"
         ContentTemplate="{DataTemplate local:RegistrationPage}"
