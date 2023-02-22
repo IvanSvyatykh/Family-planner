@@ -48,8 +48,7 @@ namespace Project_programming.ForgottenPage
                     });
                 }
                 else
-                {
-
+                {                   
                     await Task.Run(async () =>
                     {
                         await Task.Delay(500);
@@ -70,19 +69,26 @@ namespace Project_programming.ForgottenPage
                         App.AlertSvc.ShowAlert("Attention", $"You have wrote wrong confirmation code, you have {3 - countTry} attempts left ", "Ok");
                     });
                 }
+                if (countTry == 3)
+                {
+                    await Task.Run(async () =>
+                    {
+                        await Task.Delay(500);
+                        App.AlertSvc.ShowAlert("Sorry", "You have used all attepts, you should wait for 3 minutes, then you will be able to get new code");
+                    });
+                }
                 else
                 {
                     await Task.Run(async () =>
                     {
                         await Task.Delay(500);
-                        App.AlertSvc.ShowAlert("", "Now you can change your password");
+                        App.AlertSvc.ShowAlert("", "Now you can change your password", "Ok");
                     });
                     countTry = 0;
                 }
             });
         }
-        // ,
-        //  () =>_sendMessegeTrigger
+
         private void GiveANumberToCode() => _confirmationCode = PasswordLog.RandomNumberGenerator();
         public string Email
         {
