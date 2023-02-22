@@ -14,7 +14,7 @@ namespace Project_programming.ForgottenPage
 {
     public class ForgottenPasswordPageViewModel : INotifyPropertyChanged
     {
-        private string _email { get; set; }
+        private string _email;
 
         private bool _sendMessegeTrigger = false;
         private int? _answer { get; set; } = null;
@@ -24,8 +24,7 @@ namespace Project_programming.ForgottenPage
         private int countTry = 0;
 
         public event PropertyChangedEventHandler PropertyChanged;
-
-        private int _confirmationCode = 0;
+        private int? _confirmationCode { get; set; } = null;
         public ForgottenPasswordPageViewModel()
         {
             SendEmail = new Command(async () =>
@@ -50,11 +49,11 @@ namespace Project_programming.ForgottenPage
                 }
                 else
                 {
+
                     await Task.Run(async () =>
                     {
                         await Task.Delay(500);
-                        App.AlertSvc.ShowAlert("Confirmation Code", "We have sent you confirmation code on Email, write it here", "Ok");
-                        _sendMessegeTrigger = true;
+                        App.AlertSvc.ShowAlert("Confirmation Code", "We have sent you confirmation code on Email", "Ok");
                     });
                 }
             },
@@ -62,17 +61,28 @@ namespace Project_programming.ForgottenPage
 
             Continue = new Command(async () =>
             {
-
-                await Task.Run(async () =>
+                countTry++;
+                if (ForgottenPagePasswordLogic.CheckCountTry(countTry) && !ForgottenPagePasswordLogic.CompareAnswerAndCode(Answer, _confirmationCode))
                 {
-                    await Task.Delay(500);
-                    App.AlertSvc.ShowAlert("", "We have sent you confirmation code on Email", "Ok");
-                });
-
-            },
-            () => ForgottenPagePasswordLogic.CompareAnswerAndCode(Answer, _confirmationCode) && _sendMessegeTrigger);
+                    await Task.Run(async () =>
+                    {
+                        await Task.Delay(500);
+                        App.AlertSvc.ShowAlert("Attention", $"You have wrote wrong confirmation code, you have {3 - countTry} attempts left ", "Ok");
+                    });
+                }
+                else
+                {
+                    await Task.Run(async () =>
+                    {
+                        await Task.Delay(500);
+                        App.AlertSvc.ShowAlert("", "Now you can change your password");
+                    });
+                    countTry = 0;
+                }
+            });
         }
-
+        // ,
+        //  () =>_sendMessegeTrigger
         private void GiveANumberToCode() => _confirmationCode = PasswordLog.RandomNumberGenerator();
         public string Email
         {
