@@ -88,7 +88,7 @@ namespace Project_programming.ForgottenPage
                     countTry = 0;
                 }
             },
-            () => !ForgottenPagePasswordLogic.CheckTheTime(_date));
+            () => CheckEmailCorectness.IsValidEmail(Email) && !ForgottenPagePasswordLogic.CheckTheTime(_date) && Answer != null);
         }
         private void SetTheTime() => _date = DateTime.Now.AddMinutes(2);
 
@@ -101,7 +101,7 @@ namespace Project_programming.ForgottenPage
                 if (_email != value)
                 {
                     _email = value;
-                    OnPropertyChanged();
+                    EmailChanged();
                 }
             }
         }
@@ -113,14 +113,20 @@ namespace Project_programming.ForgottenPage
                 if (_answer != value)
                 {
                     _answer = value;
-                    OnPropertyChanged();
+                    ContinueChanged();
                 }
             }
         }
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
+
+        public void EmailChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
             ((Command)SendEmail).ChangeCanExecute();
+        }
+        public void ContinueChanged([CallerMemberName] string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+            ((Command)Continue).ChangeCanExecute();
         }
     }
 }
