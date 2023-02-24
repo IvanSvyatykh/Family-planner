@@ -16,7 +16,7 @@ namespace Project_programming.ForgottenPage
     {
         private string _email;
 
-        private bool _sendMessegeTrigger = false;
+        private DateTime? _date = null;
         private int? _answer { get; set; } = null;
         public ICommand SendEmail { get; set; }
         public ICommand Continue { get; set; }
@@ -48,7 +48,7 @@ namespace Project_programming.ForgottenPage
                     });
                 }
                 else
-                {                   
+                {
                     await Task.Run(async () =>
                     {
                         await Task.Delay(500);
@@ -69,15 +69,16 @@ namespace Project_programming.ForgottenPage
                         App.AlertSvc.ShowAlert("Attention", $"You have wrote wrong confirmation code, you have {3 - countTry} attempts left ", "Ok");
                     });
                 }
-                if (countTry == 3)
+                else if (countTry == 3)
                 {
+                    SetTheTime();
                     await Task.Run(async () =>
                     {
                         await Task.Delay(500);
                         App.AlertSvc.ShowAlert("Sorry", "You have used all attepts, you should wait for 3 minutes, then you will be able to get new code");
                     });
                 }
-                else
+                else if (ForgottenPagePasswordLogic.CompareAnswerAndCode(Answer, _confirmationCode))
                 {
                     await Task.Run(async () =>
                     {
@@ -86,8 +87,10 @@ namespace Project_programming.ForgottenPage
                     });
                     countTry = 0;
                 }
-            });
+            },
+            () => !ForgottenPagePasswordLogic.CheckTheTime(_date));
         }
+        private void SetTheTime() => _date = DateTime.Now.AddMinutes(2);
 
         private void GiveANumberToCode() => _confirmationCode = PasswordLog.RandomNumberGenerator();
         public string Email
@@ -121,4 +124,3 @@ namespace Project_programming.ForgottenPage
         }
     }
 }
-
