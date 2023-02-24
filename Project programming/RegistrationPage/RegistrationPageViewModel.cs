@@ -4,28 +4,35 @@ using Project_programming.WorkWithEmail;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Project_programming.ForgottenPage
+namespace Project_programming
 {
-    public class ForgottenPasswordPageViewModel : INotifyPropertyChanged
+    public class RegistrationPageViewModel : INotifyPropertyChanged
     {
-        private string _email;
+        public event PropertyChangedEventHandler PropertyChanged;
 
-        private DateTime? _date = null;
-        private int? _answer { get; set; } = null;
-        public ICommand SendEmail { get; set; }
-        public ICommand Continue { get; set; }
+        private string _password;
+
+        private string _repeatedPassword;
+
+        private string _email;
 
         private int countTry = 0;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        private DateTime? _date = null;
+        private int? _answer { get; set; } = null;
         private int? _confirmationCode { get; set; } = null;
-        public ForgottenPasswordPageViewModel()
+
+        public ICommand SendEmail { get; set; }
+        public ICommand ReigistarationButtonIsPressed { get; set; }
+
+        public RegistrationPageViewModel()
         {
             SendEmail = new Command(async () =>
             {
@@ -58,7 +65,7 @@ namespace Project_programming.ForgottenPage
             },
             () => CheckEmailCorectness.IsValidEmail(Email));
 
-            Continue = new Command(async () =>
+            ReigistarationButtonIsPressed = new Command(async () =>
             {
                 countTry++;
                 if (ForgottenPagePasswordLogic.CheckCountTry(countTry) && !ForgottenPagePasswordLogic.CompareAnswerAndCode(Answer, _confirmationCode))
@@ -88,10 +95,36 @@ namespace Project_programming.ForgottenPage
                     countTry = 0;
                 }
             },
-            () => CheckEmailCorectness.IsValidEmail(Email) && !ForgottenPagePasswordLogic.CheckTheTime(_date) && Answer != null);
+           () => CheckEmailCorectness.IsValidEmail(Email) && !ForgottenPagePasswordLogic.CheckTheTime(_date) && Answer != null);
+
         }
         private void SetTheTime() => _date = DateTime.Now.AddMinutes(2);
         private void GiveANumberToCode() => _confirmationCode = PasswordLog.RandomNumberGenerator();
+
+        public string RepeatedPassword
+        {
+            get => _repeatedPassword;
+            set
+            {
+                if (_repeatedPassword != value)
+                {
+                    _repeatedPassword = value;
+                    EmailSender();
+                }
+            }
+        }
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                if (_password != value)
+                {
+                    _password = value;
+                    EmailSender();
+                }
+            }
+        }
         public string Email
         {
             get => _email;
@@ -100,7 +133,7 @@ namespace Project_programming.ForgottenPage
                 if (_email != value)
                 {
                     _email = value;
-                    EmailChanged();
+                    EmailSender();
                 }
             }
         }
@@ -112,20 +145,23 @@ namespace Project_programming.ForgottenPage
                 if (_answer != value)
                 {
                     _answer = value;
-                    ContinueChanged();
+                    Registaration();
                 }
+                
             }
         }
-
-        public void EmailChanged([CallerMemberName] string prop = "")
+        public void Registaration([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
             ((Command)SendEmail).ChangeCanExecute();
         }
-        public void ContinueChanged([CallerMemberName] string prop = "")
+
+        public void EmailSender([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-            ((Command)Continue).ChangeCanExecute();
+            ((Command)SendEmail).ChangeCanExecute();
         }
+
+
     }
 }

@@ -3,44 +3,53 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Project_programming.RegistrationPage"
              Title="RegistrationPage">
+
     <ScrollView>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="200"/>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="70"/>
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="5*"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="8*"/>
             </Grid.RowDefinitions>
 
 
             <BoxView Color="Black" Grid.Row="0"/>
             <BoxView Color="White" Grid.Row="1"/>
+            
             <StackLayout Grid.Row="2" >
-                <Label Text="Create your account" TextColor="Black" FontSize="32"/>
+                <Label Text="Write your email and we send you code" TextColor="Black" FontSize="32"/>
+            </StackLayout>
+            
+            <StackLayout Grid.Row="3"  WidthRequest="500" HorizontalOptions="Start">
+                <Entry IsPassword="False"  TextColor="Black" Placeholder="Email" PlaceholderColor="Grey" MaxLength="64" 
+                      Text="{Binding Email}" IsSpellCheckEnabled="False" />
+            </StackLayout>
+            
+            <StackLayout Grid.Row="4"  WidthRequest="500" HorizontalOptions="Start">
+                <Entry IsPassword="True"  TextColor="Black" Placeholder="Password" PlaceholderColor="Grey" MaxLength="64" 
+                      Text="{Binding Password}"/>
+            </StackLayout>
+            
+            <StackLayout Grid.Row="5"  WidthRequest="500" HorizontalOptions="Start">
+                <Entry IsPassword="True"  TextColor="Black" Placeholder="RepeatedPassword" PlaceholderColor="Grey" MaxLength="64" 
+                      Text="{Binding RepeatedPassword}"/>
+                <Button  BackgroundColor="Black" Text="Send confirmation code" TextColor="WhiteSmoke" 
+                   WidthRequest="500" HorizontalOptions="Start" HeightRequest="50" Command="{Binding SendEmail}">
+                </Button>
             </StackLayout>
 
-            <StackLayout Grid.Row="3"  WidthRequest="500" HorizontalOptions="Start">
-                <Entry IsPassword="False"  TextColor="Black" Placeholder="Email" PlaceholderColor="Grey" 
-                       MaxLength="64" x:Name="emailEntry"  TextChanged="NameEntry_Email"/>
+            <StackLayout Grid.Row="6"  WidthRequest="500" HorizontalOptions="Start">
+                <Entry IsPassword="False"  TextColor="Black" Placeholder="Confirmation Code" PlaceholderColor="Grey"
+                      Text="{Binding Answer}" MaxLength="5" WidthRequest="500"/>
+                <Button  BackgroundColor="Black" Text="Registrate" TextColor="WhiteSmoke" 
+                   WidthRequest="500" HorizontalOptions="Start" HeightRequest="50" Command="{Binding ReigistarationButtonIsPressed}">
+                </Button>
             </StackLayout>
-            
-            <StackLayout Grid.Row="4" WidthRequest="500" HorizontalOptions="Start" >
-                <Entry BackgroundColor="White"  TextColor="Black" PlaceholderColor="Grey" 
-                   Placeholder="Password" IsPassword="True" MaxLength="5" TextChanged="NameEntry_Password" x:Name="passwordEntry" Keyboard="Numeric" />
-            </StackLayout>
-            
-            <StackLayout Grid.Row="5" WidthRequest="500" HorizontalOptions="Start" >
-                <Entry  BackgroundColor="White"  TextColor="Black" PlaceholderColor="Grey" 
-                   Placeholder="Repeat password" IsPassword="True" MaxLength="5" 
-                        TextChanged="NameEntry_RepeatedPassword" x:Name="repeatedPasswordEntry" Keyboard="Numeric"/>
-            </StackLayout>
-            
-            <Button Grid.Row="6" BackgroundColor="White" Text="Continue" TextColor="Black" 
-        WidthRequest="1000" HorizontalOptions="Center" Clicked="ContinueButtonIsPressed" />
+
         </Grid>
     </ScrollView>
 </ContentPage>
