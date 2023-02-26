@@ -3,7 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Project_programming.AddSeedlingPage.AddSeedlingPage"
              Title="AddSeedlingPage">
-    <VerticalStackLayout>
-        
-    </VerticalStackLayout>
+
+    <ContentPage.MenuBarItems>
+        <MenuBarItem Text="Tools">
+            <MenuFlyoutItem Text="Add Line">
+                
+            </MenuFlyoutItem>
+            <MenuFlyoutItem Text="Remove Line">
+
+
+            </MenuFlyoutItem>
+        </MenuBarItem>
+
+    </ContentPage.MenuBarItems>
+
+
+    <ScrollView HorizontalScrollBarVisibility="Always">
+
+  
+
+
+    </ScrollView>
 </ContentPage>
