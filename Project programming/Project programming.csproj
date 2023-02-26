@@ -70,6 +70,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<MauiXaml Update="AddSeedlingPage\SeedlingPage.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="ForgottenPage\ForgottenPasswordPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
