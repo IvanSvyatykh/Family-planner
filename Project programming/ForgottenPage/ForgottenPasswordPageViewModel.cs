@@ -12,7 +12,7 @@ using System.Windows.Input;
 
 namespace Project_programming.ForgottenPage
 {
-    public class ForgottenPasswordPageViewModel : INotifyPropertyChanged
+    public class ForgottenPasswordPageViewModel : INotifyPropertyChanged 
     {
         private string _email;
 
@@ -56,7 +56,7 @@ namespace Project_programming.ForgottenPage
                     });
                 }
             },
-            () => CheckEmailCorectness.IsValidEmail(Email));
+            () => IsEmailCorrect);
 
             Continue = new Command(async () =>
             {
@@ -88,10 +88,14 @@ namespace Project_programming.ForgottenPage
                     countTry = 0;
                 }
             },
-            () => CheckEmailCorectness.IsValidEmail(Email) && !ForgottenPagePasswordLogic.CheckTheTime(_date) && Answer != null);
+            () => IsEmailCorrect && !ForgottenPagePasswordLogic.CheckTheTime(_date) && Answer != null);
         }
         private void SetTheTime() => _date = DateTime.Now.AddMinutes(2);
         private void GiveANumberToCode() => _confirmationCode = PasswordLog.RandomNumberGenerator();
+        public bool IsEmailCorrect
+        {
+            get => CheckEmailCorectness.IsValidEmail(Email);          
+        }
         public string Email
         {
             get => _email;
