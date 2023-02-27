@@ -1,5 +1,6 @@
 ﻿using DialogManager;
 using AddSeedlingPage;
+using Project_programming.Account;
 
 namespace Project_programming;
 public partial class App : Application
@@ -12,7 +13,7 @@ public partial class App : Application
         Services = provider;
         AlertSvc = Services.GetService<IAlertService>();
         Routing.RegisterRoute("RegistrationPage", typeof(RegistrationPage));
-       // Routing.RegisterRoute("SeedlingPage", typeof(SeedlingPage));
+        Routing.RegisterRoute("AccountPageView", typeof(AccountPageView));
         Routing.RegisterRoute("ForgottenPasswordPage", typeof(ForgottenPasswordPage));
         MainPage = new AppShell();
 	}
