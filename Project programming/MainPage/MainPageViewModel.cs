@@ -13,22 +13,12 @@ namespace Project_programming
 {
     public class MainPageViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public ICommand RegistarationPageCommand { get; set; }
-        public ICommand ForgottenPasswordPage { get; set; }
+        public event PropertyChangedEventHandler? PropertyChanged;       
         public ICommand SignIn { get; set; }
         string _email { get; set; }
         string _password { get; set; }
         public MainPageViewModel()
-        {
-            RegistarationPageCommand = new Command(() =>
-            {
-                Shell.Current.GoToAsync("RegistrationPage");
-            });
-            ForgottenPasswordPage = new Command(() =>
-            {
-                Shell.Current.GoToAsync("ForgottenPasswordPage");
-            });
+        {          
             SignIn = new Command(() =>
             {
                 

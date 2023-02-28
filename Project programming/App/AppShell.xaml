@@ -5,14 +5,25 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Project_programming"
     Shell.FlyoutBehavior="Disabled">
-
-    <ShellContent
+    
+    
+    <FlyoutItem FlyoutDisplayOptions="AsSingleItem">
+        <ShellContent
         Title="Family Planner"
         ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
-    <ShellContent
+        Route="MainPage" 
+        />
+        <ShellContent
         Title="Login"
         ContentTemplate="{DataTemplate local:RegistrationPage}"
         Route="LoginPage" />
+        <ShellContent
+        Title="Forget password ?"
+        ContentTemplate="{DataTemplate local:ForgottenPasswordPage}"
+        Route="ForgottenPasswordPage" />
+
+    </FlyoutItem>
+
+
 
 </Shell>

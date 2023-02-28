@@ -1,11 +1,14 @@
-namespace Project_programming.Account;
 using AccountViewModel;
-
-public partial class AccountPageView : ContentPage
+namespace Project_programming.Account
 {
-	public AccountPageView()
-	{
-		InitializeComponent();
-		BindingContext = new AccountPageViewModel();
-	}
+    public partial class AccountPageView : ContentPage
+    {
+        public AccountPageView()
+        {
+            InitializeComponent();
+            BindingContext = new AccountPageViewModel();
+        }
+    }
 }
+
+
