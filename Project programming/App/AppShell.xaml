@@ -5,22 +5,29 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Project_programming"
     Shell.FlyoutBehavior="Flyout"
+    FlyoutVerticalScrollMode="Auto"
      >
 
+   
 
     <FlyoutItem Title="HomePage" Icon="home.png">
         <Tab Title="Family Planner" >
-            <ShellContent Title="Family Planner"  ContentTemplate="{DataTemplate local:MainPage}" Route="MainPage"/>
+            <ShellContent ContentTemplate="{DataTemplate local:MainPage}"/>
         </Tab>
     </FlyoutItem>
     <FlyoutItem Title="Registration" Icon="registration.webp">
         <Tab Title="Login">
-            <ShellContent  Title="Login" ContentTemplate="{DataTemplate local:RegistrationPage}" Route="LoginPage" />
+            <ShellContent ContentTemplate="{DataTemplate local:RegistrationPage}"/>
         </Tab>
     </FlyoutItem>
     <FlyoutItem Title="Forget Password" Icon="password.png">
         <Tab Title="Forget password ?">
-            <ShellContent Title="Forget password ?" ContentTemplate="{DataTemplate local:ForgottenPasswordPage}" Route="ForgottenPasswordPage"  />
+            <ShellContent ContentTemplate="{DataTemplate local:ForgottenPasswordPage}"/>
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem Title="test account page">
+        <Tab Title="test account page">
+            <ShellContent Title="test account page" ContentTemplate="{DataTemplate local:ForgottenPasswordPage}" Route="ForgottenPasswordPage"  />
         </Tab>
     </FlyoutItem>
 

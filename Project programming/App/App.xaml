@@ -10,4 +10,6 @@
             <Color x:Key="SecondaryColor">White</Color>
         </ResourceDictionary>
     </Application.Resources>
+    
+   
 </Application>
