@@ -4,12 +4,40 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Project_programming"
-    Shell.FlyoutBehavior="Flyout"
+    xmlns:account="clr-namespace:Project_programming.Account"
+    Shell.FlyoutBehavior="Locked"
     FlyoutVerticalScrollMode="Auto"
      >
+    <Shell.ItemTemplate>
+        <DataTemplate>
+            <Grid ColumnDefinitions="50,*" Padding="15">
+                <VisualStateManager.VisualStateGroups>
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
 
-   
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="White"/>
 
+                                </VisualState.Setters>
+                            </VisualState>
+
+                            <VisualState x:Name="Selected">
+                                <VisualState.Setters>
+                                    <Setter Property="BackgroundColor" Value="Grey"/>
+
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </VisualStateManager.VisualStateGroups>
+                <Image Source="{Binding Icon}" WidthRequest="25"/>
+                <Label Grid.Column="1" Text="{Binding Title}" />
+            </Grid>
+        </DataTemplate>
+    </Shell.ItemTemplate>
+    
+    
     <FlyoutItem Title="HomePage" Icon="home.png">
         <Tab Title="Family Planner" >
             <ShellContent ContentTemplate="{DataTemplate local:MainPage}"/>
@@ -27,9 +55,11 @@
     </FlyoutItem>
     <FlyoutItem Title="test account page">
         <Tab Title="test account page">
-            <ShellContent Title="test account page" ContentTemplate="{DataTemplate local:ForgottenPasswordPage}" Route="ForgottenPasswordPage"  />
+            <ShellContent Title="test account page" ContentTemplate="{DataTemplate account:AccountPageView}" Shell.FlyoutBehavior="Disabled"/>
         </Tab>
     </FlyoutItem>
 
 
+
 </Shell>
+    
