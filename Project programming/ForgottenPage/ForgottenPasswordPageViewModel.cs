@@ -92,10 +92,8 @@ namespace Project_programming.ForgottenPage
         }
         private void SetTheTime() => _date = DateTime.Now.AddMinutes(2);
         private void GiveANumberToCode() => _confirmationCode = PasswordLog.RandomNumberGenerator();
-        public bool IsEmailCorrect
-        {
-            get => CheckEmailCorectness.IsValidEmail(Email);          
-        }
+        public bool IsEmailCorrect => CheckEmailCorectness.IsValidEmail(Email);   
+        
         public string Email
         {
             get => _email;

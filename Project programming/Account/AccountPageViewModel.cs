@@ -17,15 +17,6 @@ namespace AccountViewModel
         public AccountPageViewModel() 
         {
 
-
-
-            
-
-
-
-
-
-
         }
         public bool ShowParameters
         {

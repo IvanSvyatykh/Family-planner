@@ -18,14 +18,8 @@ namespace DialogManager
 
     internal class AlertService : IAlertService
     {
-        public Task ShowAlertAsync(string title, string message, string cancel = "OK")
-        {
-            return Application.Current.MainPage.DisplayAlert(title, message, cancel);
-        }
-        public Task<bool> ShowConfirmationAsync(string title, string message, string accept = "Yes", string cancel = "No")
-        {
-            return Application.Current.MainPage.DisplayAlert(title, message, accept, cancel);
-        }
+        public Task ShowAlertAsync(string title, string message, string cancel = "OK") => Application.Current.MainPage.DisplayAlert(title, message, cancel);
+        public Task<bool> ShowConfirmationAsync(string title, string message, string accept = "Yes", string cancel = "No") => Application.Current.MainPage.DisplayAlert(title, message, accept, cancel);
         public void ShowAlert(string title, string message, string cancel = "OK")
         {
             Application.Current.MainPage.Dispatcher.Dispatch(async () => await ShowAlertAsync(title, message, cancel));
@@ -38,10 +32,7 @@ namespace DialogManager
                 callback(answer);
             });
         }
-        public Task<string> DisplayPromptAsync(string title, string message, string send)
-        {
-            return Application.Current.MainPage.DisplayPromptAsync(title, message, send);
-        }
+        public Task<string> DisplayPromptAsync(string title, string message, string send) => Application.Current.MainPage.DisplayPromptAsync(title, message, send);
 
         public string DisplayPrompt(string title, string message, string send)
         {
