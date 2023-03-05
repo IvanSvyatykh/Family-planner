@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Project_programming.MainPage" BackgroundColor="White">
+             x:Class="Project_programming.MainPage" BackgroundColor="White"
+             Title="Family Planner">
     <ScrollView>
         <Grid>
             <Grid.RowDefinitions>
@@ -22,22 +23,14 @@
             </StackLayout>
             <StackLayout Grid.Row="3"  WidthRequest="500" HorizontalOptions="Start">
                 <Entry IsPassword="False"  TextColor="Black" Placeholder="Email" PlaceholderColor="Grey" MaxLength="64" 
-                       x:Name="emailEntry" TextChanged="NameEntry_Email" />
+                     Text="{Binding Email}" />
             </StackLayout>
             <StackLayout Grid.Row="4" WidthRequest="500" HorizontalOptions="Start" >
                 <Entry  BackgroundColor="White"  TextColor="Black" PlaceholderColor="Grey" 
-                   Placeholder="Password" IsPassword="True" MaxLength="5" x:Name="passwordEntry" TextChanged="NameEntry_Password" />
+                   Placeholder="Password" IsPassword="True" MaxLength="5"  Text="{Binding Password}" />
             </StackLayout>
-            <Button Grid.Row="5" BackgroundColor="White" Text="Sign in" TextColor="Black" 
-        WidthRequest="1000" HorizontalOptions="Center" Clicked="SignInButtonIsPressed"/>
-            <Button Grid.Row="6" BackgroundColor="White" Text="Forget Password?" TextColor="Black" 
-        WidthRequest="200" HorizontalOptions="Start" Clicked="ForgottenPassword" />
-            <Button Grid.Row="6" BackgroundColor="White" Text="Registration" TextColor="Black" 
-        WidthRequest="200" HorizontalOptions="End" Clicked="Registaration"/>
-
-
+            <Button Grid.Row="5" Text="Sign in" TextColor="Black" 
+        WidthRequest="1000" HorizontalOptions="Center" Command="{Binding SignIn }" BackgroundColor="White"/>
         </Grid>
     </ScrollView>
-
-
 </ContentPage>

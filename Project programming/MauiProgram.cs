@@ -1,4 +1,6 @@
-﻿namespace Project_programming;
+﻿using DialogManager;
+
+namespace Project_programming;
 
 public static class MauiProgram
 {
@@ -12,7 +14,7 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
-
-		return builder.Build();
+        builder.Services.AddSingleton<IAlertService, AlertService>();
+        return builder.Build();
 	}
 }
