@@ -45,7 +45,7 @@
             <ShellContent ContentTemplate="{DataTemplate local:MainPage}"/>
         </Tab>
     </FlyoutItem>
-    <FlyoutItem Title="Registration" Icon="registration.webp">
+    <FlyoutItem Title="Registration" Icon="registration.png">
         <Tab Title="Login">
             <ShellContent ContentTemplate="{DataTemplate local:RegistrationPage}"/>
         </Tab>
