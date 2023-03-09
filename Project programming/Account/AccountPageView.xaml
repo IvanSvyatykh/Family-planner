@@ -3,7 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Project_programming.Account.AccountPageView"            
              Title="AccountPage">
+    
+    
 
 
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
 
+        <VerticalStackLayout Grid.Column="2" Spacing="15">
+            <Button BackgroundColor="White" ImageSource="statistics.png" WidthRequest="300" HeightRequest="50" Text="Statistics"/>
+            <Button BackgroundColor="White" ImageSource="addpayment.png" WidthRequest="300" HeightRequest="50" Text="Add payment"/>
+            <Button BackgroundColor="White" ImageSource="settings.png" WidthRequest="300" HeightRequest="50" Text="Settings"/>
+        </VerticalStackLayout>
+        
+        
+        
+                 
+    </Grid>
 </ContentPage>

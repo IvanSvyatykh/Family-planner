@@ -39,7 +39,6 @@
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -49,7 +48,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\addPayment.png" />
 	  <None Remove="Resources\Images\Password.png" />
+	  <None Remove="Resources\Images\settings.png" />
+	  <None Remove="Resources\Images\statistics.png" />
 	</ItemGroup>
 
 	<ItemGroup>
