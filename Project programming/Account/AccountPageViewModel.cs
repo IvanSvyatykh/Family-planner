@@ -32,8 +32,5 @@ namespace AccountViewModel
         {
             _showParametr = !_showParametr;
         }
-
-
-
     }
 }
