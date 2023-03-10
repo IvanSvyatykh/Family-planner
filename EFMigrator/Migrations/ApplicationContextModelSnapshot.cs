@@ -23,21 +23,28 @@ namespace EFMigrator.Migrations
 
             modelBuilder.Entity("Classes.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("_id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("_id"));
 
                     b.Property<string>("_email")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
+                    b.Property<string>("_name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("_password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("_salary")
+                        .HasColumnType("integer");
+
+                    b.HasKey("_id");
 
                     b.ToTable("Users");
                 });

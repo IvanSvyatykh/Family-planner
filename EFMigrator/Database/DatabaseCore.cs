@@ -11,10 +11,10 @@ namespace Database
     public class ApplicationContext : DbContext
     {
         public DbSet<User> Users { get; set; } = null!;
-
-        public ApplicationContext()
+       
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            Database.EnsureCreated();
+            modelBuilder.Entity<User>().HasKey(u => u._id);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

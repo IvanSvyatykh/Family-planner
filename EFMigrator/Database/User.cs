@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,12 @@ namespace Classes
 {
     public class User
     {
+        
+         public int _id { get; set; }
 
-        public int _id { get; set; }
+        public string _name { get; set; } = null!;
 
-        public string _name { get; set; }
-
-        public string password { get; set; }
+        public string _password { get; set; }
 
         public int _salary { get; set; }
 
