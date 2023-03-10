@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DialogManager
+namespace Project_programming.Model
 {
     public interface IAlertService
     {
@@ -36,7 +36,7 @@ namespace DialogManager
 
         public string DisplayPrompt(string title, string message, string send)
         {
-            string answer=string.Empty;
+            string answer = string.Empty;
             Application.Current.MainPage.Dispatcher.Dispatch(async () =>
             {
                 answer = await DisplayPromptAsync(title, message, send);

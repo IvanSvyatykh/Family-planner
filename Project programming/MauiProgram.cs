@@ -1,4 +1,4 @@
-﻿using DialogManager;
+﻿using Project_programming.Model;
 
 namespace Project_programming;
 
