@@ -14,6 +14,7 @@
                 <RowDefinition Height="8*"/>
                 <RowDefinition Height="8*"/>
                 <RowDefinition Height="8*"/>
+                <RowDefinition Height="8*"/>
             </Grid.RowDefinitions>
 
 
@@ -45,6 +46,11 @@
             <StackLayout Grid.Row="6"  WidthRequest="500" HorizontalOptions="Start">
                 <Entry IsPassword="False"  TextColor="Black" Placeholder="Confirmation Code" PlaceholderColor="Grey"
                       Text="{Binding Answer}" MaxLength="5" WidthRequest="500"/>
+            </StackLayout>
+
+            <StackLayout Grid.Row="7"  WidthRequest="500" HorizontalOptions="Start">
+                <Entry IsPassword="False"  TextColor="Black" Placeholder="Name" PlaceholderColor="Grey"
+                      Text="{Binding Name}" MaxLength="5" WidthRequest="500"/>
                 <Button  BackgroundColor="Black" Text="Registrate" TextColor="WhiteSmoke" 
                    WidthRequest="500" HorizontalOptions="Start" HeightRequest="50" Command="{Binding ReigistarationButtonIsPressed}">
                 </Button>

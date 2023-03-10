@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using WorkWithDatabase;
 
 namespace Project_programming
 {
@@ -20,6 +21,8 @@ namespace Project_programming
         private string _password;
 
         private string _repeatedPassword;
+
+        private string _name;
 
         private string _email;
 
@@ -87,11 +90,25 @@ namespace Project_programming
                 }
                 else if (ForgottenPagePasswordLogic.CompareAnswerAndCode(Answer, _confirmationCode))
                 {
-                    await Task.Run(async () =>
+                    if(DatabaseLogic.AddUser(Name, Password , Email)) 
                     {
-                        await Task.Delay(500);
-                        App.AlertSvc.ShowAlert("", "Now you can change your password", "Ok");
-                    });
+                        await Task.Run(async () =>
+                        {
+                            await Task.Delay(500);
+                            App.AlertSvc.ShowAlert("Great", "You Succesfully registered");                           
+                        });
+                        await Shell.Current.GoToAsync("Account Page");
+                    }
+                    else
+                    {
+                        await Task.Run(async () =>
+                        {
+                            await Task.Delay(500);
+                            App.AlertSvc.ShowAlert("", "You alreade have account");
+                            
+                        });
+                        await Shell.Current.GoToAsync("ForgottenPasswordPage");
+                    }
                     countTry = 0;
                 }
             },
@@ -100,7 +117,17 @@ namespace Project_programming
         }
         private void SetTheTime() => _date = DateTime.Now.AddMinutes(2);
         private void GiveANumberToCode() => _confirmationCode = PasswordLog.RandomNumberGenerator();
-
+        public string Name
+        {
+            get => _name;
+            set 
+            {
+                if (_name != value) 
+                {
+                    _name = value;
+                }
+            }
+        }
         public string RepeatedPassword
         {
             get => _repeatedPassword;
