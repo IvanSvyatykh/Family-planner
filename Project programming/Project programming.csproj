@@ -39,7 +39,6 @@
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />
@@ -49,34 +48,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Images\Password.png" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
 	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.2" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="7.0.0" />
-		<PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
-		<PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.4" />
-		<PackageReference Include="System.Data.SQLite" Version="1.0.117" />
-		<PackageReference Include="System.Data.SQLite.Core" Version="1.0.117" />
-		<PackageReference Include="System.Data.SQLite.EF6" Version="1.0.117" />
-		<PackageReference Include="System.Data.SQLite.Linq" Version="1.0.117" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Reference Include="AForge.Video">
-	    <HintPath>bin\Debug\Libraries\AForge.Video.dll</HintPath>
-	  </Reference>
-	  <Reference Include="AForge.Video.DirectShow">
-	    <HintPath>bin\Debug\Libraries\AForge.Video.DirectShow.dll</HintPath>
-	  </Reference>
-	</ItemGroup>
-
+	
 	<ItemGroup>
 		<MauiXaml Update="Account\AccountPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
@@ -93,6 +68,10 @@
 		<MauiXaml Update="RegistrationPage\RegistrationPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Resources\Images\" />
 	</ItemGroup>
 
 </Project>

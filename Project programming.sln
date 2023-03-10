@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.31611.283
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Project programming", "Project programming\Project programming.csproj", "{22105D4E-87F5-402F-BDA9-44CFC313840A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EFMigrator", "EFMigrator\EFMigrator.csproj", "{19EB9D64-7515-4C30-991B-EBA1F5E85797}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{22105D4E-87F5-402F-BDA9-44CFC313840A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22105D4E-87F5-402F-BDA9-44CFC313840A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{22105D4E-87F5-402F-BDA9-44CFC313840A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{19EB9D64-7515-4C30-991B-EBA1F5E85797}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19EB9D64-7515-4C30-991B-EBA1F5E85797}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19EB9D64-7515-4C30-991B-EBA1F5E85797}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19EB9D64-7515-4C30-991B-EBA1F5E85797}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
