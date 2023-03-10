@@ -15,9 +15,9 @@
         </Grid.ColumnDefinitions>
 
         <VerticalStackLayout Grid.Column="2" Spacing="15">
-            <Button BackgroundColor="White" ImageSource="statistics.png" WidthRequest="300" HeightRequest="50" Text="Statistics"/>
-            <Button BackgroundColor="White" ImageSource="addpayment.png" WidthRequest="300" HeightRequest="50" Text="Add payment"/>
-            <Button BackgroundColor="White" ImageSource="settings.png" WidthRequest="300" HeightRequest="50" Text="Settings"/>
+            <Button BackgroundColor="White"  WidthRequest="300" HeightRequest="50" Text="Statistics"/>
+            <Button BackgroundColor="White"  WidthRequest="300" HeightRequest="50" Text="Add payment"/>
+            <Button BackgroundColor="White"  WidthRequest="300" HeightRequest="50" Text="Settings"/>
         </VerticalStackLayout>
         
         

@@ -40,19 +40,19 @@
         </DataTemplate>
     </Shell.ItemTemplate>
 
-    <FlyoutItem Title="HomePage" Icon="home.png">
+    <FlyoutItem Title="HomePage">
         <Tab Title="Family Planner" >
             <ShellContent ContentTemplate="{DataTemplate local:MainPage}"/>
         </Tab>
     </FlyoutItem>
-    <FlyoutItem Title="Registration" Icon="registration.png">
+    <FlyoutItem Title="Registration">
         <Tab Title="Login">
             <ShellContent ContentTemplate="{DataTemplate local:RegistrationPage}"/>
         </Tab>
     </FlyoutItem>
-    <FlyoutItem Title="Forget Password" Icon="password.png">
+    <FlyoutItem Title="Forget Password">
         <Tab Title="Forget password ?">
-            <ShellContent ContentTemplate="{DataTemplate local:ForgottenPasswordPage}" IsVisible="{Binding ShowParameters}"/>
+            <ShellContent ContentTemplate="{DataTemplate local:ForgottenPasswordPage}"/>
         </Tab>
     </FlyoutItem>
     <FlyoutItem Title="test account page">
