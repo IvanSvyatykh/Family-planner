@@ -10,9 +10,17 @@ namespace Classes
     {
         public int _id { get; set; }
         public string _name { get; set; }
-        public string password { get; set; }
+        public string _password { get; set; }
         public int _salary { get; set; }
         public string _email { get; set; }
+        public User( string Name , string Password , string email) 
+        {
+            _name = Name;   
+            _password = Password;           
+            _email = email;
+        }
+
+
     }
     
 
