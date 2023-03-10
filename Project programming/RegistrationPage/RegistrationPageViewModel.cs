@@ -97,7 +97,7 @@ namespace Project_programming
                             await Task.Delay(500);
                             App.AlertSvc.ShowAlert("Great", "You Succesfully registered");                           
                         });
-                        await Shell.Current.GoToAsync("Account Page");
+                       // await Shell.Current.GoToAsync("Account Page");
                     }
                     else
                     {
@@ -107,12 +107,12 @@ namespace Project_programming
                             App.AlertSvc.ShowAlert("", "You alreade have account");
                             
                         });
-                        await Shell.Current.GoToAsync("ForgottenPasswordPage");
+                      //  await Shell.Current.GoToAsync("ForgottenPasswordPage");
                     }
                     countTry = 0;
                 }
             },
-           () => CheckEmailCorectness.IsValidEmail(Email) && !ForgottenPagePasswordLogic.CheckTheTime(_date) && Answer != null);
+           () => CheckEmailCorectness.IsValidEmail(Email)  && Answer != null);
 
         }
         private void SetTheTime() => _date = DateTime.Now.AddMinutes(2);
@@ -125,6 +125,7 @@ namespace Project_programming
                 if (_name != value) 
                 {
                     _name = value;
+                    Registaration();
                 }
             }
         }
@@ -180,7 +181,7 @@ namespace Project_programming
         public void Registaration([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-            ((Command)SendEmail).ChangeCanExecute();
+            ((Command)ReigistarationButtonIsPressed).ChangeCanExecute();
         }
 
         public void EmailSender([CallerMemberName] string prop = "")

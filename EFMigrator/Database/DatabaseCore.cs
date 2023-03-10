@@ -14,7 +14,7 @@ namespace Database
        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>().HasKey(u => u._id);
+            modelBuilder.Entity<User>().HasKey(u => u.Id);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

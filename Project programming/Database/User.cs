@@ -8,16 +8,16 @@ namespace Classes
 {
     public class User
     {
-        public int _id { get; set; }
-        public string _name { get; set; }
-        public string _password { get; set; }
-        public int _salary { get; set; }
-        public string _email { get; set; }
+        public int Id{ get; set; }
+        public string Name { get; set; }
+        public string Password { get; set; }
+        public int Salary { get; set; }
+        public string Email { get; set; }
         public User( string Name , string Password , string email) 
         {
-            _name = Name;   
-            _password = Password;           
-            _email = email;
+           this.Name = Name;   
+            this.Password = Password;
+            this.Email = email;
         }
 
 

@@ -15,11 +15,8 @@ namespace WorkWithDatabase
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                var userFromTable = db.Users.Where(x => user._email.Equals(x._email));
-                if (userFromTable == null)
-                {
-                    return false;
-                }
+                var users = db.Users.ToList();
+               
                 return true;
             }
         }
