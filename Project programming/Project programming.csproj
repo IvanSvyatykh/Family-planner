@@ -51,16 +51,7 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.3" />
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Reference Include="AForge.Video">
-	    <HintPath>bin\Debug\Libraries\AForge.Video.dll</HintPath>
-	  </Reference>
-	  <Reference Include="AForge.Video.DirectShow">
-	    <HintPath>bin\Debug\Libraries\AForge.Video.DirectShow.dll</HintPath>
-	  </Reference>
-	</ItemGroup>
-
+	
 	<ItemGroup>
 		<MauiXaml Update="Account\AccountPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
