@@ -90,14 +90,14 @@ namespace Project_programming
                 }
                 else if (ForgottenPagePasswordLogic.CompareAnswerAndCode(Answer, _confirmationCode))
                 {
-                    if(DatabaseLogic.AddUser(Name, Password , Email)) 
+                    if (await DatabaseLogic.AddUserAsync(Name, Password, Email))
                     {
                         await Task.Run(async () =>
                         {
                             await Task.Delay(500);
-                            App.AlertSvc.ShowAlert("Great", "You Succesfully registered");                           
+                            App.AlertSvc.ShowAlert("Great", "You Succesfully registered");
                         });
-                       // await Shell.Current.GoToAsync("Account Page");
+                        // await Shell.Current.GoToAsync("Account Page");
                     }
                     else
                     {
@@ -105,14 +105,14 @@ namespace Project_programming
                         {
                             await Task.Delay(500);
                             App.AlertSvc.ShowAlert("", "You alreade have account");
-                            
+
                         });
-                      //  await Shell.Current.GoToAsync("ForgottenPasswordPage");
+                        //  await Shell.Current.GoToAsync("ForgottenPasswordPage");
                     }
                     countTry = 0;
                 }
             },
-           () => CheckEmailCorectness.IsValidEmail(Email)  && Answer != null);
+           () => CheckEmailCorectness.IsValidEmail(Email) && Answer != null);
 
         }
         private void SetTheTime() => _date = DateTime.Now.AddMinutes(2);
@@ -120,9 +120,9 @@ namespace Project_programming
         public string Name
         {
             get => _name;
-            set 
+            set
             {
-                if (_name != value) 
+                if (_name != value)
                 {
                     _name = value;
                     Registaration();
@@ -175,7 +175,7 @@ namespace Project_programming
                     _answer = value;
                     Registaration();
                 }
-                
+
             }
         }
         public void Registaration([CallerMemberName] string prop = "")

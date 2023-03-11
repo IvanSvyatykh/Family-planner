@@ -11,21 +11,19 @@ namespace WorkWithDatabase
 {
     public class DatabaseLogic
     {
-        private static bool IsExists(User user)
+        private static async Task<bool> IsExistsAsync(User user)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                var users = db.Users.ToList();
-               
-                return true;
+                return await db.Users.Where(u=>u.Email==user.Email).AnyAsync();
             }
         }
-        public static bool AddUser(string name, string password, string email)
+        public static async Task<bool> AddUserAsync(string name, string password, string email)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
                 User user = new User(name, password, email);
-                if (IsExists(user))
+                if (!await IsExistsAsync(user))
                 {
                     db.Users.Add(user);
                     db.SaveChanges();
