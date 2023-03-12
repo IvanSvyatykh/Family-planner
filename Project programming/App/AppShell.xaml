@@ -40,17 +40,9 @@
         </DataTemplate>
     </Shell.ItemTemplate>
 
-
-    <FlyoutItem Title="test account page">
-        <Tab Title="test account page">
-            <ShellContent Title="test account page" ContentTemplate="{DataTemplate account:AccountPageView}"  IsVisible="False"/>
-
-
-        </Tab>
-    </FlyoutItem>
     <ShellContent ContentTemplate="{DataTemplate local:MainPage}"/>
-    <ShellContent ContentTemplate="{DataTemplate local:RegistrationPage}"/>
-    <ShellContent ContentTemplate="{DataTemplate local:ForgottenPasswordPage}"/>
-    
+    <ShellContent  ContentTemplate="{DataTemplate account:AccountPageView}" />
+
+
 </Shell>
     

@@ -56,9 +56,9 @@ namespace Project_programming
                     {
                         await Task.Delay(500);
                         App.AlertSvc.ShowAlert("", "We don't have account with this Email");
-
+                        await Task.Delay(2000);
                     });
-                    await Shell.Current.GoToAsync("Registration Page");
+                    await Shell.Current.GoToAsync("RegistrationPage");
                 }
 
             },
@@ -74,7 +74,7 @@ namespace Project_programming
                 await Shell.Current.GoToAsync("RegistrationPage");
             });
 
-            
+
         }
         public string Password
         {
