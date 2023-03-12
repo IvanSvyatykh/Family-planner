@@ -43,7 +43,9 @@
 
     <FlyoutItem Title="test account page">
         <Tab Title="test account page">
-            <ShellContent Title="test account page" ContentTemplate="{DataTemplate account:AccountPageView}" IsVisible="False" />
+            <ShellContent Title="test account page" ContentTemplate="{DataTemplate account:AccountPageView}"  IsVisible="False"/>
+
+
         </Tab>
     </FlyoutItem>
     <ShellContent ContentTemplate="{DataTemplate local:MainPage}"/>
