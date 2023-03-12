@@ -9,6 +9,7 @@ using Project_programming.WorkWithEmail;
 using System.Runtime.CompilerServices;
 using WorkWithDatabase;
 using Classes;
+using PasswordLogic;
 
 
 namespace Project_programming
@@ -27,7 +28,7 @@ namespace Project_programming
         {
             SignIn = new Command(async () =>
             {
-                User user = new User(null, Password, Email);
+                User user = new User(null, PasswordLog.HashPassword(Password), Email);
                 if (await DatabaseLogic.IsExistsAsync(user))
                 {
                     if (await DatabaseLogic.IsPasswordCorrect(user))

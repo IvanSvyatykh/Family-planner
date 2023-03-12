@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Classes;
 using Database;
 using Microsoft.EntityFrameworkCore;
+using PasswordLogic;
 
 namespace WorkWithDatabase
 {
@@ -15,7 +16,7 @@ namespace WorkWithDatabase
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                return await db.Users.Where(u=>u.Email==user.Email).AnyAsync();
+                return await db.Users.Where(u => u.Email == user.Email).AnyAsync();
             }
         }
 
@@ -23,7 +24,7 @@ namespace WorkWithDatabase
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                return await db.Users.Where(u => u.Password == user.Password).AnyAsync();
+                return await db.Users.Where(u => u.Password.Equals(user.Password)).AnyAsync();
             }
         }
 
@@ -31,7 +32,7 @@ namespace WorkWithDatabase
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                User user = new User(name, password, email);
+                User user = new User(name, PasswordLog.HashPassword(password), email);
                 if (!await IsExistsAsync(user))
                 {
                     db.Users.Add(user);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,5 +14,22 @@ namespace PasswordLogic
             Random random= new Random();
             return random.Next(10000,99999);
         }
+
+        public static string HashPassword(string password)
+        {
+            byte[] salt;
+            new RNGCryptoServiceProvider().GetBytes(salt = new byte[16]);
+
+            var rfc = new Rfc2898DeriveBytes(password, salt, 10000);
+            byte[] hash = rfc.GetBytes(20);
+
+            byte[] hashBytes = new byte[36];
+            Array.Copy(salt, 0, hashBytes, 0, 16);
+
+            Array.Copy(hash, 0, hashBytes, 16, 20);
+            string savedPasswordHash = Convert.ToBase64String(hashBytes);
+
+            return savedPasswordHash;
+        }      
     }
 }
