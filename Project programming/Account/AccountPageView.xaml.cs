@@ -7,7 +7,7 @@ namespace Project_programming.Account
         {
             InitializeComponent();
             BindingContext = new AccountPageViewModel();
-        }       
+        }      
     }
 }
 

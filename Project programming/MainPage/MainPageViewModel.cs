@@ -19,6 +19,8 @@ namespace Project_programming
         public ICommand SignIn { get; set; }
         string _email { get; set; }
         string _password { get; set; }
+
+        private int _countTry = 0;
         public MainPageViewModel()
         {
             SignIn = new Command(async () =>
@@ -37,8 +39,13 @@ namespace Project_programming
                         {
                             await Task.Delay(500);
                             App.AlertSvc.ShowAlert("Ooops", "You write wrong password");
-
+                            _countTry++;    
                         });
+                        if(_countTry == 3)
+                        {
+                            _countTry = 0;
+                            await Shell.Current.GoToAsync("ForgottenPasswordPage");
+                        }
                     }
                 }
                 else

@@ -5,8 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Project_programming"
     xmlns:account="clr-namespace:Project_programming.Account"    
-    Shell.FlyoutBehavior="Locked"
-    FlyoutVerticalScrollMode="Auto"
+    Shell.FlyoutBehavior="Disabled"
+    FlyoutVerticalScrollMode="Auto"  
      >
 
 
@@ -40,30 +40,15 @@
         </DataTemplate>
     </Shell.ItemTemplate>
 
-    <FlyoutItem Title="HomePage">
-        <Tab Title="Family Planner" >
-            <ShellContent ContentTemplate="{DataTemplate local:MainPage}"/>
-        </Tab>
-    </FlyoutItem>
-    <FlyoutItem Title="Registration">
-        <Tab Title="Login">
-            <ShellContent ContentTemplate="{DataTemplate local:RegistrationPage}"/>
-        </Tab>
-    </FlyoutItem>
-    <FlyoutItem Title="Forget Password">
-        <Tab Title="Forget password ?">
-            <ShellContent ContentTemplate="{DataTemplate local:ForgottenPasswordPage}"/>
-        </Tab>
-    </FlyoutItem>
+
     <FlyoutItem Title="test account page">
         <Tab Title="test account page">
-            <ShellContent Title="test account page" ContentTemplate="{DataTemplate account:AccountPageView}"/>
+            <ShellContent Title="test account page" ContentTemplate="{DataTemplate account:AccountPageView}" IsVisible="False" />
         </Tab>
     </FlyoutItem>
-
+    <ShellContent ContentTemplate="{DataTemplate local:MainPage}"/>
+    <ShellContent ContentTemplate="{DataTemplate local:RegistrationPage}"/>
+    <ShellContent ContentTemplate="{DataTemplate local:ForgottenPasswordPage}"/>
     
-
-
-
 </Shell>
     
