@@ -7,23 +7,53 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Project_programming.WorkWithEmail;
 using System.Runtime.CompilerServices;
+using WorkWithDatabase;
+using Classes;
 
 
 namespace Project_programming
 {
     public class MainPageViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;       
+        public event PropertyChangedEventHandler? PropertyChanged;
         public ICommand SignIn { get; set; }
         string _email { get; set; }
         string _password { get; set; }
         public MainPageViewModel()
-        {          
-            SignIn = new Command(() =>
+        {
+            SignIn = new Command(async () =>
             {
-                
+                User user = new User(null, Password, Email);
+                if (await DatabaseLogic.IsExistsAsync(user))
+                {
+                    if (await DatabaseLogic.IsPasswordCorrect(user))
+                    {
+                        await Task.Delay(500);
+                        await Shell.Current.GoToAsync("AccountPageView");
+                    }
+                    else
+                    {
+                        await Task.Run(async () =>
+                        {
+                            await Task.Delay(500);
+                            App.AlertSvc.ShowAlert("Ooops", "You write wrong password");
+
+                        });
+                    }
+                }
+                else
+                {
+                    await Task.Run(async () =>
+                    {
+                        await Task.Delay(500);
+                        App.AlertSvc.ShowAlert("", "We don't have account with this Email");
+
+                    });
+                    await Shell.Current.GoToAsync("Registration Page");
+                }
+
             },
-            () => CheckEmailCorectness.IsValidEmail(Email) && Password!=null);
+            () => CheckEmailCorectness.IsValidEmail(Email) && Password != null);
         }
         public string Password
         {

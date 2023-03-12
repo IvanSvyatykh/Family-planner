@@ -11,13 +11,22 @@ namespace WorkWithDatabase
 {
     public class DatabaseLogic
     {
-        private static async Task<bool> IsExistsAsync(User user)
+        public static async Task<bool> IsExistsAsync(User user)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
                 return await db.Users.Where(u=>u.Email==user.Email).AnyAsync();
             }
         }
+
+        public static async Task<bool> IsPasswordCorrect(User user)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                return await db.Users.Where(u => u.Password == user.Password).AnyAsync();
+            }
+        }
+
         public static async Task<bool> AddUserAsync(string name, string password, string email)
         {
             using (ApplicationContext db = new ApplicationContext())
