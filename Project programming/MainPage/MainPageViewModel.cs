@@ -17,6 +17,8 @@ namespace Project_programming
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         public ICommand SignIn { get; set; }
+        public ICommand Registration { get; set; }
+        public ICommand ForgetPassword { get; set; }
         string _email { get; set; }
         string _password { get; set; }
 
@@ -39,9 +41,9 @@ namespace Project_programming
                         {
                             await Task.Delay(500);
                             App.AlertSvc.ShowAlert("Ooops", "You write wrong password");
-                            _countTry++;    
+                            _countTry++;
                         });
-                        if(_countTry == 3)
+                        if (_countTry == 3)
                         {
                             _countTry = 0;
                             await Shell.Current.GoToAsync("ForgottenPasswordPage");
@@ -61,6 +63,18 @@ namespace Project_programming
 
             },
             () => CheckEmailCorectness.IsValidEmail(Email) && Password != null);
+
+            ForgetPassword = new Command(async () =>
+            {
+                await Shell.Current.GoToAsync("ForgottenPasswordPage");
+            });
+
+            Registration = new Command(async () =>
+            {
+                await Shell.Current.GoToAsync("RegistrationPage");
+            });
+
+            
         }
         public string Password
         {

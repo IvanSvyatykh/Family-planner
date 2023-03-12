@@ -5,13 +5,12 @@
              Title="Family Planner"
              Shell.FlyoutItemIsVisible="False">
 
-    
+
     <ScrollView>
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="200"/>
                 <RowDefinition Height="100"/>
-                <RowDefinition Height="70"/>
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="70"/>
@@ -24,14 +23,35 @@
             <StackLayout Grid.Row="2" >
                 <Label Text="Welcome back" TextColor="Black" FontSize="32"/>
             </StackLayout>
-            <StackLayout Grid.Row="3"  WidthRequest="500" HorizontalOptions="Start">
-                <Entry IsPassword="False"  TextColor="Black" Placeholder="Email" PlaceholderColor="Grey" MaxLength="64" 
+            <HorizontalStackLayout Grid.Row="3" Spacing="20">
+                <StackLayout  WidthRequest="500" HorizontalOptions="Start">
+                    <Entry IsPassword="False"  TextColor="Black" Placeholder="Email" PlaceholderColor="Grey" MaxLength="64" 
                      Text="{Binding Email}" />
-            </StackLayout>
-            <StackLayout Grid.Row="4" WidthRequest="500" HorizontalOptions="Start" >
-                <Entry  BackgroundColor="White"  TextColor="Black" PlaceholderColor="Grey" 
+
+                </StackLayout>
+                
+                <Label Text="Registration">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Registration}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Grid.Row="4" Spacing="20">
+                
+                <StackLayout Grid.Row="4" WidthRequest="500" HorizontalOptions="Start" >
+                    <Entry  BackgroundColor="White"  TextColor="Black" PlaceholderColor="Grey" 
                    Placeholder="Password" IsPassword="True" MaxLength="5"  Text="{Binding Password}" />
-            </StackLayout>
+                </StackLayout>
+
+                <Label Text="Forget Password?">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ForgetPassword}"/>
+                    </Label.GestureRecognizers>
+                </Label>
+
+            </HorizontalStackLayout>
+
+            
             <Button Grid.Row="5" Text="Sign in" TextColor="Black" 
         WidthRequest="1000" HorizontalOptions="Center" Command="{Binding SignIn }" BackgroundColor="White"/>
         </Grid>
