@@ -66,7 +66,7 @@ namespace Project_programming
                     });
                 }
             },
-            () => CheckEmailCorectness.IsValidEmail(Email));
+            () => CheckEmailCorectness.IsValidEmail(Email) && (Password == RepeatedPassword));
 
             ReigistarationButtonIsPressed = new Command(async () =>
             {
@@ -97,7 +97,7 @@ namespace Project_programming
                             await Task.Delay(500);
                             App.AlertSvc.ShowAlert("Great", "You Succesfully registered");
                         });
-                        // await Shell.Current.GoToAsync("Account Page");
+                        await Shell.Current.GoToAsync("Account Page");
                     }
                     else
                     {
@@ -107,7 +107,7 @@ namespace Project_programming
                             App.AlertSvc.ShowAlert("", "You alreade have account");
 
                         });
-                        //  await Shell.Current.GoToAsync("ForgottenPasswordPage");
+                        await Shell.Current.GoToAsync("ForgottenPasswordPage");
                     }
                     countTry = 0;
                 }
