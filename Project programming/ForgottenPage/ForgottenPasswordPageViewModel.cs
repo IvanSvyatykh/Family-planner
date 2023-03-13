@@ -9,10 +9,11 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using WorkWithDatabase;
 
 namespace Project_programming.ForgottenPage
 {
-    public class ForgottenPasswordPageViewModel : INotifyPropertyChanged 
+    public class ForgottenPasswordPageViewModel : INotifyPropertyChanged
     {
         private string _email;
 
@@ -24,7 +25,7 @@ namespace Project_programming.ForgottenPage
         private int countTry = 0;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        private int? _confirmationCode { get; set; } = null;
+        private int? _newPassword { get; set; } = null;
         public ForgottenPasswordPageViewModel()
         {
             SendEmail = new Command(async () =>
@@ -39,7 +40,7 @@ namespace Project_programming.ForgottenPage
                     });
 
                 }
-                else if (!EmailWriter.SendMessage(Email, "Confirmation Code", "Code :" + _confirmationCode.ToString()))
+                else if (!EmailWriter.SendMessage(Email, "New Password", "Password : " + _newPassword.ToString()))
                 {
                     await Task.Run(async () =>
                     {
@@ -47,12 +48,20 @@ namespace Project_programming.ForgottenPage
                         App.AlertSvc.ShowAlert("O_o ", "You wrote non-existed Email", "ОК ");
                     });
                 }
-                else
+                else if (await DatabaseLogic.IsExistsAsync(new Classes.User(null, null, Email)))
                 {
                     await Task.Run(async () =>
                     {
                         await Task.Delay(500);
                         App.AlertSvc.ShowAlert("Confirmation Code", "We have sent you confirmation code on Email", "Ok");
+                    });
+                }
+                else
+                {
+                    await Task.Run(async () =>
+                    {
+                        await Task.Delay(500);
+                        App.AlertSvc.ShowAlert("Sorry", "But we cant't find account with this Email", "Ok");
                     });
                 }
             },
@@ -61,7 +70,7 @@ namespace Project_programming.ForgottenPage
             Continue = new Command(async () =>
             {
                 countTry++;
-                if (ForgottenPagePasswordLogic.CheckCountTry(countTry) && !ForgottenPagePasswordLogic.CompareAnswerAndCode(Answer, _confirmationCode))
+                if (ForgottenPagePasswordLogic.CheckCountTry(countTry) && !ForgottenPagePasswordLogic.CompareAnswerAndCode(Answer, _newPassword))
                 {
                     await Task.Run(async () =>
                     {
@@ -78,22 +87,34 @@ namespace Project_programming.ForgottenPage
                         App.AlertSvc.ShowAlert("Sorry", "You have used all attepts, you should wait for 3 minutes, then you will be able to get new code");
                     });
                 }
-                else if (ForgottenPagePasswordLogic.CompareAnswerAndCode(Answer, _confirmationCode))
+                else
                 {
-                    await Task.Run(async () =>
+                    if (await DatabaseLogic.ChangePassword(Email, Answer.ToString()))
                     {
-                        await Task.Delay(500);
-                        App.AlertSvc.ShowAlert("", "Now you can change your password", "Ok");
-                    });
-                    countTry = 0;
+                        await Task.Run(async () =>
+                        {
+                            await Task.Delay(500);
+                            App.AlertSvc.ShowAlert("", "You changed your password");
+                        });
+                        await Shell.Current.GoToAsync("AccountPageView");
+                    }
+                    else
+                    {
+                        await Task.Run(async () =>
+                        {
+                            await Task.Delay(500);
+                            App.AlertSvc.ShowAlert("", "Something ggoes wrong");
+                        });
+                    }
+
                 }
             },
             () => IsEmailCorrect && !ForgottenPagePasswordLogic.CheckTheTime(_date) && Answer != null);
         }
         private void SetTheTime() => _date = DateTime.Now.AddMinutes(2);
-        private void GiveANumberToCode() => _confirmationCode = PasswordLog.RandomNumberGenerator();
-        public bool IsEmailCorrect => CheckEmailCorectness.IsValidEmail(Email);   
-        
+        private void GiveANumberToCode() => _newPassword = PasswordLog.RandomNumberGenerator();
+        public bool IsEmailCorrect => CheckEmailCorectness.IsValidEmail(Email);
+
         public string Email
         {
             get => _email;

@@ -32,7 +32,7 @@ namespace WorkWithDatabase
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                User user = new User(name, PasswordLog.HashPassword(password), email);
+                User user = new User(name, password, email);
                 if (!await IsExistsAsync(user))
                 {
                     db.Users.Add(user);
@@ -43,8 +43,26 @@ namespace WorkWithDatabase
             }
         }
 
+        public static async Task<bool> ChangePassword(string email, string password)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                try
+                {
+                    User? user = null;
+                    user = db.Users.Where(u => u.Email == email).FirstOrDefault();
+                    user.Password = password;
+                    db.SaveChanges();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
 
+            }
 
-
+        }
     }
 }
+
