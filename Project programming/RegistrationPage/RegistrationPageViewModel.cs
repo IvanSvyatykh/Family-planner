@@ -90,7 +90,7 @@ namespace Project_programming
                 }
                 else if (ForgottenPagePasswordLogic.CompareAnswerAndCode(Answer, _confirmationCode))
                 {
-                    if (await DatabaseLogic.AddUserAsync(Name, PasswordLog.HashPassword(Password), Email))
+                    if (await DatabaseLogic.AddUserAsync(Name, Password, Email))
                     {
                         await Task.Run(async () =>
                         {

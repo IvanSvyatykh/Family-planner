@@ -28,7 +28,7 @@ namespace Project_programming
         {
             SignIn = new Command(async () =>
             {
-                User user = new User(null, PasswordLog.HashPassword(Password), Email);
+                User user = new User(null, Password, Email);
                 if (await DatabaseLogic.IsExistsAsync(user))
                 {
                     if (await DatabaseLogic.IsPasswordCorrect(user))
