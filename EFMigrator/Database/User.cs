@@ -10,10 +10,10 @@ namespace Classes
     public class User
     {
 
-        public int Id { get; set; }
+        public ushort Id { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
-        public int Salary { get; set; }
+        public uint Salary { get; set; }
         public string Email { get; set; }
     }
 
