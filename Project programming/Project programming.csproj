@@ -49,6 +49,7 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\account.png" />
+	  <None Remove="Resources\Images\expenses.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -60,6 +61,9 @@
 		<MauiXaml Update="Account\AccountPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
+		<MauiXaml Update="Expenses\ExpensesView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 		<MauiXaml Update="ForgottenPage\ForgottenPasswordPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
@@ -68,6 +72,9 @@
 		</MauiXaml>
 		<MauiXaml Update="RegistrationPage\RegistrationPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Statistics\StatisticsPageView.xaml">
+		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 	</ItemGroup>
 
