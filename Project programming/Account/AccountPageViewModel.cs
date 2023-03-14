@@ -11,26 +11,22 @@ namespace AccountViewModel
     public class AccountPageViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public ICommand ShowParametersCommand => new Command(ChangeShowParameters);
 
-        private bool _showParametr = true;
-        public AccountPageViewModel() 
-        {
+        private bool _isAccountPage = false;
 
-        }
-        public bool ShowParameters
+        public bool IsAccountPage
         {
-            get => _showParametr; 
+            get => _isAccountPage;
             set
             {
-                if (value == _showParametr) return;
-                _showParametr = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("ShowParameters"));
+                if(Shell.Current.IsBusy)
+                {
+                    _isAccountPage=true;
+                }
             }
         }
-        public void ChangeShowParameters()
-        {
-            _showParametr = !_showParametr;
-        }
+
+
+
     }
 }

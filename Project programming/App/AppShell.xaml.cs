@@ -1,4 +1,5 @@
-﻿namespace Project_programming;
+﻿
+namespace Project_programming;
 
 public partial class AppShell : Shell
 {

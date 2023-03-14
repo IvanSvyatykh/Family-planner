@@ -4,11 +4,15 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Project_programming"
-    xmlns:account="clr-namespace:Project_programming.Account"    
+    xmlns:account="clr-namespace:AccountViewModel"  
+    xmlns:acountView="clr-namespace:Project_programming.Account"
     Shell.FlyoutBehavior="Locked"
     FlyoutVerticalScrollMode="Auto"  
      >
-
+    
+    <Shell.BindingContext>
+        <account:AccountPageViewModel/>
+    </Shell.BindingContext>
 
     <Shell.ItemTemplate>
         <DataTemplate>
@@ -40,6 +44,15 @@
         </DataTemplate>
     </Shell.ItemTemplate>
 
-    <ShellContent ContentTemplate="{DataTemplate local:MainPage}"/>
+    <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Shell.FlyoutBehavior="Disabled"/>
+    <ShellContent ContentTemplate="{DataTemplate local:ForgottenPasswordPage}" Shell.FlyoutBehavior="Disabled"/>
+    <ShellContent ContentTemplate="{DataTemplate local:RegistrationPage}" Shell.FlyoutBehavior="Disabled"/>
+    
+    <FlyoutItem  IsVisible="{Binding IsAccountPage}" IsEnabled="{Binding IsAccountPage}" Title="Account Page" Icon="account.png">
+        <Tab Title="Account Page">
+            <ShellContent Title="Account Page" ContentTemplate="{DataTemplate acountView:AccountPageView}"/>
+        </Tab>
+    </FlyoutItem>
+    
 </Shell>
     
