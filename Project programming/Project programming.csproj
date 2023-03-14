@@ -56,9 +56,6 @@
 		<MauiXaml Update="Account\AccountPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="AddSeedlingPage\AddSeedlingPage.xaml">
-		  <Generator>MSBuild:Compile</Generator>
-		</MauiXaml>
 		<MauiXaml Update="ForgottenPage\ForgottenPasswordPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>

@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Project_programming"
     xmlns:account="clr-namespace:Project_programming.Account"    
-    Shell.FlyoutBehavior="Disabled"
+    Shell.FlyoutBehavior="Locked"
     FlyoutVerticalScrollMode="Auto"  
      >
 
@@ -41,8 +41,5 @@
     </Shell.ItemTemplate>
 
     <ShellContent ContentTemplate="{DataTemplate local:MainPage}"/>
-    <ShellContent  ContentTemplate="{DataTemplate account:AccountPageView}" />
-
-
 </Shell>
     

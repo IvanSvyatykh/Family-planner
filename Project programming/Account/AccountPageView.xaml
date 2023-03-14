@@ -7,17 +7,8 @@
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsVisible="False" IsEnabled="False" />
     </Shell.BackButtonBehavior>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0.5*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="0.5*"/>
-        </Grid.ColumnDefinitions>
-
-        <VerticalStackLayout Grid.Column="2" Spacing="15">
-            <Button BackgroundColor="White"  WidthRequest="300" HeightRequest="50" Text="Statistics"/>
-            <Button BackgroundColor="White"  WidthRequest="300" HeightRequest="50" Text="Add payment"/>
-            <Button BackgroundColor="White"  WidthRequest="300" HeightRequest="50" Text="Settings"/>
-        </VerticalStackLayout>
-    </Grid>
+   
+    
+    
+    
 </ContentPage>
