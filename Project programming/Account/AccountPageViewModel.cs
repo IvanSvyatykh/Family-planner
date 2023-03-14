@@ -12,20 +12,7 @@ namespace AccountViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private bool _isAccountPage = false;
-
-        public bool IsAccountPage
-        {
-            get => _isAccountPage;
-            set
-            {
-                if(Shell.Current.IsBusy)
-                {
-                    _isAccountPage=true;
-                }
-            }
-        }
-
+        
 
 
     }

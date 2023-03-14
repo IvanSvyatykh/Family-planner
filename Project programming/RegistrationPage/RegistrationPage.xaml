@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Project_programming.RegistrationPage"
              Title="RegistrationPage"
-             Shell.FlyoutItemIsVisible="False"
              Shell.FlyoutBehavior="Disabled">
 
     <ScrollView>

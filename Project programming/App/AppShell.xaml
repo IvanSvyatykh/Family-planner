@@ -44,13 +44,12 @@
         </DataTemplate>
     </Shell.ItemTemplate>
 
-    <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Shell.FlyoutBehavior="Disabled"/>
-    <ShellContent ContentTemplate="{DataTemplate local:ForgottenPasswordPage}" Shell.FlyoutBehavior="Disabled"/>
-    <ShellContent ContentTemplate="{DataTemplate local:RegistrationPage}" Shell.FlyoutBehavior="Disabled"/>
+    <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Shell.FlyoutBehavior="Disabled" Shell.FlyoutItemIsVisible="False"/>
     
-    <FlyoutItem  IsVisible="{Binding IsAccountPage}" IsEnabled="{Binding IsAccountPage}" Title="Account Page" Icon="account.png">
-        <Tab Title="Account Page">
-            <ShellContent Title="Account Page" ContentTemplate="{DataTemplate acountView:AccountPageView}"/>
+    
+    <FlyoutItem   Title="Account Page" Icon="account.png">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate acountView:AccountPageView}"/>
         </Tab>
     </FlyoutItem>
     
