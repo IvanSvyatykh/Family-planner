@@ -89,7 +89,7 @@ namespace Project_programming.ForgottenPage
                 }
                 else
                 {
-                    if (await DatabaseLogic.ChangePassword(Email, Answer.ToString()))
+                    if (await DatabaseLogic.ChangePasswordAsync(Email, Answer.ToString()))
                     {
                         await Task.Run(async () =>
                         {

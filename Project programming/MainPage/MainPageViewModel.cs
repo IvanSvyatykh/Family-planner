@@ -10,13 +10,13 @@ using System.Runtime.CompilerServices;
 using WorkWithDatabase;
 using Classes;
 using PasswordLogic;
-
+using AccountViewModel;
 
 namespace Project_programming
 {
     public class MainPageViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
         public ICommand SignIn { get; set; }
         public ICommand Registration { get; set; }
         public ICommand ForgetPassword { get; set; }
@@ -31,9 +31,10 @@ namespace Project_programming
                 User user = new User(null, Password, Email);
                 if (await DatabaseLogic.IsExistsAsync(user))
                 {
-                    if (await DatabaseLogic.IsPasswordCorrect(user))
+                    if (await DatabaseLogic.IsPasswordCorrectAsync(user))
                     {
                         await Task.Delay(500);
+                        (App.Current as App).DeptEmail = user.Email;
                         await Shell.Current.GoToAsync("AccountPageView");
                     }
                     else

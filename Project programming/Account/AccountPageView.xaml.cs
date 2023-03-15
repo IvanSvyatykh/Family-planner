@@ -1,7 +1,7 @@
 using AccountViewModel;
 namespace Project_programming.Account
 {
-    public partial class AccountPageView : ContentPage
+    public  partial  class AccountPageView : ContentPage
     {
         public AccountPageView()
         {

@@ -6,6 +6,7 @@ public partial class App : Application
 {
     public static IServiceProvider Services;
     public static IAlertService AlertSvc;
+    public string DeptEmail;
     public App(IServiceProvider provider)
 	{       
         InitializeComponent();

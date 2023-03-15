@@ -20,7 +20,7 @@ namespace WorkWithDatabase
             }
         }
 
-        public static async Task<bool> IsPasswordCorrect(User user)
+        public static async Task<bool> IsPasswordCorrectAsync(User user)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -43,7 +43,7 @@ namespace WorkWithDatabase
             }
         }
 
-        public static async Task<bool> ChangePassword(string email, string password)
+        public static async Task<bool> ChangePasswordAsync(string email, string password)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -60,6 +60,25 @@ namespace WorkWithDatabase
                     return false;
                 }
 
+            }
+
+        }
+
+        public static User GetFullPersinInformation(string email)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+
+                try
+                {
+                    User? user = null;
+                    user = db.Users.Where(u => u.Email == email).FirstOrDefault();
+                    return user;
+                }
+                catch
+                {
+                    return null;
+                }
             }
 
         }
