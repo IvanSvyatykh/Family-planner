@@ -47,9 +47,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Images\account.png" />
-	  <None Remove="Resources\Images\expenses.png" />
-	  <None Remove="Resources\Images\family.png" />
 	  <None Remove="Resources\Images\icon.png" />
 	</ItemGroup>
 
@@ -82,7 +79,10 @@
 		</MauiXaml>
 	</ItemGroup>
 	<ItemGroup>
-		<MauiImage Include="Resources\AppIcon\icon.png" BaseSize="256,256" IsAppIcon="True"/>
+		<MauiImage Include="Resources\AppIcon\icon.png" BaseSize="256,256" IsAppIcon="True" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Resources\Images\" />
 	</ItemGroup>
 
 </Project>
