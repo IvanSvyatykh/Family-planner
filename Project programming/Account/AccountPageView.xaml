@@ -2,47 +2,22 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Project_programming.Account.AccountPageView"     
-             Title="AccountPage"                 
+             Title="{Binding Name}"                 
              >
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsVisible="False" IsEnabled="False" />
     </Shell.BackButtonBehavior>
 
 
-    <ScrollView>
+    <ScrollView BackgroundColor="WhiteSmoke">
         <Grid RowSpacing="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <BoxView Grid.Row="1" Color="WhiteSmoke"/>
-
-
-            <StackLayout>
-                <Label Text="{Binding Name}" Grid.Row="0" FontSize="Header" HorizontalOptions="End"/>
-                
-
-
-
-
-
-            </StackLayout>
         </Grid>
 
 
 
     </ScrollView>
-
-
-
-
-
-
-
-
-
-
-
-
-
 </ContentPage>
