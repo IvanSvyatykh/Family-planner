@@ -46,7 +46,7 @@
 
     <ShellContent ContentTemplate="{DataTemplate local:MainPage}" Shell.FlyoutBehavior="Disabled" Shell.FlyoutItemIsVisible="False"/>
 
-
+    
     <FlyoutItem   Title="Account Page" Icon="account.png">
         <Tab>
             <ShellContent ContentTemplate="{DataTemplate acountView:AccountPageView}"/>

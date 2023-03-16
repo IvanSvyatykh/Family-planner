@@ -21,7 +21,7 @@ namespace AccountViewModel
 
         public string Name 
         {
-            get => _user.Name;
+            get =>"Welcome, " + _user.Name;
         }    
 
 

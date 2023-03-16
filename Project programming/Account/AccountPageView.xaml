@@ -10,24 +10,22 @@
 
 
     <ScrollView>
-        <Grid>
+        <Grid RowSpacing="20">
             <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="100"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100"/>
-            </Grid.ColumnDefinitions>
-            
-            <BoxView Color="Black" Grid.Row="1" Grid.Column="0"/>
+            <BoxView Grid.Row="1" Color="WhiteSmoke"/>
 
 
             <StackLayout>
+                <Label Text="{Binding Name}" Grid.Row="0" FontSize="Header" HorizontalOptions="End"/>
+                
 
 
 
 
-                <Label Text="{Binding Name}" Grid.Row="0"/>
+
             </StackLayout>
         </Grid>
 
