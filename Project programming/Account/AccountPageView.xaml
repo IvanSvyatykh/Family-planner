@@ -9,13 +9,36 @@
     </Shell.BackButtonBehavior>
 
 
+    <ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="100"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="100"/>
+            </Grid.ColumnDefinitions>
+            
+            <BoxView Color="Black" Grid.Row="1" Grid.Column="0"/>
 
 
-    
+            <StackLayout>
 
-    <StackLayout>
-        <Label Text="{Binding Name}"/>
-    </StackLayout>
+
+
+
+                <Label Text="{Binding Name}" Grid.Row="0"/>
+            </StackLayout>
+        </Grid>
+
+
+
+    </ScrollView>
+
+
+
+
+
 
 
 
