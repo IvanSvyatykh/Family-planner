@@ -15,10 +15,8 @@ namespace AccountViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private User _user = DatabaseLogic.GetFullPersinInformation((App.Current as App).DeptEmail);
-
+        private User _user = DatabaseLogic.GetFullPersinInformation((App.Current as App).UserEmail);
         
-
         public string Name 
         {
             get =>"Welcome, " + _user.Name;

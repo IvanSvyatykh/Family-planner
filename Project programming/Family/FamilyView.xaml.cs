@@ -5,6 +5,7 @@ namespace Family
         public FamilyView()
         {
             InitializeComponent();
+            BindingContext = new FamilyViewModel();
         }
     }
 }

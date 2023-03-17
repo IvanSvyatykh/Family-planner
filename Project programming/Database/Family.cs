@@ -13,6 +13,6 @@ namespace Families
         public string Name { get; set; }
         public ushort Balance { get; set; }
         public ushort Code { get; set; }
-        public User? User { get; set; }
+        public uint CreatorId { get; set; }
     }
 }

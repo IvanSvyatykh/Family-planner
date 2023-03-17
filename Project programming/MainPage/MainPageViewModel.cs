@@ -34,7 +34,7 @@ namespace Project_programming
                     if (await DatabaseLogic.IsPasswordCorrectAsync(user))
                     {
                         await Task.Delay(500);
-                        (App.Current as App).DeptEmail = user.Email;
+                        (App.Current as App).UserEmail = user.Email;
                         await Shell.Current.GoToAsync("AccountPageView");
                     }
                     else
