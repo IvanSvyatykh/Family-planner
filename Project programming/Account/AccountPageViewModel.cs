@@ -1,5 +1,5 @@
-﻿using Classes;
-using Project_programming;
+﻿using Project_programming;
+using Project_programming.Model.Database;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WorkWithDatabase;
+using Classes;
 
 namespace AccountViewModel
 {
@@ -15,7 +16,7 @@ namespace AccountViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private User _user = DatabaseLogic.GetFullPersinInformation((App.Current as App).UserEmail);
+        private User _user = DatabaseLogic.GetFullPersonInformation((App.Current as App).UserEmail);
         
         public string Name 
         {

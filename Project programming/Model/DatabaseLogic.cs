@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Classes;
-using Database;
 using Microsoft.EntityFrameworkCore;
 using PasswordLogic;
+using Classes;
+using Project_programming.Model.Database;
 
 namespace WorkWithDatabase
 {
@@ -64,7 +64,7 @@ namespace WorkWithDatabase
 
         }
 
-        public static User GetFullPersinInformation(string email)
+        public static User GetFullPersonInformation(string email)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -82,6 +82,7 @@ namespace WorkWithDatabase
             }
 
         }
+
     }
 }
 

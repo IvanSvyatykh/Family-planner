@@ -8,9 +8,10 @@ using System.Windows.Input;
 using Project_programming.WorkWithEmail;
 using System.Runtime.CompilerServices;
 using WorkWithDatabase;
-using Classes;
 using PasswordLogic;
 using AccountViewModel;
+using Classes;
+using Project_programming.Model.Database;
 
 namespace Project_programming
 {

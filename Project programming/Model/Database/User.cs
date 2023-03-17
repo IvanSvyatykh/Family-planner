@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace Classes
 {
-    public class User 
+    public class User
     {
         public ushort Id { get; set; }
         public string Name { get; set; }
@@ -19,7 +18,7 @@ namespace Classes
         {
             this.Name = Name;
             this.Password = Password;
-            this.Email = email;
+            Email = email;
         }
     }
 }

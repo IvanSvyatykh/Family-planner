@@ -1,4 +1,4 @@
-namespace Family
+namespace FamilyPage
 {
     public partial class FamilyView : ContentPage
     {
