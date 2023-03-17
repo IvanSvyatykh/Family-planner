@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Classes;
 
 namespace Families
 {
@@ -12,6 +13,6 @@ namespace Families
         public string Name { get; set; }
         public ushort Balance { get; set; }
         public ushort Code { get; set; }
-        public ushort CreatorId { get; set; }
+        public User? User { get; set; }
     }
 }
