@@ -5,21 +5,25 @@
              Title="Family"
              Shell.FlyoutBehavior="Locked"
              >
-    <RefreshView>
-        <ScrollView>
-            <Grid>
-                <VerticalStackLayout IsVisible="{Binding IsExistFamily}">
-                    <Label Text="123"/>
-                </VerticalStackLayout>
-                <VerticalStackLayout IsVisible="{Binding FamilyExist}">
-                    <Label Text="143"/>
-                </VerticalStackLayout>
-            </Grid>
-        </ScrollView>
-       
-    </RefreshView>
-    
-    
 
+    <ScrollView>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
+            <StackLayout IsVisible="{Binding IsExistFamily}" Spacing="20" WidthRequest="400" HorizontalOptions="Start">
+                <Label Text="Create new family" FontSize="Medium"/>
+                <Entry IsPassword="False" Placeholder="Family Name" MaxLength="64" PlaceholderColor="Grey" BackgroundColor="White" Grid.Column="0"/>
+                <Entry IsPassword="True" Placeholder="Code of Family" PlaceholderColor="Grey" BackgroundColor="White" Grid.Column="0"/>
+            </StackLayout>
+
+            <StackLayout IsVisible="{Binding IsExistFamily}" Spacing="20" WidthRequest="400" HorizontalOptions="End" Grid.Column="1">
+                <Label Text="Unite with already exist family" FontSize="Medium"/>
+                <Entry IsPassword="False" Placeholder="Family Name" MaxLength="64" PlaceholderColor="Grey" BackgroundColor="White"/>
+                <Entry IsPassword="True" Placeholder="Code of Family" PlaceholderColor="Grey" BackgroundColor="White" />
+            </StackLayout>
+        </Grid>
+    </ScrollView>
 </ContentPage>

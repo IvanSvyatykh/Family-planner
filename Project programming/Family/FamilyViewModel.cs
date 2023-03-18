@@ -17,28 +17,25 @@ namespace FamilyPage
         public event PropertyChangedEventHandler PropertyChanged;
         private static User _user = DatabaseLogic.GetFullPersonInformation((App.Current as App).UserEmail);
         private bool _isExistFamily = IsFamilyIdEmpty();
+        public ICommand RefreshPage;
+        private bool _isRefreshing = false;
 
 
         public FamilyViewModel()
         {
-
+            RefreshPage = new Command(() =>
+            {
+               
+              
+            });
 
 
 
         }
 
-        private static bool IsFamilyIdEmpty()
-        {
-            return _user.FamilyId == null;
-        }
-
-        public bool IsExistFamily
-        {
-            get => _isExistFamily;            
-        }
-        public bool FamilyExist
-        {
-            get => !_isExistFamily;
-        }
+        private static bool IsFamilyIdEmpty() => _user.FamilyId == null;
+        public bool IsRefreshing => _isRefreshing;
+        public bool IsExistFamily => _isExistFamily;
+        public bool FamilyExist => !_isExistFamily;
     }
 }
