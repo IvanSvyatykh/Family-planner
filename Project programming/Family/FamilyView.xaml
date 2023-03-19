@@ -13,13 +13,15 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackLayout IsVisible="{Binding IsExistFamily}" Spacing="20" WidthRequest="400" HorizontalOptions="Start">
+            <StackLayout IsVisible="{Binding IsFamilyEmpty}" Spacing="20" WidthRequest="400" HorizontalOptions="Start">
                 <Label Text="Create new family" FontSize="Medium"/>
-                <Entry IsPassword="False" Placeholder="Family Name" MaxLength="64" PlaceholderColor="Grey" BackgroundColor="White" Grid.Column="0"/>
-                <Entry IsPassword="True" Placeholder="Code of Family" PlaceholderColor="Grey" BackgroundColor="White" Grid.Column="0"/>
+                <Entry IsPassword="False" Placeholder="Family Name" MaxLength="64" PlaceholderColor="Grey" BackgroundColor="White" Grid.Column="0"
+                       Text="{Binding FamilyName}"/>
+                <Entry IsPassword="True" Placeholder="Code of Family" PlaceholderColor="Grey" BackgroundColor="White" Grid.Column="0" 
+                       Text="{Binding FamilyCode}"/>
             </StackLayout>
 
-            <StackLayout IsVisible="{Binding IsExistFamily}" Spacing="20" WidthRequest="400" HorizontalOptions="End" Grid.Column="1">
+            <StackLayout IsVisible="{Binding IsFamilyEmpty}" Spacing="20" WidthRequest="400" HorizontalOptions="End" Grid.Column="1">
                 <Label Text="Unite with already exist family" FontSize="Medium"/>
                 <Entry IsPassword="False" Placeholder="Family Name" MaxLength="64" PlaceholderColor="Grey" BackgroundColor="White"/>
                 <Entry IsPassword="True" Placeholder="Code of Family" PlaceholderColor="Grey" BackgroundColor="White" />
