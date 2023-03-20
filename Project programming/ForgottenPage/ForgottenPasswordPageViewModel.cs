@@ -48,7 +48,7 @@ namespace Project_programming.ForgottenPage
                         App.AlertSvc.ShowAlert("O_o ", "You wrote non-existed Email", "ОК ");
                     });
                 }
-                else if (await DatabaseLogic.IsExistsAsync(new Classes.User(null, null, Email)))
+                else if (await DatabaseLogic.IsUserExistsAsync(new Classes.User(null, null, Email)))
                 {
                     await Task.Run(async () =>
                     {

@@ -30,7 +30,7 @@ namespace Project_programming
             SignIn = new Command(async () =>
             {
                 User user = new User(null, Password, Email);
-                if (await DatabaseLogic.IsExistsAsync(user))
+                if (await DatabaseLogic.IsUserExistsAsync(user))
                 {
                     if (await DatabaseLogic.IsPasswordCorrectAsync(user))
                     {

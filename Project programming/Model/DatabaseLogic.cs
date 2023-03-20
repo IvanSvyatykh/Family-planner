@@ -6,13 +6,15 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PasswordLogic;
 using Classes;
+using Families;
 using Project_programming.Model.Database;
+
 
 namespace WorkWithDatabase
 {
     public class DatabaseLogic
     {
-        public static async Task<bool> IsExistsAsync(User user)
+        public static async Task<bool> IsUserExistsAsync(User user)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -33,7 +35,7 @@ namespace WorkWithDatabase
             using (ApplicationContext db = new ApplicationContext())
             {
                 User user = new User(name, password, email);
-                if (!await IsExistsAsync(user))
+                if (!await IsUserExistsAsync(user))
                 {
                     db.Users.Add(user);
                     db.SaveChanges();
@@ -50,9 +52,13 @@ namespace WorkWithDatabase
                 try
                 {
                     User? user = null;
-                    user = db.Users.Where(u => u.Email == email).FirstOrDefault();
-                    user.Password = password;
-                    db.SaveChanges();
+                    await Task.Run(() =>
+                    {
+                        user = db.Users.Where(u => u.Email == email).FirstOrDefault();
+                        user.Password = password;
+                        db.SaveChanges();
+                    });
+
                     return true;
                 }
                 catch
@@ -62,6 +68,14 @@ namespace WorkWithDatabase
 
             }
 
+        }
+
+        public static async Task<bool> IsExistFamilyAsync(ushort Id)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                return await db.Families.Where(f => f.Id == Id).AnyAsync();
+            }
         }
 
         public static User GetFullPersonInformation(string email)
@@ -82,6 +96,30 @@ namespace WorkWithDatabase
             }
 
         }
+        public static async Task<Family> GetFullFamilyInformationAsync(ushort Id)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                try
+                {
+
+                    Family? family = null;
+                    await Task.Run(() =>
+                    {
+                        family = db.Families.Where(f => f.Id == Id).FirstOrDefault();
+
+                    });
+                    return family;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+
+
+
 
     }
 }
