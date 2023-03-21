@@ -26,7 +26,7 @@
                 <Label Text="Unite with already exist family" FontSize="Medium"/>
                 <Entry IsPassword="False" Placeholder="Family Name" MaxLength="64" PlaceholderColor="Grey" BackgroundColor="White"/>
                 <Entry IsPassword="False" Placeholder="Unique Id of Family" PlaceholderColor="Grey" BackgroundColor="White" 
-                       Text="{Binding FamilyId}" />
+                       Text="{Binding UniqueFamilyId}" />
                 <Entry IsPassword="True" Placeholder="Code of Family" PlaceholderColor="Grey" BackgroundColor="White" />
                 <Button Text="Join to family" Background="White" TextColor="Black" Command="{Binding JoinToFamily}"/>
             </StackLayout>

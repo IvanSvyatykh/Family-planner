@@ -16,50 +16,50 @@ namespace FamilyPage
 {
     public class FamilyViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        private static User _user =  DatabaseLogic.GetFullPersonInformation((App.Current as App).UserEmail);
-        private static Family _family = null;
-        private bool _isFamilyIdEmpty = IsFamilyIdEmpty();
-        public ICommand CreateFamily;
-        public ICommand JoinToFamily;
-        private string _familyName = null;
-        private string _familyCode = null;
+        public event PropertyChangedEventHandler? PropertyChanged;
+        private static User _user { get; set; } = DatabaseLogic.GetFullPersonInformation((App.Current as App).UserEmail);
+        private static Family _family { get; set; } = null;
+        private bool _isFamilyIdEmpty { get; set; } = IsFamilyIdEmpty();
+        public ICommand CreateFamily { get; set; }
+        public ICommand JoinToFamily { get; set; }
+        private string _familyName { get; set; } = null;
+        private string _familyCode { get; set; } = null;
+
         private string _familyId = null;
 
 
         public FamilyViewModel()
         {
-            
+
             JoinToFamily = new Command(async () =>
             {
-                if (!await DatabaseLogic.IsExistFamilyAsync(ushort.Parse(FamilyId)))
+                if (!ushort.TryParse(UniqueFamilyId, out _))
+                {
+                    await Task.Run(async () =>
+                    {
+                        await Task.Delay(500);
+                        App.AlertSvc.ShowAlert("Ooops", "You write string, which can not be an Id");
+                        UniqueFamilyId = null;
+                    });
+                }
+                else if (!await DatabaseLogic.IsExistFamilyAsync(ushort.Parse(UniqueFamilyId)))
                 {
                     await Task.Run(async () =>
                     {
                         await Task.Delay(500);
                         App.AlertSvc.ShowAlert("Ooops", "You family with this Id does not exist");
-                        FamilyId = null;
+                        UniqueFamilyId = null;
                     });
                 }
-                else
-                {
 
 
-                    await Task.Run(async () =>
-                    {
-                        _family = await DatabaseLogic.GetFullFamilyInformationAsync(ushort.Parse(_familyId));
-                    });
+            });
 
-                }
-
-            },
-            () => FamilyId != null);
             CreateFamily = new Command(() =>
             {
 
 
-            },
-             () => FamilyName != null && FamilyCode != null);
+            });
 
 
 
@@ -67,7 +67,7 @@ namespace FamilyPage
 
         private static bool IsFamilyIdEmpty() => _user.FamilyId == null;
         public bool IsFamilyEmpty => _isFamilyIdEmpty;
-        public string FamilyId
+        public string UniqueFamilyId
         {
             get => _familyId;
             set
@@ -75,7 +75,7 @@ namespace FamilyPage
                 if (_familyId != value)
                 {
                     _familyId = value;
-                    OnPropertyChanged();
+                    JoiningToFamily();
                 }
             }
         }
@@ -87,7 +87,7 @@ namespace FamilyPage
                 if (_familyName != value)
                 {
                     _familyName = value;
-                    OnPropertyChanged();
+                    FamilyCreation();
                 }
             }
         }
@@ -99,15 +99,21 @@ namespace FamilyPage
                 if (_familyCode != value)
                 {
                     _familyCode = value;
-                    OnPropertyChanged();
+                    FamilyCreation();
                 }
             }
         }
-        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        public void FamilyCreation([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
             ((Command)CreateFamily).ChangeCanExecute();
+
+        }
+        public void JoiningToFamily([CallerMemberName] string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
             ((Command)JoinToFamily).ChangeCanExecute();
+
         }
     }
 }
