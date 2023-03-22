@@ -160,6 +160,29 @@ namespace WorkWithDatabase
             }
 
         }
+
+        private static async Task<bool> AddFamilyIdToUser(string email, uint FamilyId)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                try
+                {
+                    User? user = null;
+                    await Task.Run(() =>
+                    {
+                        user = db.Users.Where(u => u.Email == email).FirstOrDefault();
+                        user.FamilyId = FamilyId;
+                        db.SaveChanges();
+                    });
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+
+            }
+        }
         public static async Task<bool> CreateFamilyAsync(Family family, User user)
         {
             using (ApplicationContext db = new ApplicationContext())
@@ -168,7 +191,9 @@ namespace WorkWithDatabase
                 {
                     db.Families.Add(family);
                     db.SaveChanges();
-                    return true;
+                    family = db.Families.Where(f => f.Email == family.Email).FirstOrDefault();
+
+                    return true && await AddFamilyIdToUser(family.Email, family.Id);
                 }
                 return false;
             }
