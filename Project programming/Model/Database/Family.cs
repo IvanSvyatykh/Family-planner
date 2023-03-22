@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Classes;
 
-namespace Families
+namespace Classes
 {
     public class Family
     {

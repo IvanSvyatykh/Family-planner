@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WorkWithDatabase;
-using Families;
 using Classes;
 using System.Runtime.CompilerServices;
 
@@ -100,7 +99,7 @@ namespace FamilyPage
                 }
                 else
                 {
-                    _family = new Family(FamilyNameCreation, FamilyPasswordCreation, _user.Email);
+                    //_family = new Family(FamilyNameCreation, FamilyPasswordCreation, _user.Email);
                     if (!await DatabaseLogic.CreateFamilyAsync(_family, _user))
                     {
                         App.AlertSvc.ShowAlert("Sorry", "But we can't create family, something goes wrong");
