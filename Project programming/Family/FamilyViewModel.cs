@@ -11,6 +11,7 @@ using WorkWithDatabase;
 using Families;
 using Classes;
 using System.Runtime.CompilerServices;
+using MetalPerformanceShadersGraph;
 
 namespace FamilyPage
 {
@@ -24,7 +25,7 @@ namespace FamilyPage
         public ICommand JoinToFamily { get; set; }
         private string _familyNameCreation { get; set; } = null;
         private string _familyPasswordJoin { get; set; } = null;
-        private string _familyIdJoin { get; set; } = null;
+        private string _creatorEmaiJoin { get; set; } = null;
         private string _familyPasswordCreation { get; set; } = null;
         private string _repeatedFamilyPasswordCreation { get; set; } = null;
 
@@ -34,27 +35,27 @@ namespace FamilyPage
 
             JoinToFamily = new Command(async () =>
             {
-                if (!ushort.TryParse(UniqueFamilyIdJoin, out _))
+                if (!ushort.TryParse(CreatorEmailJoin, out _))
                 {
                     await Task.Run(async () =>
                     {
                         await Task.Delay(500);
                         App.AlertSvc.ShowAlert("Ooops", "You write string, which can not be an Id");
-                        UniqueFamilyIdJoin = null;
+                        CreatorEmailJoin = null;
                     });
                 }
-                else if (!await DatabaseLogic.IsExistFamilyAsync(ushort.Parse(UniqueFamilyIdJoin)))
+                else if (!await DatabaseLogic.IsExistFamilyAsync(CreatorEmailJoin))
                 {
                     await Task.Run(async () =>
                     {
                         await Task.Delay(500);
                         App.AlertSvc.ShowAlert("", "Family with this Id does not exist");
-                        UniqueFamilyIdJoin = null;
+                        CreatorEmailJoin = null;
                     });
                 }
-                else if (await DatabaseLogic.IsFamilyPasswordCorrectAsync(ushort.Parse(UniqueFamilyIdJoin), ushort.Parse(FamilyPasswordJoin)))
+                else if (await DatabaseLogic.IsFamilyPasswordCorrectAsync(CreatorEmailJoin, ushort.Parse(FamilyPasswordJoin)))
                 {
-                    if (await DatabaseLogic.AddFamilyIdToUserAsync(ushort.Parse(UniqueFamilyIdJoin), _user.Email)) ;
+                    if (!await DatabaseLogic.AddFamilyIdToUserAsync(CreatorEmailJoin, _user.Email)) 
                     {
                         await Task.Run(async () =>
                         {
@@ -63,7 +64,12 @@ namespace FamilyPage
                         });
 
                     }
-                    await Shell.Current.GoToAsync("FamilyView");
+                    else
+                    {
+                        App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
+                        await Shell.Current.GoToAsync("FamilyView");
+                    }
+                    
 
                 }
                 else
@@ -78,7 +84,13 @@ namespace FamilyPage
                 if (!ushort.TryParse(FamilyPasswordCreation, out _) || !ushort.TryParse(RepeatedFamilyPasswordCreation, out _))
                 {
                     await Task.Delay(500);
-                    App.AlertSvc.ShowAlert("", "Password and repeted password are not equal");
+                    App.AlertSvc.ShowAlert("", "Password and repeted password should be a number");
+                    RepeatedFamilyPasswordCreation = null;
+                    FamilyPasswordCreation = null;
+                }
+                else if(ushort.Parse(FamilyPasswordCreation)!= ushort.Parse(RepeatedFamilyPasswordCreation))
+                {
+                    App.AlertSvc.ShowAlert("", "Password and repeted password are noy equal");
                     RepeatedFamilyPasswordCreation = null;
                     FamilyPasswordCreation = null;
                 }
@@ -87,7 +99,20 @@ namespace FamilyPage
                     await Task.Delay(500);
                     App.AlertSvc.ShowAlert("Sorry", "But Name of Family can not be null");
                 }
-                
+                else 
+                {
+                    _family = new Family(FamilyNameCreation, ushort.Parse(FamilyPasswordCreation), _user.Email);
+                    if (!await DatabaseLogic.CreateFamilyAsync(_family , _user))
+                    {
+                        App.AlertSvc.ShowAlert("Sorry", "But we can't create family, something goes wrong");
+                    }
+                    else
+                    {
+                        App.AlertSvc.ShowAlert("Good", "Creation is successful");
+                        await Shell.Current.GoToAsync("FamilyView");
+                    }
+                    
+                }
 
             });
 
@@ -121,14 +146,14 @@ namespace FamilyPage
             }
         }
         public bool IsFamilyEmpty => _isFamilyIdEmpty;
-        public string UniqueFamilyIdJoin
+        public string CreatorEmailJoin
         {
-            get => _familyIdJoin;
+            get => _creatorEmaiJoin;
             set
             {
-                if (_familyIdJoin != value)
+                if (_creatorEmaiJoin != value)
                 {
-                    _familyIdJoin = value;
+                    _creatorEmaiJoin = value;
                     JoiningToFamily();
                 }
             }

@@ -15,7 +15,7 @@ namespace Families
         public ushort Password { get; set; }
         public string _creatorEmail { get; set; }
 
-        public Family(string Name, ushort Password, string _email, ushort Id)
+        public Family(string Name, ushort Password, string _email)
         {
             this.Name = Name;
             this.Password = Password;

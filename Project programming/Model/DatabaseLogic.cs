@@ -28,7 +28,13 @@ namespace WorkWithDatabase
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                return await db.Users.Where(u => u.Password.Equals(user.Password)).AnyAsync();
+                User? userFromDb = null;
+                await Task.Run(async() =>
+                {
+                    User userFromDb = db.Users.Where(u => u.Email.Equals(user.Email)).FirstOrDefault();
+                });
+
+                return userFromDb.Password == user.Password;
             }
         }
 
@@ -121,7 +127,7 @@ namespace WorkWithDatabase
             }
         }
 
-        public static async Task<bool> AddFamilyIdToUserAsync( ushort FamilyId , string email)
+        public static async Task<bool> AddFamilyIdToUserAsync(string CreatorEmail, string Useremail)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -130,8 +136,9 @@ namespace WorkWithDatabase
                     User? user = null;
                     await Task.Run(() =>
                     {
-                        user = db.Users.Where(u => u.Email == email).FirstOrDefault();
-                        user.FamilyId = FamilyId;
+                        Family family = db.Families.Where(f => f._creatorEmail == CreatorEmail).FirstOrDefault();
+                        user = db.Users.Where(u => u.Email == Useremail).FirstOrDefault();
+                        user.FamilyId = family.Id;
                         db.SaveChanges();
                     });
 
@@ -145,24 +152,30 @@ namespace WorkWithDatabase
             }
         }
 
-        public static async Task<bool> IsFamilyPasswordCorrectAsync(ushort FamiyId , ushort password)
+        public static async Task<bool> IsFamilyPasswordCorrectAsync(string email, ushort password)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                return await db.Families.Where(f => f.Password==password).AnyAsync();
+                Family? family = null;
+                await Task.Run(async() =>
+                {
+                    family = db.Families.Where(f=>f._creatorEmail== email).FirstOrDefault();                       
+                });
+                return family.Password == password;
             }
+            
         }
-        public static async Task<bool> CreateFamilyAsync(Family family , User user)
+        public static async Task<bool> CreateFamilyAsync(Family family, User user)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                if( await IsExistFamilyAsync(family._creatorEmail))
+                if (!await IsExistFamilyAsync(family._creatorEmail))
                 {
                     db.Families.Add(family);
                     db.SaveChanges();
                     return true;
                 }
-                return false;   
+                return false;
             }
         }
 
