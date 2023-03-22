@@ -19,7 +19,7 @@ namespace Families
         {
             this.Name = Name;
             this.Password = Password;
-            this._creatorEmail = _email;
+            this.CreatorEmail = _email;
         }
     }
 }
