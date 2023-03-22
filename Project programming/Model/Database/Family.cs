@@ -13,7 +13,7 @@ namespace Families
         public string Name { get; set; }
         public ushort? Balance { get; set; }
         public ushort Password { get; set; }
-        public string _creatorEmail { get; set; }
+        public string CreatorEmail { get; set; }
 
         public Family(string Name, ushort Password, string _email)
         {
