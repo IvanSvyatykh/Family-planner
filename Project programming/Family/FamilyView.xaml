@@ -24,10 +24,9 @@
 
             <StackLayout IsVisible="{Binding IsFamilyEmpty}" Spacing="20" WidthRequest="400" HorizontalOptions="End" Grid.Column="1">
                 <Label Text="Unite with already exist family" FontSize="Medium"/>
-                <Entry IsPassword="False" Placeholder="Family Name" MaxLength="64" PlaceholderColor="Grey" BackgroundColor="White"/>
                 <Entry IsPassword="False" Placeholder="Unique Id of Family" PlaceholderColor="Grey" BackgroundColor="White" 
                        Text="{Binding UniqueFamilyId}" />
-                <Entry IsPassword="True" Placeholder="Code of Family" PlaceholderColor="Grey" BackgroundColor="White" />
+                <Entry IsPassword="True" Placeholder="Password of Family" PlaceholderColor="Grey" BackgroundColor="White" />
                 <Button Text="Join to family" Background="White" TextColor="Black" Command="{Binding JoinToFamily}"/>
             </StackLayout>
         </Grid>

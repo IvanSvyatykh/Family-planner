@@ -98,6 +98,7 @@ namespace WorkWithDatabase
             }
 
         }
+
         public static async Task<Family> GetFullFamilyInformationAsync(ushort Id)
         {
             using (ApplicationContext db = new ApplicationContext())
@@ -141,6 +142,14 @@ namespace WorkWithDatabase
                     return false;
                 }
 
+            }
+        }
+
+        public static async Task<bool> IsFamilyPasswordCorrect(ushort FamiyId , ushort password)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                return await db.Families.Where(f => f.Password==password).AnyAsync();
             }
         }
 

@@ -23,7 +23,7 @@ namespace FamilyPage
         public ICommand CreateFamily { get; set; }
         public ICommand JoinToFamily { get; set; }
         private string _familyName { get; set; } = null;
-        private string _familyCode { get; set; } = null;
+        private string _familyPassword { get; set; } = null;
 
         private string _familyId = null;
 
@@ -51,9 +51,9 @@ namespace FamilyPage
                         UniqueFamilyId = null;
                     });
                 }
-                else
+                else if (await DatabaseLogic.IsFamilyPasswordCorrect(ushort.Parse(UniqueFamilyId), ushort.Parse(FamilyPassword)))
                 {
-                    if (!await DatabaseLogic.AddFamilyIdToUser(ushort.Parse(UniqueFamilyId), _user.Email)) ;
+                    if (await DatabaseLogic.AddFamilyIdToUser(ushort.Parse(UniqueFamilyId), _user.Email)) ;
                     {
                         await Task.Run(async () =>
                         {
@@ -61,14 +61,18 @@ namespace FamilyPage
                             App.AlertSvc.ShowAlert("", "Sorry, but something goes wrong and we can not add Family Id");
                         });
 
-                    }                   
+                    }
+                    await Shell.Current.GoToAsync("FamilyView");
+
                 }
-
-
-
+                else
+                {
+                    await Task.Delay(500);
+                    App.AlertSvc.ShowAlert("", "Password isn't correct");
+                }
             });
 
-            CreateFamily = new Command(() =>
+            CreateFamily = new Command(async () =>
             {
 
 
@@ -104,14 +108,14 @@ namespace FamilyPage
                 }
             }
         }
-        public string FamilyCode
+        public string FamilyPassword
         {
-            get => _familyCode;
+            get => _familyPassword;
             set
             {
-                if (_familyCode != value)
+                if (_familyPassword != value)
                 {
-                    _familyCode = value;
+                    _familyPassword = value;
                     FamilyCreation();
                 }
             }
