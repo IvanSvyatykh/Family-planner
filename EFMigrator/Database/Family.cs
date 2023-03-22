@@ -11,8 +11,8 @@ namespace Families
     {
         public ushort Id { get; set; }
         public string Name { get; set; }
-        public ushort Balance { get; set; }
+        public ushort? Balance { get; set; }
         public ushort Password { get; set; }
-        public uint CreatorId { get; set; }
+        public string _creatorEmail { get; set; }
     }
 }

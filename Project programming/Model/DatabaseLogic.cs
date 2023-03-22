@@ -72,11 +72,11 @@ namespace WorkWithDatabase
 
         }
 
-        public static async Task<bool> IsExistFamilyAsync(ushort Id)
+        public static async Task<bool> IsExistFamilyAsync(string email)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                return await db.Families.Where(f => f.Id == Id).AnyAsync();
+                return await db.Families.Where(f => f._creatorEmail == email).AnyAsync();
             }
         }
 
@@ -121,7 +121,7 @@ namespace WorkWithDatabase
             }
         }
 
-        public static async Task<bool> AddFamilyIdToUser( ushort FamilyId , string email)
+        public static async Task<bool> AddFamilyIdToUserAsync( ushort FamilyId , string email)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -145,11 +145,24 @@ namespace WorkWithDatabase
             }
         }
 
-        public static async Task<bool> IsFamilyPasswordCorrect(ushort FamiyId , ushort password)
+        public static async Task<bool> IsFamilyPasswordCorrectAsync(ushort FamiyId , ushort password)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
                 return await db.Families.Where(f => f.Password==password).AnyAsync();
+            }
+        }
+        public static async Task<bool> CreateFamilyAsync(Family family , User user)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                if( await IsExistFamilyAsync(family._creatorEmail))
+                {
+                    db.Families.Add(family);
+                    db.SaveChanges();
+                    return true;
+                }
+                return false;   
             }
         }
 

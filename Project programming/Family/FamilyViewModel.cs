@@ -22,10 +22,11 @@ namespace FamilyPage
         private bool _isFamilyIdEmpty { get; set; } = IsFamilyIdEmpty();
         public ICommand CreateFamily { get; set; }
         public ICommand JoinToFamily { get; set; }
-        private string _familyName { get; set; } = null;
-        private string _familyPassword { get; set; } = null;
-
-        private string _familyId = null;
+        private string _familyNameCreation { get; set; } = null;
+        private string _familyPasswordJoin { get; set; } = null;
+        private string _familyIdJoin { get; set; } = null;
+        private string _familyPasswordCreation { get; set; } = null;
+        private string _repeatedFamilyPasswordCreation { get; set; } = null;
 
 
         public FamilyViewModel()
@@ -33,27 +34,27 @@ namespace FamilyPage
 
             JoinToFamily = new Command(async () =>
             {
-                if (!ushort.TryParse(UniqueFamilyId, out _))
+                if (!ushort.TryParse(UniqueFamilyIdJoin, out _))
                 {
                     await Task.Run(async () =>
                     {
                         await Task.Delay(500);
                         App.AlertSvc.ShowAlert("Ooops", "You write string, which can not be an Id");
-                        UniqueFamilyId = null;
+                        UniqueFamilyIdJoin = null;
                     });
                 }
-                else if (!await DatabaseLogic.IsExistFamilyAsync(ushort.Parse(UniqueFamilyId)))
+                else if (!await DatabaseLogic.IsExistFamilyAsync(ushort.Parse(UniqueFamilyIdJoin)))
                 {
                     await Task.Run(async () =>
                     {
                         await Task.Delay(500);
                         App.AlertSvc.ShowAlert("", "Family with this Id does not exist");
-                        UniqueFamilyId = null;
+                        UniqueFamilyIdJoin = null;
                     });
                 }
-                else if (await DatabaseLogic.IsFamilyPasswordCorrect(ushort.Parse(UniqueFamilyId), ushort.Parse(FamilyPassword)))
+                else if (await DatabaseLogic.IsFamilyPasswordCorrectAsync(ushort.Parse(UniqueFamilyIdJoin), ushort.Parse(FamilyPasswordJoin)))
                 {
-                    if (await DatabaseLogic.AddFamilyIdToUser(ushort.Parse(UniqueFamilyId), _user.Email)) ;
+                    if (await DatabaseLogic.AddFamilyIdToUserAsync(ushort.Parse(UniqueFamilyIdJoin), _user.Email)) ;
                     {
                         await Task.Run(async () =>
                         {
@@ -74,7 +75,19 @@ namespace FamilyPage
 
             CreateFamily = new Command(async () =>
             {
-
+                if (!ushort.TryParse(FamilyPasswordCreation, out _) || !ushort.TryParse(RepeatedFamilyPasswordCreation, out _))
+                {
+                    await Task.Delay(500);
+                    App.AlertSvc.ShowAlert("", "Password and repeted password are not equal");
+                    RepeatedFamilyPasswordCreation = null;
+                    FamilyPasswordCreation = null;
+                }
+                else if (FamilyNameCreation == null || FamilyNameCreation=="")
+                {
+                    await Task.Delay(500);
+                    App.AlertSvc.ShowAlert("Sorry", "But Name of Family can not be null");
+                }
+                
 
             });
 
@@ -83,39 +96,63 @@ namespace FamilyPage
         }
 
         private static bool IsFamilyIdEmpty() => _user.FamilyId == null;
-        public bool IsFamilyEmpty => _isFamilyIdEmpty;
-        public string UniqueFamilyId
+        public string RepeatedFamilyPasswordCreation
         {
-            get => _familyId;
+            get => _repeatedFamilyPasswordCreation;
             set
             {
-                if (_familyId != value)
+                if (_repeatedFamilyPasswordCreation != value)
                 {
-                    _familyId = value;
-                    JoiningToFamily();
-                }
-            }
-        }
-        public string FamilyName
-        {
-            get => _familyName;
-            set
-            {
-                if (_familyName != value)
-                {
-                    _familyName = value;
+                    _repeatedFamilyPasswordCreation = value;
                     FamilyCreation();
                 }
             }
         }
-        public string FamilyPassword
+        public string FamilyPasswordCreation
         {
-            get => _familyPassword;
+            get => _familyPasswordCreation;
             set
             {
-                if (_familyPassword != value)
+                if (_familyPasswordCreation != value)
                 {
-                    _familyPassword = value;
+                    _familyPasswordCreation = value;
+                    FamilyCreation();
+                }
+            }
+        }
+        public bool IsFamilyEmpty => _isFamilyIdEmpty;
+        public string UniqueFamilyIdJoin
+        {
+            get => _familyIdJoin;
+            set
+            {
+                if (_familyIdJoin != value)
+                {
+                    _familyIdJoin = value;
+                    JoiningToFamily();
+                }
+            }
+        }
+        public string FamilyNameCreation
+        {
+            get => _familyNameCreation;
+            set
+            {
+                if (_familyNameCreation != value)
+                {
+                    _familyNameCreation = value;
+                    FamilyCreation();
+                }
+            }
+        }
+        public string FamilyPasswordJoin
+        {
+            get => _familyPasswordJoin;
+            set
+            {
+                if (_familyPasswordJoin != value)
+                {
+                    _familyPasswordJoin = value;
                     FamilyCreation();
                 }
             }
