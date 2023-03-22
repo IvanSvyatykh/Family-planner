@@ -8,6 +8,8 @@ using PasswordLogic;
 using Classes;
 using Families;
 using Project_programming.Model.Database;
+using Microsoft.Maui.ApplicationModel.Communication;
+using System.Xml.Linq;
 
 
 namespace WorkWithDatabase
@@ -118,7 +120,29 @@ namespace WorkWithDatabase
             }
         }
 
+        public static async Task<bool> AddFamilyIdToUser( ushort FamilyId , string email)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                try
+                {
+                    User? user = null;
+                    await Task.Run(() =>
+                    {
+                        user = db.Users.Where(u => u.Email == email).FirstOrDefault();
+                        user.FamilyId = FamilyId;
+                        db.SaveChanges();
+                    });
 
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+
+            }
+        }
 
 
     }

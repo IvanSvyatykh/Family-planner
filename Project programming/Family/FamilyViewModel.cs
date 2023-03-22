@@ -47,10 +47,23 @@ namespace FamilyPage
                     await Task.Run(async () =>
                     {
                         await Task.Delay(500);
-                        App.AlertSvc.ShowAlert("Ooops", "You family with this Id does not exist");
+                        App.AlertSvc.ShowAlert("", "Family with this Id does not exist");
                         UniqueFamilyId = null;
                     });
                 }
+                else
+                {
+                    if (!await DatabaseLogic.AddFamilyIdToUser(ushort.Parse(UniqueFamilyId), _user.Email)) ;
+                    {
+                        await Task.Run(async () =>
+                        {
+                            await Task.Delay(500);
+                            App.AlertSvc.ShowAlert("", "Sorry, but something goes wrong and we can not add Family Id");
+                        });
+
+                    }                   
+                }
+
 
 
             });
