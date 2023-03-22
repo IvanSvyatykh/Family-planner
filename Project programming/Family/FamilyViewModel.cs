@@ -52,9 +52,9 @@ namespace FamilyPage
                         CreatorEmailJoin = null;
                     });
                 }
-                else if (await DatabaseLogic.IsFamilyPasswordCorrectAsync(CreatorEmailJoin, ushort.Parse(FamilyPasswordJoin)))
+                else if (await DatabaseLogic.IsFamilyPasswordCorrectAsync(CreatorEmailJoin, FamilyPasswordJoin))
                 {
-                    if (!await DatabaseLogic.AddFamilyIdToUserAsync(CreatorEmailJoin, _user.Email)) 
+                    if (!await DatabaseLogic.AddFamilyIdToUserAsync(CreatorEmailJoin, _user.Email))
                     {
                         await Task.Run(async () =>
                         {
@@ -68,7 +68,7 @@ namespace FamilyPage
                         App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
                         await Shell.Current.GoToAsync("FamilyView");
                     }
-                    
+
 
                 }
                 else
@@ -87,21 +87,21 @@ namespace FamilyPage
                     RepeatedFamilyPasswordCreation = null;
                     FamilyPasswordCreation = null;
                 }
-                else if(ushort.Parse(FamilyPasswordCreation)!= ushort.Parse(RepeatedFamilyPasswordCreation))
+                else if (ushort.Parse(FamilyPasswordCreation) != ushort.Parse(RepeatedFamilyPasswordCreation))
                 {
                     App.AlertSvc.ShowAlert("", "Password and repeted password are noy equal");
                     RepeatedFamilyPasswordCreation = null;
                     FamilyPasswordCreation = null;
                 }
-                else if (FamilyNameCreation == null || FamilyNameCreation=="")
+                else if (FamilyNameCreation == null || FamilyNameCreation == "")
                 {
                     await Task.Delay(500);
                     App.AlertSvc.ShowAlert("Sorry", "But Name of Family can not be null");
                 }
-                else 
+                else
                 {
-                    //_family = new Family(FamilyNameCreation, ushort.Parse(FamilyPasswordCreation), _user.Email);
-                    if (!await DatabaseLogic.CreateFamilyAsync(_family , _user))
+                    _family = new Family(FamilyNameCreation, FamilyPasswordCreation, _user.Email);
+                    if (!await DatabaseLogic.CreateFamilyAsync(_family, _user))
                     {
                         App.AlertSvc.ShowAlert("Sorry", "But we can't create family, something goes wrong");
                     }
@@ -110,7 +110,7 @@ namespace FamilyPage
                         App.AlertSvc.ShowAlert("Good", "Creation is successful");
                         await Shell.Current.GoToAsync("FamilyView");
                     }
-                    
+
                 }
 
             });

@@ -9,17 +9,17 @@ namespace Families
 {
     public class Family
     {
-        public ushort Id { get; set; }
+        public uint Id { get; set; }
         public string Name { get; set; }
-        public ushort? Balance { get; set; }
-        public ushort Password { get; set; }
+        public uint? Balance { get; set; }
+        public string Password { get; set; }
         public string CreatorEmail { get; set; }
 
-        //public Family(string Name, ushort Password, string email)
-        //{
-        //    this.Name = Name;
-        //    this.Password = Password;
-        //    CreatorEmail = email;
-        //}
+        public Family(string Name, string Password, string email)
+        {
+            this.Name = Name;
+            this.Password = Password;
+            CreatorEmail = email;
+        }
     }
 }

@@ -148,7 +148,7 @@ namespace WorkWithDatabase
             }
         }
 
-        public static async Task<bool> IsFamilyPasswordCorrectAsync(string email, ushort password)
+        public static async Task<bool> IsFamilyPasswordCorrectAsync(string email, string password)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -157,7 +157,7 @@ namespace WorkWithDatabase
                 {
                     family = db.Families.Where(f => f.CreatorEmail == email).FirstOrDefault();
                 });
-                return family.Password == password;
+                return family.Password.Equals(password);
             }
 
         }
