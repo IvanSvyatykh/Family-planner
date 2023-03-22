@@ -77,7 +77,7 @@ namespace WorkWithDatabase
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                return await db.Families.Where(f => f.CreatorEmail == email).AnyAsync();
+                return await db.Families.Where(f => f.Email == email).AnyAsync();
             }
         }
 
@@ -131,7 +131,7 @@ namespace WorkWithDatabase
                     User? user = null;
                     await Task.Run(() =>
                     {
-                        Family family = db.Families.Where(f => f.CreatorEmail == CreatorEmail).FirstOrDefault();
+                        Family family = db.Families.Where(f => f.Email == CreatorEmail).FirstOrDefault();
                         user = db.Users.Where(u => u.Email == Useremail).FirstOrDefault();
                         user.FamilyId = family.Id;
                         db.SaveChanges();
@@ -154,7 +154,7 @@ namespace WorkWithDatabase
                 Family? family = null;
                 await Task.Run(async () =>
                 {
-                    family = db.Families.Where(f => f.CreatorEmail == email).FirstOrDefault();
+                    family = db.Families.Where(f => f.Email == email).FirstOrDefault();
                 });
                 return family.Password.Equals(password);
             }
@@ -164,7 +164,7 @@ namespace WorkWithDatabase
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                if (!await IsExistFamilyAsync(family.CreatorEmail))
+                if (!await IsExistFamilyAsync(family.Email))
                 {
                     db.Families.Add(family);
                     db.SaveChanges();
