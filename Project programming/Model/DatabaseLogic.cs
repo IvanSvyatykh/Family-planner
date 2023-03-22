@@ -28,13 +28,9 @@ namespace WorkWithDatabase
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                User? userFromDb = null;
-                await Task.Run(async() =>
-                {
-                    User userFromDb = db.Users.Where(u => u.Email.Equals(user.Email)).FirstOrDefault();
-                });
 
-                return userFromDb.Password == user.Password;
+                User userFromDb = db.Users.Where(u => u.Email == user.Email).FirstOrDefault();
+                return userFromDb.Password.Equals(user.Password);
             }
         }
 
@@ -157,13 +153,13 @@ namespace WorkWithDatabase
             using (ApplicationContext db = new ApplicationContext())
             {
                 Family? family = null;
-                await Task.Run(async() =>
+                await Task.Run(async () =>
                 {
-                    family = db.Families.Where(f=>f.CreatorEmail == email).FirstOrDefault();                       
+                    family = db.Families.Where(f => f.CreatorEmail == email).FirstOrDefault();
                 });
                 return family.Password == password;
             }
-            
+
         }
         public static async Task<bool> CreateFamilyAsync(Family family, User user)
         {

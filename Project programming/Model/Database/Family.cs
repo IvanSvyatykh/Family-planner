@@ -15,11 +15,11 @@ namespace Families
         public ushort Password { get; set; }
         public string CreatorEmail { get; set; }
 
-        public Family(string Name, ushort Password, string _email)
-        {
-            this.Name = Name;
-            this.Password = Password;
-            this.CreatorEmail = _email;
-        }
+        //public Family(string Name, ushort Password, string email)
+        //{
+        //    this.Name = Name;
+        //    this.Password = Password;
+        //    CreatorEmail = email;
+        //}
     }
 }

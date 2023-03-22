@@ -13,7 +13,7 @@ namespace Classes
         public string Password { get; set; }
         public uint Salary { get; set; }
         public string Email { get; set; }
-        public uint? FamilyId { get; set; }
+        public ushort? FamilyId { get; set; }
         public User(string Name, string Password, string email)
         {
             this.Name = Name;
