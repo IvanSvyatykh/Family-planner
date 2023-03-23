@@ -1,24 +1,22 @@
-﻿using Project_programming;
-using Project_programming.Model.Database;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using WorkWithDatabase;
 using Classes;
-using System.Runtime.CompilerServices;
+using WorkWithDatabase;
+using Project_programming;
 
-namespace FamilyPage
+namespace FamilyRegistrationPage
 {
-    public class FamilyViewModel : INotifyPropertyChanged
+    public class FamilyRegistrationViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         private static User _user { get; set; } = DatabaseLogic.GetFullPersonInformation((App.Current as App).UserEmail);
         private static Family _family { get; set; } = null;
-        private bool _isFamilyIdEmpty { get; set; } = IsFamilyIdEmpty();
         public ICommand CreateFamily { get; set; }
         public ICommand JoinToFamily { get; set; }
         private string _familyNameCreation { get; set; } = null;
@@ -28,21 +26,13 @@ namespace FamilyPage
         private string _repeatedFamilyPasswordCreation { get; set; } = null;
 
 
-        public FamilyViewModel()
+        public FamilyRegistrationViewModel()
         {
+
 
             JoinToFamily = new Command(async () =>
             {
-                if (!ushort.TryParse(CreatorEmailJoin, out _))
-                {
-                    await Task.Run(async () =>
-                    {
-                        await Task.Delay(500);
-                        App.AlertSvc.ShowAlert("Ooops", "You write string, which can not be an Id");
-                        CreatorEmailJoin = null;
-                    });
-                }
-                else if (!await DatabaseLogic.IsExistFamilyAsync(CreatorEmailJoin))
+                if (!await DatabaseLogic.IsExistFamilyAsync(CreatorEmailJoin))
                 {
                     await Task.Run(async () =>
                     {
@@ -53,7 +43,7 @@ namespace FamilyPage
                 }
                 else if (await DatabaseLogic.IsFamilyPasswordCorrectAsync(CreatorEmailJoin, FamilyPasswordJoin))
                 {
-                    if (!await DatabaseLogic.AddFamilyIdToUserAsync(CreatorEmailJoin, _user.Email))
+                    if (!await DatabaseLogic.AddFamilyToUserAsync(CreatorEmailJoin, _user.Email))
                     {
                         await Task.Run(async () =>
                         {
@@ -107,6 +97,7 @@ namespace FamilyPage
                     else
                     {
                         App.AlertSvc.ShowAlert("Good", "Creation is successful");
+
                         await Shell.Current.GoToAsync("FamilyView");
                     }
 
@@ -116,9 +107,8 @@ namespace FamilyPage
 
 
 
-        }
+        }        
 
-        private static bool IsFamilyIdEmpty() => _user.FamilyId == null;
         public string RepeatedFamilyPasswordCreation
         {
             get => _repeatedFamilyPasswordCreation;
@@ -143,8 +133,6 @@ namespace FamilyPage
                 }
             }
         }
-        public bool FamilyExist => !_isFamilyIdEmpty;
-        public bool FamilyIsEmpty => _isFamilyIdEmpty;
         public string CreatorEmailJoin
         {
             get => _creatorEmaiJoin;

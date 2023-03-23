@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FamilyPage.FamilyView"
-             Title="Family"
-             Shell.FlyoutBehavior="Locked"
-             >
-
+             x:Class="FamilyRegistrationPage.FamilyRegisrationPageView"
+             Title="FamilyRegisrationPageView">
     <ScrollView>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -13,7 +10,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackLayout IsVisible="{Binding FamilyIsEmpty}" Spacing="20" WidthRequest="400" HorizontalOptions="Start">
+            <StackLayout  Spacing="20" WidthRequest="400" HorizontalOptions="Start">
                 <Label Text="Create new family" FontSize="Medium"/>
                 <Entry IsPassword="False" Placeholder="Family Name" MaxLength="64" PlaceholderColor="Grey" BackgroundColor="White" Grid.Column="0"
                       Text="{Binding FamilyNameCreation}" />
@@ -24,18 +21,14 @@
                 <Button Text="Create New Family" Background="White" TextColor="Black" Command="{Binding CreateFamily}"/>
             </StackLayout>
 
-            <StackLayout IsVisible="{Binding FamilyIsEmpty}" Spacing="20" WidthRequest="400" HorizontalOptions="End" Grid.Column="1">
+            <StackLayout  Spacing="20" WidthRequest="400" HorizontalOptions="End" Grid.Column="1">
                 <Label Text="Unite with already exist family" FontSize="Medium"/>
-                <Entry IsPassword="False" Placeholder="Unique Id of Family" PlaceholderColor="Grey" BackgroundColor="White" 
+                <Entry IsPassword="False" Placeholder="Email of Family" PlaceholderColor="Grey" BackgroundColor="White" 
                        Text="{Binding CreatorEmailJoin}" />
-                <Entry IsPassword="True" Placeholder="Password of Family" PlaceholderColor="Grey" BackgroundColor="White" Text="{Binding FamilyPassword}" />
+                <Entry IsPassword="True" Placeholder="Password of Family" PlaceholderColor="Grey" BackgroundColor="White" Text="{Binding FamilyPasswordJoin}" />
                 <Button Text="Join to family" Background="White" TextColor="Black" Command="{Binding JoinToFamily}"/>
             </StackLayout>
 
-            <StackLayout IsVisible="{Binding FamilyExist}">
-
-                <Label Text="Семья существует"/>
-            </StackLayout>
         </Grid>
     </ScrollView>
 </ContentPage>

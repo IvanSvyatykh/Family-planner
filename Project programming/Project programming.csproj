@@ -62,7 +62,7 @@
 		<MauiXaml Update="Expenses\ExpensesView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="Family\FamilyView.xaml">
+		<MauiXaml Update="FamilyRegistrationPage\FamilyRegisrationPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="ForgottenPage\ForgottenPasswordPage.xaml">

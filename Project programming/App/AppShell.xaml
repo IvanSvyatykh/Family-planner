@@ -7,7 +7,7 @@
     xmlns:acountView="clr-namespace:Project_programming.Account"
     xmlns:statisticsView="clr-namespace:Statistics"
     xmlns:expensesView="clr-namespace:Expenses"
-    xmlns:familyView="clr-namespace:FamilyPage"
+    xmlns:familyRegistrationView="clr-namespace:FamilyRegistrationPage"
     Shell.FlyoutBehavior="Locked"
     FlyoutVerticalScrollMode="Auto"  
      >
@@ -64,7 +64,7 @@
     </FlyoutItem>
     <FlyoutItem   Title="Family" Icon="family.png">
         <Tab>
-            <ShellContent ContentTemplate="{DataTemplate  familyView:FamilyView}"/>
+            <ShellContent ContentTemplate="{DataTemplate  familyRegistrationView:FamilyRegisrationPageView}"/>
         </Tab>
     </FlyoutItem>
 
