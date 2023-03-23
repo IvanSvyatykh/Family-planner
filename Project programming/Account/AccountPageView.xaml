@@ -15,6 +15,30 @@
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+
+            <HorizontalStackLayout Grid.Row="0" Spacing="20">
+                <StackLayout>
+                    <Label Text="Email:"/>
+                </StackLayout>
+                <StackLayout>
+                    <Label Text="{Binding Email}" WidthRequest="150"/>
+                </StackLayout>
+                <StackLayout>
+                    <Label Text="Salary: "/>
+                </StackLayout>
+                <StackLayout>
+                    <Entry Text="{Binding Salary}"/>
+                </StackLayout>
+            </HorizontalStackLayout>
+
+            <VerticalStackLayout Grid.Row="1">
+                <HorizontalStackLayout>
+                    <Label Text="{Binding FamilyName}"/>
+                </HorizontalStackLayout>
+
+            </VerticalStackLayout>
+
+
         </Grid>
 
 

@@ -17,10 +17,42 @@ namespace AccountViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private User _user = DatabaseLogic.GetFullPersonInformation((App.Current as App).UserEmail);   
-        public string Name
+        private static User _user = DatabaseLogic.GetFullPersonInformation((App.Current as App).UserEmail);
+        private static Family _family = DatabaseLogic.GetFullFamilyInformation((ushort)_user.FamilyId);
+
+        public AccountPageViewModel()
         {
-            get => "Welcome, " + _user.Name;
+
+        }
+        public string Name => "Welcome, " + _user.Name;
+        public string Email => _user.Email;
+        public string FamilyName
+        {
+            get
+            {             
+                if(_family.Name == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return "Family Name : " + _family.Name;
+                }
+                
+
+            }
+        }
+        public string Salary
+        {
+            get => _user.Salary.ToString();
+            set
+            {
+                if (value != _user.Salary.ToString())
+                {
+                    _user.Salary = uint.Parse(value);
+                    OnPropertyChanged();
+                }
+            }
         }
 
         public void OnPropertyChanged([CallerMemberName] string prop = "")

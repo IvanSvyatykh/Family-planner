@@ -32,7 +32,7 @@ namespace Project_programming
                 User user = new User(null, Password, Email);
                 if (await DatabaseLogic.IsUserExistsAsync(user))
                 {
-                    if (await DatabaseLogic.IsPasswordCorrectAsync(user))
+                    if (await DatabaseLogic.IsUserPasswordCorrectAsync(user))
                     {
                         await Task.Delay(500);
                         (App.Current as App).UserEmail = user.Email;

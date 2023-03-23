@@ -23,7 +23,7 @@ namespace WorkWithDatabase
             }
         }
 
-        public static async Task<bool> IsPasswordCorrectAsync(User user)
+        public static async Task<bool> IsUserPasswordCorrectAsync(User user)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -48,7 +48,7 @@ namespace WorkWithDatabase
             }
         }
 
-        public static async Task<bool> ChangePasswordAsync(string email, string password)
+        public static async Task<bool> ChangeUserPasswordAsync(string email, string password)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -73,14 +73,6 @@ namespace WorkWithDatabase
 
         }
 
-        public static async Task<bool> IsExistFamilyAsync(string email)
-        {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                return await db.Families.Where(f => f.Email == email).AnyAsync();
-            }
-        }
-
         public static User GetFullPersonInformation(string email)
         {
             using (ApplicationContext db = new ApplicationContext())
@@ -100,25 +92,26 @@ namespace WorkWithDatabase
 
         }
 
-        public static async Task<Family> GetFullFamilyInformationAsync(ushort Id)
+        private static async Task<bool> AddFamilyIdToCreator(string email, uint FamilyId)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
                 try
                 {
-
-                    Family? family = null;
+                    User? user = null;
                     await Task.Run(() =>
                     {
-                        family = db.Families.Where(f => f.Id == Id).FirstOrDefault();
-
+                        user = db.Users.Where(u => u.Email == email).FirstOrDefault();
+                        user.FamilyId = FamilyId;
+                        db.SaveChanges();
                     });
-                    return family;
+                    return true;
                 }
                 catch
                 {
-                    return null;
+                    return false;
                 }
+
             }
         }
 
@@ -146,26 +139,33 @@ namespace WorkWithDatabase
 
             }
         }
-        private static async Task<bool> AddFamilyIdToCreator(string email, uint FamilyId)
+
+        public static async Task<bool> IsExistFamilyAsync(string email)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                return await db.Families.Where(f => f.Email == email).AnyAsync();
+            }
+        }
+
+        public static Family GetFullFamilyInformation(ushort Id)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
                 try
                 {
-                    User? user = null;
-                    await Task.Run(() =>
-                    {
-                        user = db.Users.Where(u => u.Email == email).FirstOrDefault();
-                        user.FamilyId = FamilyId;
-                        db.SaveChanges();
-                    });
-                    return true;
+
+                    Family? family = null;
+
+                    family = db.Families.Where(f => f.Id == Id).FirstOrDefault();
+
+
+                    return family;
                 }
                 catch
                 {
-                    return false;
+                    return null;
                 }
-
             }
         }
 
@@ -183,7 +183,6 @@ namespace WorkWithDatabase
 
         }
 
-        
         public static async Task<bool> CreateFamilyAsync(Family family, User user)
         {
             using (ApplicationContext db = new ApplicationContext())
