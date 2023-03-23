@@ -28,11 +28,17 @@ namespace FamilyRegistrationPage
 
         public FamilyRegistrationViewModel()
         {
-
-
             JoinToFamily = new Command(async () =>
             {
-                if (!await DatabaseLogic.IsExistFamilyAsync(CreatorEmailJoin))
+                if (_user.FamilyId != null)
+                {
+                    await Task.Run(async () =>
+                    {
+                        await Task.Delay(500);
+                        App.AlertSvc.ShowAlert("", "You are alredy member of group");
+                    });
+                }
+                else if (!await DatabaseLogic.IsExistFamilyAsync(CreatorEmailJoin))
                 {
                     await Task.Run(async () =>
                     {
@@ -57,8 +63,6 @@ namespace FamilyRegistrationPage
                         App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
                         await Shell.Current.GoToAsync("FamilyView");
                     }
-
-
                 }
                 else
                 {
@@ -69,7 +73,15 @@ namespace FamilyRegistrationPage
 
             CreateFamily = new Command(async () =>
             {
-                if (!ushort.TryParse(FamilyPasswordCreation, out _) || !ushort.TryParse(RepeatedFamilyPasswordCreation, out _))
+                if (_user.FamilyId != null)
+                {
+                    await Task.Run(async () =>
+                    {
+                        await Task.Delay(500);
+                        App.AlertSvc.ShowAlert("", "You are alredy member of group");
+                    });
+                }
+                else if (!ushort.TryParse(FamilyPasswordCreation, out _) || !ushort.TryParse(RepeatedFamilyPasswordCreation, out _))
                 {
                     await Task.Delay(500);
                     App.AlertSvc.ShowAlert("", "Password and repeted password should be a number");
@@ -96,18 +108,18 @@ namespace FamilyRegistrationPage
                     }
                     else
                     {
-                        App.AlertSvc.ShowAlert("Good", "Creation is successful");
+                        await Task.Run(async () =>
+                        {
+                            await Task.Delay(500);
+                            App.AlertSvc.ShowAlert("Good", "Creation is successful");
+                        });
 
-                        await Shell.Current.GoToAsync("FamilyView");
                     }
 
                 }
 
             });
-
-
-
-        }        
+        }
 
         public string RepeatedFamilyPasswordCreation
         {
