@@ -97,6 +97,7 @@ namespace Project_programming
                             await Task.Delay(500);
                             App.AlertSvc.ShowAlert("Great", "You Succesfully registered");
                         });
+                        (App.Current as App).UserEmail = Email;
                         await Shell.Current.GoToAsync("AccountPageView");
                     }
                     else

@@ -96,6 +96,7 @@ namespace Project_programming.ForgottenPage
                             await Task.Delay(500);
                             App.AlertSvc.ShowAlert("", "You changed your password");
                         });
+                        (App.Current as App).UserEmail = Email;
                         await Shell.Current.GoToAsync("AccountPageView");
                     }
                     else
