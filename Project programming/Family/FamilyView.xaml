@@ -13,7 +13,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackLayout IsVisible="{Binding IsFamilyEmpty}" Spacing="20" WidthRequest="400" HorizontalOptions="Start">
+            <StackLayout IsVisible="{Binding FamilyIsEmpty}" Spacing="20" WidthRequest="400" HorizontalOptions="Start">
                 <Label Text="Create new family" FontSize="Medium"/>
                 <Entry IsPassword="False" Placeholder="Family Name" MaxLength="64" PlaceholderColor="Grey" BackgroundColor="White" Grid.Column="0"
                       Text="{Binding FamilyNameCreation}" />
@@ -24,12 +24,17 @@
                 <Button Text="Create New Family" Background="White" TextColor="Black" Command="{Binding CreateFamily}"/>
             </StackLayout>
 
-            <StackLayout IsVisible="{Binding IsFamilyEmpty}" Spacing="20" WidthRequest="400" HorizontalOptions="End" Grid.Column="1">
+            <StackLayout IsVisible="{Binding FamilyIsEmpty}" Spacing="20" WidthRequest="400" HorizontalOptions="End" Grid.Column="1">
                 <Label Text="Unite with already exist family" FontSize="Medium"/>
                 <Entry IsPassword="False" Placeholder="Unique Id of Family" PlaceholderColor="Grey" BackgroundColor="White" 
                        Text="{Binding CreatorEmailJoin}" />
                 <Entry IsPassword="True" Placeholder="Password of Family" PlaceholderColor="Grey" BackgroundColor="White" Text="{Binding FamilyPassword}" />
                 <Button Text="Join to family" Background="White" TextColor="Black" Command="{Binding JoinToFamily}"/>
+            </StackLayout>
+
+            <StackLayout IsVisible="{Binding FamilyExist}">
+
+                <Label Text="Семья существует"/>
             </StackLayout>
         </Grid>
     </ScrollView>

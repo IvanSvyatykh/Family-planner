@@ -143,7 +143,8 @@ namespace FamilyPage
                 }
             }
         }
-        public bool IsFamilyEmpty => _isFamilyIdEmpty;
+        public bool FamilyExist => !_isFamilyIdEmpty;
+        public bool FamilyIsEmpty => _isFamilyIdEmpty;
         public string CreatorEmailJoin
         {
             get => _creatorEmaiJoin;
