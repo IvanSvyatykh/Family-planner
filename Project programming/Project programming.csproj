@@ -56,25 +56,25 @@
 	</ItemGroup>
 	
 	<ItemGroup>
-		<MauiXaml Update="Account\AccountPageView.xaml">
+		<MauiXaml Update="View\AccountPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="Expenses\ExpensesView.xaml">
+		<MauiXaml Update="View\ExpensesView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="FamilyRegistrationPage\FamilyRegisrationPageView.xaml">
+		<MauiXaml Update="View\FamilyRegisrationPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="ForgottenPage\ForgottenPasswordPage.xaml">
+		<MauiXaml Update="View\ForgottenPasswordPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="JoinFamily\JoinFamilyPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="RegistrationPage\RegistrationPage.xaml">
+		<MauiXaml Update="View\RegistrationPage.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="Statistics\StatisticsPageView.xaml">
+		<MauiXaml Update="View\StatisticsPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 	</ItemGroup>

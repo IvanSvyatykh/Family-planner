@@ -1,5 +1,4 @@
-﻿using PageLogic;
-using PasswordLogic;
+﻿using PasswordLogic;
 using Project_programming.WorkWithEmail;
 using System;
 using System.Collections.Generic;
@@ -70,7 +69,7 @@ namespace Project_programming.ForgottenPage
             Continue = new Command(async () =>
             {
                 countTry++;
-                if (ForgottenPagePasswordLogic.CheckCountTry(countTry) && !ForgottenPagePasswordLogic.CompareAnswerAndCode(Answer, _newPassword))
+                if ((countTry < 3) && !Answer.Equals(_newPassword))
                 {
                     await Task.Run(async () =>
                     {
@@ -110,7 +109,7 @@ namespace Project_programming.ForgottenPage
 
                 }
             },
-            () => IsEmailCorrect && !ForgottenPagePasswordLogic.CheckTheTime(_date) && Answer != null);
+            () => IsEmailCorrect && !(_date>DateTime.Now) && Answer != null);
         }
         private void SetTheTime() => _date = DateTime.Now.AddMinutes(2);
         private void GiveANumberToCode() => _newPassword = PasswordLog.RandomNumberGenerator();

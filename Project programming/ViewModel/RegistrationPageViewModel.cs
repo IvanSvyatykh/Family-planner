@@ -1,5 +1,4 @@
-﻿using PageLogic;
-using PasswordLogic;
+﻿using PasswordLogic;
 using Project_programming.WorkWithEmail;
 using System;
 using System.Collections.Generic;
@@ -99,7 +98,7 @@ namespace Project_programming
                         _wasPressed = false;
                     });
                 }
-                else if (ForgottenPagePasswordLogic.CheckCountTry(countTry) && !Answer.Equals(_confirmationCode))
+                else if ((countTry<3) && !Answer.Equals(_confirmationCode))
                 {
                     await Task.Run(async () =>
                     {
