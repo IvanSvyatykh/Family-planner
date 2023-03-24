@@ -13,9 +13,6 @@ namespace PasswordLogic
         {
             Random random = new Random();
             return random.Next(10000, 99999);
-        }
-
-        
-        
+        }             
     }
 }

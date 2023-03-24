@@ -12,7 +12,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>Project programming</ApplicationTitle>
+		<ApplicationTitle>Family Planner</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.project_programming</ApplicationId>
@@ -28,6 +28,7 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+		<AssemblyName>$(MSBuildProjectprogramming)</AssemblyName>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -59,19 +60,19 @@
 		<MauiXaml Update="View\AccountPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="View\ExpensesView.xaml">
+		<MauiXaml Update="View\ExpensesPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\FamilyRegisrationPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="View\ForgottenPasswordPage.xaml">
+		<MauiXaml Update="View\ForgottenPasswordPageView.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="JoinFamily\JoinFamilyPage.xaml">
 		  <Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
-		<MauiXaml Update="View\RegistrationPage.xaml">
+		<MauiXaml Update="View\RegistrationPageView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 		</MauiXaml>
 		<MauiXaml Update="View\StatisticsPageView.xaml">
@@ -83,6 +84,20 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Resources\Images\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Compile Update="View\ExpensesPageView.xaml.cs">
+	    <DependentUpon>ExpensesPageView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="View\ForgottenPasswordPageView.xaml.cs">
+	    <DependentUpon>ForgottenPasswordPageView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="View\MainPageView.xaml.cs">
+	    <DependentUpon>MainPageView.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="View\RegistrationPageView.xaml.cs">
+	    <DependentUpon>RegistrationPageView.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 </Project>
