@@ -29,6 +29,9 @@
                 <StackLayout>
                     <Entry Text="{Binding Salary}"/>
                 </StackLayout>
+                <StackLayout>
+                    <Button Text="Save Salary Changes" Command="{Binding SaveChangesInSalary}"/>
+                </StackLayout>
             </HorizontalStackLayout>
 
             <VerticalStackLayout Grid.Row="1">

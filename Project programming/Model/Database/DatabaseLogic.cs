@@ -22,6 +22,29 @@ namespace WorkWithDatabase
                 return await db.Users.Where(u => u.Email.Equals(user.Email)).AnyAsync();
             }
         }
+        public static async Task<bool> AddSalaryToUser(string UserEmail , uint salary)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                try
+                {
+                    User? user = null;
+                    await Task.Run(async () =>
+                    {
+                        user = await db.Users.Where(u => u.Email.Equals(UserEmail)).FirstOrDefaultAsync();
+                        user.Salary = salary;
+                        db.SaveChanges();
+
+                    });
+                    return true;
+                }
+                catch  
+                {
+                    return false;
+                }
+               
+            }
+        }
 
         public static async Task<bool> IsUserPasswordCorrectAsync(User user)
         {
@@ -53,16 +76,16 @@ namespace WorkWithDatabase
             }
         }
 
-        public static async Task<bool> ChangeUserPasswordAsync(string email, string password)
+        public static async Task<bool> ChangeUserPasswordAsync(string UserEmail, string password)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
                 try
                 {
                     User? user = null;
-                    await Task.Run(() =>
+                    await Task.Run(async () =>
                     {
-                        user = db.Users.Where(u => u.Email == email).FirstOrDefault();
+                        user = await db.Users.Where(u => u.Email.Equals(UserEmail)).FirstOrDefaultAsync();
                         user.Password = password;
                         db.SaveChanges();
                     });
