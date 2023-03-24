@@ -19,11 +19,7 @@ namespace AccountViewModel
 
         private static User? _user  = DatabaseLogic.GetFullPersonInformation((App.Current as App).UserEmail);
         private static Family _family  = DatabaseLogic.GetFullFamilyInformation((ushort)_user.FamilyId);
-
-        public AccountPageViewModel()
-        {
-
-        }
+       
         public string Name => "Welcome, " + _user.Name;
         public string Email => _user.Email;
         public string FamilyName

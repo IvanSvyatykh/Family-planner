@@ -8,6 +8,7 @@ using System.Diagnostics.Metrics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using Classes;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using WorkWithDatabase;
@@ -27,11 +28,11 @@ namespace Project_programming
         private string _email;
 
         private int countTry = 0;
+        private bool _wasPressed = false;
 
         private DateTime? _date = null;
         private int? _answer { get; set; } = null;
         private int? _confirmationCode { get; set; } = null;
-
         public ICommand SendEmail { get; set; }
         public ICommand ReigistarationButtonIsPressed { get; set; }
 
@@ -70,13 +71,41 @@ namespace Project_programming
 
             ReigistarationButtonIsPressed = new Command(async () =>
             {
-                countTry++;
-                if (ForgottenPagePasswordLogic.CheckCountTry(countTry) && !ForgottenPagePasswordLogic.CompareAnswerAndCode(Answer, _confirmationCode))
+                _wasPressed = true;
+                if (Answer == null)
+                {
+                    await Task.Run(async () =>
+                    {
+                        await Task.Delay(500);
+                        App.AlertSvc.ShowAlert("Attention", $"Code can not be null");
+                        _wasPressed = false;
+                    });
+                }
+                else if (!CheckEmailCorectness.IsValidEmail(Email))
+                {
+                    await Task.Run(async () =>
+                    {
+                        await Task.Delay(500);
+                        App.AlertSvc.ShowAlert("Attention", $"You wrote string that can not be a Email");
+                        _wasPressed = false;
+                    });
+                }
+                else if (await DatabaseLogic.IsUserExistsAsync(new User(Name, Password, Email)))
+                {
+                    await Task.Run(async () =>
+                    {
+                        await Task.Delay(500);
+                        App.AlertSvc.ShowAlert("Attention", $"Account with this Email alredy exist");
+                        _wasPressed = false;
+                    });
+                }
+                else if (ForgottenPagePasswordLogic.CheckCountTry(countTry) && !Answer.Equals(_confirmationCode))
                 {
                     await Task.Run(async () =>
                     {
                         await Task.Delay(500);
                         App.AlertSvc.ShowAlert("Attention", $"You have wrote wrong confirmation code, you have {3 - countTry} attempts left ", "Ok");
+                        _wasPressed = false;
                     });
                 }
                 else if (countTry == 3)
@@ -88,7 +117,7 @@ namespace Project_programming
                         App.AlertSvc.ShowAlert("Sorry", "You have used all attepts, you should wait for 3 minutes, then you will be able to get new code");
                     });
                 }
-                else if (ForgottenPagePasswordLogic.CompareAnswerAndCode(Answer, _confirmationCode))
+                else if (Answer.Equals(_confirmationCode))
                 {
                     if (await DatabaseLogic.AddUserAsync(Name, Password, Email))
                     {
@@ -98,6 +127,7 @@ namespace Project_programming
                             App.AlertSvc.ShowAlert("Great", "You Succesfully registered");
                         });
                         (App.Current as App).UserEmail = Email;
+                        _wasPressed = false;
                         await Shell.Current.GoToAsync("AccountPageView");
                     }
                     else
@@ -106,14 +136,14 @@ namespace Project_programming
                         {
                             await Task.Delay(500);
                             App.AlertSvc.ShowAlert("", "You alreade have account");
-
                         });
+                        _wasPressed = false;
                         await Shell.Current.GoToAsync("ForgottenPasswordPage");
                     }
                     countTry = 0;
                 }
             },
-           () => CheckEmailCorectness.IsValidEmail(Email) && Answer != null);
+           () => !_wasPressed);
 
         }
         private void SetTheTime() => _date = DateTime.Now.AddMinutes(2);
@@ -184,13 +214,10 @@ namespace Project_programming
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
             ((Command)ReigistarationButtonIsPressed).ChangeCanExecute();
         }
-
         public void EmailSender([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
             ((Command)SendEmail).ChangeCanExecute();
         }
-
-
     }
 }

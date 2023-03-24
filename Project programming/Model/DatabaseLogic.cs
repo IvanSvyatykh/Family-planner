@@ -19,7 +19,7 @@ namespace WorkWithDatabase
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                return await db.Users.Where(u => u.Email == user.Email).AnyAsync();
+                return await db.Users.Where(u => u.Email.Equals(user.Email)).AnyAsync();
             }
         }
 
@@ -97,7 +97,7 @@ namespace WorkWithDatabase
 
         }
 
-        private static async Task<bool> AddFamilyIdToCreator(string email, uint FamilyId)
+        private static async Task<bool> AddFamilyIdToCreator(string email, ushort FamilyId)
         {
             using (ApplicationContext db = new ApplicationContext())
             {

@@ -51,7 +51,7 @@
 
             <StackLayout Grid.Row="7"  WidthRequest="500" HorizontalOptions="Start">
                 <Entry IsPassword="False"  TextColor="Black" Placeholder="Name" PlaceholderColor="Grey"
-                      Text="{Binding Name}" MaxLength="5" WidthRequest="500"/>
+                      Text="{Binding Name}" MaxLength="64" WidthRequest="500"/>
                 <Button  BackgroundColor="Black" Text="Registrate" TextColor="WhiteSmoke" 
                    WidthRequest="500" HorizontalOptions="Start" HeightRequest="50" Command="{Binding ReigistarationButtonIsPressed}">
                 </Button>
