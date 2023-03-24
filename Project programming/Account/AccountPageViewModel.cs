@@ -17,8 +17,8 @@ namespace AccountViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private static User _user = DatabaseLogic.GetFullPersonInformation((App.Current as App).UserEmail);
-        private static Family _family = DatabaseLogic.GetFullFamilyInformation((ushort)_user.FamilyId);
+        private static User _user { get; set; } = DatabaseLogic.GetFullPersonInformation((App.Current as App).UserEmail);
+        private static Family _family { get; set; } = DatabaseLogic.GetFullFamilyInformation((ushort)_user.FamilyId);
 
         public AccountPageViewModel()
         {

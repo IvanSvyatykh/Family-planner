@@ -21,8 +21,8 @@ namespace Project_programming
         public ICommand SignIn { get; set; }
         public ICommand Registration { get; set; }
         public ICommand ForgetPassword { get; set; }
-        string _email { get; set; }
-        string _password { get; set; }
+        private string _email { get; set; }
+        private string _password { get; set; }
 
         private int _countTry = 0;
         public MainPageViewModel()
@@ -58,7 +58,7 @@ namespace Project_programming
                     await Task.Run(async () =>
                     {
                         await Task.Delay(500);
-                        App.AlertSvc.ShowAlert("", "We don't have account with this Email");
+                        App.AlertSvc.ShowAlert("", "We don't have account with this Email");                       
                         await Task.Delay(2000);
                     });
                     await Shell.Current.GoToAsync("RegistrationPage");
@@ -76,8 +76,6 @@ namespace Project_programming
             {
                 await Shell.Current.GoToAsync("RegistrationPage");
             });
-
-
         }
         public string Password
         {

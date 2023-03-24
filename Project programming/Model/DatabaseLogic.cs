@@ -27,10 +27,15 @@ namespace WorkWithDatabase
         {
             using (ApplicationContext db = new ApplicationContext())
             {
+                User userFromDb = null;
+                await Task.Run(() =>
+                {
+                    userFromDb = db.Users.Where(u => u.Email.Equals(user.Email)).FirstOrDefault();
 
-                User userFromDb = db.Users.Where(u => u.Email == user.Email).FirstOrDefault();
+                });
                 return userFromDb.Password.Equals(user.Password);
             }
+
         }
 
         public static async Task<bool> AddUserAsync(string name, string password, string email)
