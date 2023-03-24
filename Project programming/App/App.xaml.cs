@@ -1,4 +1,4 @@
-﻿using Account;
+﻿using AccountPage;
 using DialogService;
 using ForgottenPage;
 using RegistrationPage;

@@ -8,3 +8,4 @@
             BindingContext = new MainPageViewModel();
         }
     }
+}
