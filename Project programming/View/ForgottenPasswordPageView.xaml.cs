@@ -1,13 +1,13 @@
-using PasswordLogic;
-using Project_programming.WorkWithEmail;
-using Project_programming.ForgottenPage;
+using WorkWithEmail;
 
-namespace Project_programming;
-public partial class ForgottenPasswordPage : ContentPage
+namespace ForgottenPage
 {
-    public ForgottenPasswordPage()
+    public partial class ForgottenPasswordPage : ContentPage
     {
-        InitializeComponent();
-        BindingContext = new ForgottenPasswordPageViewModel();
+        public ForgottenPasswordPage()
+        {
+            InitializeComponent();
+            BindingContext = new ForgottenPasswordPageViewModel();
+        }
     }
 }

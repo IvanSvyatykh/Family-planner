@@ -1,11 +1,15 @@
 ﻿
-namespace Project_programming;
-
-public partial class AppShell : Shell
+namespace AppService
 {
-	public AppShell()
-	{
-        InitializeComponent();
+    public partial class AppShell : Shell
+    {
+        public AppShell()
+        {
+            InitializeComponent();
 
+        }
     }
 }
+
+
+

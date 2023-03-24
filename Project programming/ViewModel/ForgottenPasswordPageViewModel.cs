@@ -1,5 +1,5 @@
 ﻿using PasswordLogic;
-using Project_programming.WorkWithEmail;
+using WorkWithEmail;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using WorkWithDatabase;
 
-namespace Project_programming.ForgottenPage
+namespace ForgottenPage
 {
     public class ForgottenPasswordPageViewModel : INotifyPropertyChanged
     {

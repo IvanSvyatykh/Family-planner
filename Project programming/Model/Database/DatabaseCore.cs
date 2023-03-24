@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Classes;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Query.Expressions.Internal;
 
-namespace Project_programming.Model.Database
+namespace Database
 {
     public class ApplicationContext : DbContext
     {

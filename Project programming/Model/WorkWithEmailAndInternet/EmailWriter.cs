@@ -7,7 +7,7 @@ using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Project_programming.WorkWithEmail
+namespace WorkWithEmail
 {
     public static class EmailWriter
     {

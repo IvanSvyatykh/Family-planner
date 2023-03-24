@@ -1,13 +1,11 @@
 ﻿using Project_programming;
-using Project_programming.Model.Database;
-using System;
 using System.ComponentModel;
 using WorkWithDatabase;
 using Classes;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 
-namespace AccountViewModel
+namespace AccountPage
 {
     public class AccountPageViewModel : INotifyPropertyChanged
     {

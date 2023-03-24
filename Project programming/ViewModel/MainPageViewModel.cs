@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows.Input;
-using Project_programming.WorkWithEmail;
+using WorkWithEmail;
 using System.Runtime.CompilerServices;
 using WorkWithDatabase;
-using PasswordLogic;
-using AccountViewModel;
+using AppService;
 using Classes;
-using Project_programming.Model.Database;
+using Database;
 
-namespace Project_programming
+namespace MainPage
 {
     public class MainPageViewModel : INotifyPropertyChanged
     {

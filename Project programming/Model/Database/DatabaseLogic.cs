@@ -1,14 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using PasswordLogic;
+﻿using Microsoft.EntityFrameworkCore;
 using Classes;
-using Project_programming.Model.Database;
-using Microsoft.Maui.ApplicationModel.Communication;
-using System.Xml.Linq;
+using Database;
+
 
 
 namespace WorkWithDatabase

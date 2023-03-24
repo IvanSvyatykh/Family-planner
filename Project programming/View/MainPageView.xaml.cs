@@ -1,11 +1,10 @@
-﻿using System.Xml;
-using Project_programming.WorkWithEmail;
-namespace Project_programming;
-public partial class MainPage : ContentPage
-{ 
-    public MainPage()
+﻿namespace MainPage
+{
+    public partial class MainPageView : ContentPage
     {
-        InitializeComponent();
-        BindingContext = new MainPageViewModel();
+        public MainPageView()
+        {
+            InitializeComponent();
+            BindingContext = new MainPageViewModel();
+        }
     }
-}

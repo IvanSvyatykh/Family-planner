@@ -1,18 +1,13 @@
 ﻿using PasswordLogic;
-using Project_programming.WorkWithEmail;
-using System;
-using System.Collections.Generic;
+using WorkWithEmail;
 using System.ComponentModel;
-using System.Diagnostics.Metrics;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using Classes;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using WorkWithDatabase;
+using AppService;
 
-namespace Project_programming
+namespace RegistrationPage
 {
     public class RegistrationPageViewModel : INotifyPropertyChanged
     {

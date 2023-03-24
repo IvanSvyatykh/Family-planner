@@ -1,10 +1,12 @@
-namespace FamilyRegistrationPage;
-
-public partial class FamilyRegisrationPageView : ContentPage
+namespace FamilyRegistrationPage
 {
-	public FamilyRegisrationPageView()
-	{
-		InitializeComponent();
-		BindingContext =  new FamilyRegistrationViewModel();
-	}
+    public partial class FamilyRegisrationPageView : ContentPage
+    {
+        public FamilyRegisrationPageView()
+        {
+            InitializeComponent();
+            BindingContext = new FamilyRegistrationViewModel();
+        }
+    }
 }
+

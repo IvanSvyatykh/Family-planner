@@ -1,5 +1,4 @@
-using AccountViewModel;
-namespace Project_programming.Account
+namespace AccountPage
 {
     public  partial  class AccountPageView : ContentPage
     {
