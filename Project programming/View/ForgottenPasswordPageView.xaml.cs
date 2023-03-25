@@ -1,10 +1,8 @@
-using WorkWithEmail;
-
-namespace ForgottenPage
+namespace ForgottenPasswordPage
 {
-    public partial class ForgottenPasswordPage : ContentPage
+    public partial class ForgottenPasswordPageView : ContentPage
     {
-        public ForgottenPasswordPage()
+        public ForgottenPasswordPageView()
         {
             InitializeComponent();
             BindingContext = new ForgottenPasswordPageViewModel();

@@ -6,7 +6,7 @@ using System.Windows.Input;
 using WorkWithDatabase;
 using AppService;
 
-namespace ForgottenPage
+namespace ForgottenPasswordPage
 {
     public class ForgottenPasswordPageViewModel : INotifyPropertyChanged
     {

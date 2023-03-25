@@ -1,6 +1,6 @@
 ﻿using AccountPage;
 using DialogService;
-using ForgottenPage;
+using ForgottenPasswordPage;
 using RegistrationPage;
 
 namespace AppService
@@ -18,7 +18,7 @@ namespace AppService
             AlertSvc = Services.GetService<IAlertService>();
             Routing.RegisterRoute("RegistrationPage", typeof(RegistrationPageView));
             Routing.RegisterRoute("AccountPageView", typeof(AccountPageView));
-            Routing.RegisterRoute("ForgottenPasswordPage", typeof(ForgottenPasswordPage));
+            Routing.RegisterRoute("ForgottenPasswordPage", typeof(ForgottenPasswordPageView));
             MainPage = new AppShell();
         }
     }
