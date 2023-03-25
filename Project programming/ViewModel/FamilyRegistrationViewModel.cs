@@ -107,6 +107,7 @@ namespace FamilyRegistrationPage
                         {
                             await Task.Delay(500);
                             App.AlertSvc.ShowAlert("Good", "Creation is successful");
+                            await Shell.Current.GoToAsync("AccountPage");
                         });
 
                     }

@@ -12,9 +12,9 @@ namespace AccountPage
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private static User? _user = DatabaseLogic.GetFullPersonInformation((App.Current as App).UserEmail);
+        private static User _user = DatabaseLogic.GetFullPersonInformation((App.Current as App).UserEmail);
 
-        private Family _family = DatabaseLogic.GetFullFamilyInformation((ushort)_user.FamilyId);
+        private  Family _family = DatabaseLogic.GetFullFamilyInformation(_user.FamilyId);
 
         public ICommand SaveChangesInSalary { get; set; }
 

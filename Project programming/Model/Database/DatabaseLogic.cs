@@ -15,7 +15,7 @@ namespace WorkWithDatabase
                 return await db.Users.Where(u => u.Email.Equals(user.Email)).AnyAsync();
             }
         }
-        public static async Task<bool> AddSalaryToUser(string UserEmail , uint salary)
+        public static async Task<bool> AddSalaryToUser(string UserEmail, uint salary)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -31,11 +31,11 @@ namespace WorkWithDatabase
                     });
                     return true;
                 }
-                catch  
+                catch
                 {
                     return false;
                 }
-               
+
             }
         }
 
@@ -173,19 +173,16 @@ namespace WorkWithDatabase
         {
             using (ApplicationContext db = new ApplicationContext())
             {
+                Family? family = null;
                 try
-                {
-
-                    Family? family = null;
-
+                {                
                     family = db.Families.Where(f => f.Id == Id).FirstOrDefault();
-
-
                     return family;
                 }
                 catch
                 {
-                    return null;
+                    family = new Family(null, null, null);
+                    return family;
                 }
             }
         }

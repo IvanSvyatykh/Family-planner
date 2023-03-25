@@ -3,6 +3,7 @@ using DialogService;
 using ForgottenPasswordPage;
 using RegistrationPage;
 
+
 namespace AppService
 {
     public partial class App : Application
@@ -19,6 +20,7 @@ namespace AppService
             Routing.RegisterRoute("RegistrationPage", typeof(RegistrationPageView));
             Routing.RegisterRoute("AccountPageView", typeof(AccountPageView));
             Routing.RegisterRoute("ForgottenPasswordPage", typeof(ForgottenPasswordPageView));
+            Routing.RegisterRoute("AccountPage", typeof(AccountPageView));
             MainPage = new AppShell();
         }
     }
