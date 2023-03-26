@@ -22,7 +22,6 @@ namespace RegistrationPage
         private string _email;
 
         private int countTry = 0;
-        private bool _wasPressed = false;
 
         private DateTime? _date = null;
         private int? _answer { get; set; } = null;
@@ -35,79 +34,82 @@ namespace RegistrationPage
             SendEmail = new Command(async () =>
             {
                 GiveANumberToCode();
-                if (!CheckEmailCorectness.ConnectionAvailable())
+                if (!CheckEmailCorectness.IsValidEmail(Email))
                 {
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
-                        App.AlertSvc.ShowAlert("Ooops ", "There is no internet, check your connection, please", "ОК ");
+                        App.AlertSvc.ShowAlert("", $"This string {Email} can not be Email");
+                        Email = null;   
+                    });
+                }
+                else if(!Password.Equals(RepeatedPassword))
+                {
+                    await Task.Run(() =>
+                    {
+                        App.AlertSvc.ShowAlert("", $"Password are not equal");
+                    });
+                }
+                else if (!CheckEmailCorectness.ConnectionAvailable())
+                {
+                    await Task.Run(() =>
+                    {
+                        App.AlertSvc.ShowAlert("Ooops ", "There is no internet, check your connection, please");
                     });
 
                 }
-                else if (!EmailWriter.SendMessage(Email, "Confirmation Code", "Code :" + _confirmationCode.ToString()))
+                else if (EmailWriter.SendMessage(Email, "Confirmation Code", "Code :" + _confirmationCode.ToString()))
                 {
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
-                        App.AlertSvc.ShowAlert("O_o ", "You wrote non-existed Email", "ОК ");
+                        App.AlertSvc.ShowAlert("Confirmation Code", "We have sent you confirmation code on Email");
                     });
+
                 }
                 else
                 {
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
-                        App.AlertSvc.ShowAlert("Confirmation Code", "We have sent you confirmation code on Email", "Ok");
+                        App.AlertSvc.ShowAlert("O_o ", "You wrote non-existed Email");
                     });
                 }
-            },
-            () => CheckEmailCorectness.IsValidEmail(Email) && (Password == RepeatedPassword));
+            });
 
             ReigistarationButtonIsPressed = new Command(async () =>
             {
-                _wasPressed = true;
+
                 if (Answer == null)
                 {
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
                         App.AlertSvc.ShowAlert("Attention", $"Code can not be null");
-                        _wasPressed = false;
                     });
                 }
                 else if (!CheckEmailCorectness.IsValidEmail(Email))
                 {
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
                         App.AlertSvc.ShowAlert("Attention", $"You wrote string that can not be a Email");
-                        _wasPressed = false;
                     });
                 }
                 else if (await DatabaseLogic.IsUserExistsAsync(new User(Name, Password, Email)))
                 {
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
                         App.AlertSvc.ShowAlert("Attention", $"Account with this Email alredy exist");
-                        _wasPressed = false;
                     });
                 }
-                else if ((countTry<3) && !Answer.Equals(_confirmationCode))
+                else if ((countTry < 3) && !Answer.Equals(_confirmationCode))
                 {
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
-                        App.AlertSvc.ShowAlert("Attention", $"You have wrote wrong confirmation code, you have {3 - countTry} attempts left ", "Ok");
-                        _wasPressed = false;
+                        App.AlertSvc.ShowAlert("Attention", $"You have wrote wrong confirmation code, you have {3 - countTry} attempts left ");
                     });
                 }
                 else if (countTry == 3)
                 {
                     SetTheTime();
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
                         App.AlertSvc.ShowAlert("Sorry", "You have used all attepts, you should wait for 3 minutes, then you will be able to get new code");
                     });
                 }
@@ -115,29 +117,24 @@ namespace RegistrationPage
                 {
                     if (await DatabaseLogic.AddUserAsync(Name, Password, Email))
                     {
-                        await Task.Run(async () =>
+                        await Task.Run(() =>
                         {
-                            await Task.Delay(500);
                             App.AlertSvc.ShowAlert("Great", "You Succesfully registered");
                         });
                         (App.Current as App).UserEmail = Email;
-                        _wasPressed = false;
                         await Shell.Current.GoToAsync("AccountPageView");
                     }
                     else
                     {
-                        await Task.Run(async () =>
+                        await Task.Run(() =>
                         {
-                            await Task.Delay(500);
                             App.AlertSvc.ShowAlert("", "You alreade have account");
                         });
-                        _wasPressed = false;
                         await Shell.Current.GoToAsync("ForgottenPasswordPage");
                     }
                     countTry = 0;
                 }
-            },
-           () => !_wasPressed);
+            });
 
         }
         private void SetTheTime() => _date = DateTime.Now.AddMinutes(2);

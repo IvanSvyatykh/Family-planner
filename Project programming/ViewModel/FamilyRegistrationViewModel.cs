@@ -25,19 +25,17 @@ namespace FamilyRegistrationPage
         {
             JoinToFamily = new Command(async () =>
             {
-                if (_user.FamilyId != null)
+                if (_user.FamilyId != 0)
                 {
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
                         App.AlertSvc.ShowAlert("", "You are alredy member of group");
                     });
                 }
                 else if (!await DatabaseLogic.IsExistFamilyAsync(CreatorEmailJoin))
                 {
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
                         App.AlertSvc.ShowAlert("", "Family with this Id does not exist");
                         CreatorEmailJoin = null;
                     });
@@ -46,9 +44,8 @@ namespace FamilyRegistrationPage
                 {
                     if (!await DatabaseLogic.AddFamilyToUserAsync(CreatorEmailJoin, _user.Email))
                     {
-                        await Task.Run(async () =>
+                        await Task.Run(() =>
                         {
-                            await Task.Delay(500);
                             App.AlertSvc.ShowAlert("", "Sorry, but something goes wrong and we can not add Family Id");
                         });
 
@@ -56,29 +53,25 @@ namespace FamilyRegistrationPage
                     else
                     {
                         App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
-                        await Shell.Current.GoToAsync("FamilyView");
                     }
                 }
                 else
                 {
-                    await Task.Delay(500);
                     App.AlertSvc.ShowAlert("", "Password isn't correct");
                 }
             });
 
             CreateFamily = new Command(async () =>
             {
-                if (_user.FamilyId != null)
+                if (_user.FamilyId != 0)
                 {
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
                         App.AlertSvc.ShowAlert("", "You are alredy member of group");
                     });
                 }
                 else if (!ushort.TryParse(FamilyPasswordCreation, out _) || !ushort.TryParse(RepeatedFamilyPasswordCreation, out _))
                 {
-                    await Task.Delay(500);
                     App.AlertSvc.ShowAlert("", "Password and repeted password should be a number");
                     RepeatedFamilyPasswordCreation = null;
                     FamilyPasswordCreation = null;
@@ -91,7 +84,6 @@ namespace FamilyRegistrationPage
                 }
                 else if (FamilyNameCreation == null || FamilyNameCreation == "")
                 {
-                    await Task.Delay(500);
                     App.AlertSvc.ShowAlert("Sorry", "But Name of Family can not be null");
                 }
                 else
@@ -103,11 +95,9 @@ namespace FamilyRegistrationPage
                     }
                     else
                     {
-                        await Task.Run(async () =>
+                        await Task.Run(() =>
                         {
-                            await Task.Delay(500);
                             App.AlertSvc.ShowAlert("Good", "Creation is successful");
-                            await Shell.Current.GoToAsync("AccountPage");
                         });
 
                     }

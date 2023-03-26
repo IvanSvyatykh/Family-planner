@@ -28,34 +28,30 @@ namespace ForgottenPasswordPage
                 GiveANumberToCode();
                 if (!CheckEmailCorectness.ConnectionAvailable())
                 {
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
                         App.AlertSvc.ShowAlert("Ooops ", "There is no internet, check your connection, please", "ОК ");
                     });
 
                 }
                 else if (!EmailWriter.SendMessage(Email, "New Password", "Password : " + _newPassword.ToString()))
                 {
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
                         App.AlertSvc.ShowAlert("O_o ", "You wrote non-existed Email", "ОК ");
                     });
                 }
                 else if (await DatabaseLogic.IsUserExistsAsync(new Classes.User(null, null, Email)))
                 {
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
                         App.AlertSvc.ShowAlert("Confirmation Code", "We have sent you confirmation code on Email", "Ok");
                     });
                 }
                 else
                 {
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
                         App.AlertSvc.ShowAlert("Sorry", "But we cant't find account with this Email", "Ok");
                     });
                 }
@@ -67,18 +63,16 @@ namespace ForgottenPasswordPage
                 countTry++;
                 if ((countTry < 3) && !Answer.Equals(_newPassword))
                 {
-                    await Task.Run(async () =>
-                    {
-                        await Task.Delay(500);
-                        App.AlertSvc.ShowAlert("Attention", $"You have wrote wrong confirmation code, you have {3 - countTry} attempts left ", "Ok");
-                    });
+                    await Task.Run(() =>
+                     {
+                         App.AlertSvc.ShowAlert("Attention", $"You have wrote wrong confirmation code, you have {3 - countTry} attempts left ", "Ok");
+                     });
                 }
                 else if (countTry == 3)
                 {
                     SetTheTime();
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
                         App.AlertSvc.ShowAlert("Sorry", "You have used all attepts, you should wait for 3 minutes, then you will be able to get new code");
                     });
                 }
@@ -86,9 +80,8 @@ namespace ForgottenPasswordPage
                 {
                     if (await DatabaseLogic.ChangeUserPasswordAsync(Email, Answer.ToString()))
                     {
-                        await Task.Run(async () =>
+                        await Task.Run(() =>
                         {
-                            await Task.Delay(500);
                             App.AlertSvc.ShowAlert("", "You changed your password");
                         });
                         (App.Current as App).UserEmail = Email;
@@ -96,16 +89,15 @@ namespace ForgottenPasswordPage
                     }
                     else
                     {
-                        await Task.Run(async () =>
-                        {
-                            await Task.Delay(500);
-                            App.AlertSvc.ShowAlert("", "Something ggoes wrong");
-                        });
+                        await Task.Run(() =>
+                       {
+                           App.AlertSvc.ShowAlert("", "Something ggoes wrong");
+                       });
                     }
 
                 }
             },
-            () => IsEmailCorrect && !(_date>DateTime.Now) && Answer != null);
+            () => IsEmailCorrect && !(_date > DateTime.Now) && Answer != null);
         }
         private void SetTheTime() => _date = DateTime.Now.AddMinutes(2);
         private void GiveANumberToCode() => _newPassword = PasswordLog.RandomNumberGenerator();

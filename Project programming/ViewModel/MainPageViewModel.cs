@@ -24,7 +24,15 @@ namespace MainPage
             SignIn = new Command(async () =>
             {
                 User user = new User(null, Password, Email);
-                if (await DatabaseLogic.IsUserExistsAsync(user))
+                if (!CheckEmailCorectness.ConnectionAvailable())
+                {
+                    await Task.Run(() =>
+                    {
+                        App.AlertSvc.ShowAlert("Ooops ", "There is no internet, check your connection, please");
+                    });
+
+                }
+                else if (await DatabaseLogic.IsUserExistsAsync(user))
                 {
                     if (await DatabaseLogic.IsUserPasswordCorrectAsync(user))
                     {
@@ -52,7 +60,7 @@ namespace MainPage
                     await Task.Run(async () =>
                     {
                         await Task.Delay(500);
-                        App.AlertSvc.ShowAlert("", "We don't have account with this Email");                       
+                        App.AlertSvc.ShowAlert("", "We don't have account with this Email");
                         await Task.Delay(2000);
                     });
                     await Shell.Current.GoToAsync("RegistrationPage");
