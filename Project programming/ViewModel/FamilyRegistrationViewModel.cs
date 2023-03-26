@@ -53,6 +53,7 @@ namespace FamilyRegistrationPage
                     else
                     {
                         App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
+                        await Shell.Current.GoToAsync("AccountPageView");
                     }
                 }
                 else
@@ -98,6 +99,7 @@ namespace FamilyRegistrationPage
                         await Task.Run(() =>
                         {
                             App.AlertSvc.ShowAlert("Good", "Creation is successful");
+                            Shell.Current.GoToAsync("AccountPageView");
                         });
 
                     }

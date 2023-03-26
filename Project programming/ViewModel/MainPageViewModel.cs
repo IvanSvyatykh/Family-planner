@@ -28,9 +28,16 @@ namespace MainPage
                 {
                     await Task.Run(() =>
                     {
-                        App.AlertSvc.ShowAlert("Ooops ", "There is no internet, check your connection, please");
+                        App.AlertSvc.ShowAlert("", "There is no internet, check your connection, please");
                     });
 
+                }
+                else if (!CheckEmailCorectness.IsValidEmail(Email))
+                {
+                    await Task.Run(() =>
+                    {
+                        App.AlertSvc.ShowAlert("", "This string can not be Email");
+                    });
                 }
                 else if (await DatabaseLogic.IsUserExistsAsync(user))
                 {
@@ -45,7 +52,7 @@ namespace MainPage
                         await Task.Run(async () =>
                         {
                             await Task.Delay(500);
-                            App.AlertSvc.ShowAlert("Ooops", "You write wrong password");
+                            App.AlertSvc.ShowAlert("", "You write wrong password");
                             _countTry++;
                         });
                         if (_countTry == 3)
@@ -67,7 +74,7 @@ namespace MainPage
                 }
 
             },
-            () => CheckEmailCorectness.IsValidEmail(Email) && Password != null);
+            () => Password != null);
 
             ForgetPassword = new Command(async () =>
             {

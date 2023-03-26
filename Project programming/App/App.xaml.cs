@@ -20,7 +20,6 @@ namespace AppService
             Routing.RegisterRoute("RegistrationPage", typeof(RegistrationPageView));
             Routing.RegisterRoute("AccountPageView", typeof(AccountPageView));
             Routing.RegisterRoute("ForgottenPasswordPage", typeof(ForgottenPasswordPageView));
-            Routing.RegisterRoute("AccountPage", typeof(AccountPageView));
             MainPage = new AppShell();
         }
     }
