@@ -43,15 +43,15 @@ namespace MainPage
                 {
                     if (await DatabaseLogic.IsUserPasswordCorrectAsync(user))
                     {
-                        await Task.Delay(500);
-                        (App.Current as App).UserEmail = user.Email;
+
+                        (App.Current as App)._user = DatabaseLogic.GetFullPersonInformation(Email);
+                        await Task.Delay(1000);
                         await Shell.Current.GoToAsync("AccountPageView");
                     }
                     else
                     {
-                        await Task.Run(async () =>
+                        await Task.Run(() =>
                         {
-                            await Task.Delay(500);
                             App.AlertSvc.ShowAlert("", "You write wrong password");
                             _countTry++;
                         });
@@ -64,11 +64,9 @@ namespace MainPage
                 }
                 else
                 {
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
-                        await Task.Delay(500);
                         App.AlertSvc.ShowAlert("", "We don't have account with this Email");
-                        await Task.Delay(2000);
                     });
                     await Shell.Current.GoToAsync("RegistrationPage");
                 }

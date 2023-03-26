@@ -10,7 +10,6 @@ namespace FamilyRegistrationPage
     public class FamilyRegistrationViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        private static User _user { get; set; } = DatabaseLogic.GetFullPersonInformation((App.Current as App).UserEmail);
         private static Family _family { get; set; } = null;
         public ICommand CreateFamily { get; set; }
         public ICommand JoinToFamily { get; set; }
@@ -20,12 +19,11 @@ namespace FamilyRegistrationPage
         private string _familyPasswordCreation { get; set; } = null;
         private string _repeatedFamilyPasswordCreation { get; set; } = null;
 
-
         public FamilyRegistrationViewModel()
         {
             JoinToFamily = new Command(async () =>
             {
-                if (_user.FamilyId != 0)
+                if ((App.Current as App)._user.FamilyId != 0 || (App.Current as App)._user.FamilyId != null)
                 {
                     await Task.Run(() =>
                     {
@@ -42,7 +40,7 @@ namespace FamilyRegistrationPage
                 }
                 else if (await DatabaseLogic.IsFamilyPasswordCorrectAsync(CreatorEmailJoin, FamilyPasswordJoin))
                 {
-                    if (!await DatabaseLogic.AddFamilyToUserAsync(CreatorEmailJoin, _user.Email))
+                    if (!await DatabaseLogic.AddFamilyToUserAsync(CreatorEmailJoin, (App.Current as App)._user.Email))
                     {
                         await Task.Run(() =>
                         {
@@ -52,6 +50,7 @@ namespace FamilyRegistrationPage
                     }
                     else
                     {
+                        (App.Current as App)._user.FamilyId = await DatabaseLogic.GetFamilyId(_creatorEmaiJoin);
                         App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
                         await Shell.Current.GoToAsync("AccountPageView");
                     }
@@ -64,19 +63,13 @@ namespace FamilyRegistrationPage
 
             CreateFamily = new Command(async () =>
             {
-                if (_user.FamilyId != 0)
+                if ((App.Current as App)._user.FamilyId != 0 || (App.Current as App)._user.FamilyId != null)
                 {
                     await Task.Run(() =>
                     {
                         App.AlertSvc.ShowAlert("", "You are alredy member of group");
                     });
-                }
-                else if (!ushort.TryParse(FamilyPasswordCreation, out _) || !ushort.TryParse(RepeatedFamilyPasswordCreation, out _))
-                {
-                    App.AlertSvc.ShowAlert("", "Password and repeted password should be a number");
-                    RepeatedFamilyPasswordCreation = null;
-                    FamilyPasswordCreation = null;
-                }
+                }              
                 else if (ushort.Parse(FamilyPasswordCreation) != ushort.Parse(RepeatedFamilyPasswordCreation))
                 {
                     App.AlertSvc.ShowAlert("", "Password and repeted password are noy equal");
@@ -89,8 +82,8 @@ namespace FamilyRegistrationPage
                 }
                 else
                 {
-                    _family = new Family(FamilyNameCreation, FamilyPasswordCreation, _user.Email);
-                    if (!await DatabaseLogic.CreateFamilyAsync(_family, _user))
+                    _family = new Family(FamilyNameCreation, FamilyPasswordCreation, (App.Current as App)._user.Email);
+                    if (!await DatabaseLogic.CreateFamilyAsync(_family, (App.Current as App)._user))
                     {
                         App.AlertSvc.ShowAlert("Sorry", "But we can't create family, something goes wrong");
                     }
@@ -121,6 +114,7 @@ namespace FamilyRegistrationPage
                 }
             }
         }
+
         public string FamilyPasswordCreation
         {
             get => _familyPasswordCreation;
@@ -133,6 +127,7 @@ namespace FamilyRegistrationPage
                 }
             }
         }
+
         public string CreatorEmailJoin
         {
             get => _creatorEmaiJoin;
@@ -145,6 +140,7 @@ namespace FamilyRegistrationPage
                 }
             }
         }
+
         public string FamilyNameCreation
         {
             get => _familyNameCreation;
@@ -157,6 +153,7 @@ namespace FamilyRegistrationPage
                 }
             }
         }
+
         public string FamilyPasswordJoin
         {
             get => _familyPasswordJoin;
@@ -169,12 +166,14 @@ namespace FamilyRegistrationPage
                 }
             }
         }
+
         public void FamilyCreation([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
             ((Command)CreateFamily).ChangeCanExecute();
 
         }
+
         public void JoiningToFamily([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

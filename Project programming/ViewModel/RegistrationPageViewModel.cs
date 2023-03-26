@@ -129,7 +129,8 @@ namespace RegistrationPage
                         {
                             App.AlertSvc.ShowAlert("Great", "You Succesfully registered");
                         });
-                        (App.Current as App).UserEmail = Email;
+                        (App.Current as App)._user = DatabaseLogic.GetFullPersonInformation(Email);
+                        await Task.Delay(1000);
                         await Shell.Current.GoToAsync("AccountPageView");
                     }
                     else

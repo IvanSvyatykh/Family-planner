@@ -1,5 +1,4 @@
-﻿using Project_programming;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using WorkWithDatabase;
 using Classes;
 using System.Runtime.CompilerServices;
@@ -12,9 +11,8 @@ namespace AccountPage
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private static User _user = DatabaseLogic.GetFullPersonInformation((App.Current as App).UserEmail);
 
-        private  Family _family = DatabaseLogic.GetFullFamilyInformation(_user.FamilyId);
+        // private  Family _family = DatabaseLogic.GetFullFamilyInformation(_user.FamilyId);
 
         public ICommand SaveChangesInSalary { get; set; }
 
@@ -35,32 +33,32 @@ namespace AccountPage
 
         }
 
-        public string Name => "Welcome, " + _user.Name;
-        public string Email => _user.Email;
-        public string FamilyName
-        {
-            get
-            {
-                if (_family == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return "Family Name : " + _family.Name;
-                }
+        public string Name => "Welcome, " + (App.Current as App)._user.Name;
+        public string Email => (App.Current as App)._user.Email;
+        //public string FamilyName
+        //{
+        //    get
+        //    {
+        //        if (_family == null)
+        //        {
+        //            return null;
+        //        }
+        //        else
+        //        {
+        //            return "Family Name : " + _family.Name;
+        //        }
 
 
-            }
-        }
+        //    }
+        //}
         public string Salary
         {
-            get => _user.Salary.ToString();
+            get => (App.Current as App)._user.Salary.ToString();
             set
             {
-                if (value != _user.Salary.ToString() && uint.TryParse(value, out _))
+                if (value != (App.Current as App)._user.Salary.ToString() && uint.TryParse(value, out _))
                 {
-                    _user.Salary = uint.Parse(value);
+                    (App.Current as App)._user.Salary = uint.Parse(value);
                     OnPropertyChanged();
                 }
             }

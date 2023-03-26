@@ -1,4 +1,5 @@
 ﻿using AccountPage;
+using Classes;
 using DialogService;
 using ForgottenPasswordPage;
 using RegistrationPage;
@@ -10,8 +11,8 @@ namespace AppService
     {
         public static IServiceProvider Services;
         public static IAlertService AlertSvc;
-        public string UserEmail;
-        public ushort UserId;
+        public User _user;
+        public Family _family;
         public App(IServiceProvider provider)
         {
             InitializeComponent();

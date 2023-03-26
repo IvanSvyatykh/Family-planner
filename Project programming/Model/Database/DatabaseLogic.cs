@@ -176,7 +176,7 @@ namespace WorkWithDatabase
             {
                 Family? family = null;
                 try
-                {                
+                {
                     family = db.Families.Where(f => f.Id == Id).FirstOrDefault();
                     return family;
                 }
@@ -215,6 +215,20 @@ namespace WorkWithDatabase
                     return true && await AddFamilyIdToCreator(family.Email, family.Id);
                 }
                 return false;
+            }
+        }
+
+        public static async Task<ushort?> GetFamilyId(string email)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                ushort? Id = null;
+                await Task.Run(() =>
+                {
+                    Family family = db.Families.Where(f => f.Email.Equals(email)).FirstOrDefault();
+                    Id = family.Id;
+                });
+                return Id;
             }
         }
 

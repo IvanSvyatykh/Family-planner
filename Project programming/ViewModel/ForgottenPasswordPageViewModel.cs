@@ -84,7 +84,8 @@ namespace ForgottenPasswordPage
                         {
                             App.AlertSvc.ShowAlert("", "You changed your password");
                         });
-                        (App.Current as App).UserEmail = Email;
+                        (App.Current as App)._user = DatabaseLogic.GetFullPersonInformation(Email);
+                        await Task.Delay(2000); 
                         await Shell.Current.GoToAsync("AccountPageView");
                     }
                     else
