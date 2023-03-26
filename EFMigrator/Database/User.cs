@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Classes
 {
@@ -11,10 +12,10 @@ namespace Classes
     {
 
         public ushort Id { get; set; }
-        public string Name { get; set; }
-        public string Password { get; set; }
+        public string Name { get; set; } = null!;
+        public string Password { get; set; } = null!;
         public uint Salary { get; set; }
-        public string Email { get; set; }
+        public string Email { get; set; } = null!;
         public ushort FamilyId { get; set; } = 0;
     }
 

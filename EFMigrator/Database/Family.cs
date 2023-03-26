@@ -10,9 +10,9 @@ namespace Classes
     public class Family
     {
         public ushort Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
         public uint? Balance { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
+        public string Password { get; set; } = null!;
+        public string Email { get; set; } = null!;
     }
 }

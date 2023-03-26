@@ -15,6 +15,7 @@ namespace WorkWithDatabase
                 return await db.Users.Where(u => u.Email.Equals(user.Email)).AnyAsync();
             }
         }
+
         public static async Task<bool> AddSalaryToUser(string UserEmail, uint salary)
         {
             using (ApplicationContext db = new ApplicationContext())
