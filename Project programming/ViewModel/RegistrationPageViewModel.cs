@@ -34,15 +34,23 @@ namespace RegistrationPage
             SendEmail = new Command(async () =>
             {
                 GiveANumberToCode();
-                if (!CheckEmailCorectness.IsValidEmail(Email))
+                if (!CheckEmailCorectness.ConnectionAvailable())
+                {
+                    await Task.Run(() =>
+                    {
+                        App.AlertSvc.ShowAlert("Ooops ", "There is no internet, check your connection, please", "ОК ");
+                    });
+
+                }
+                else if (!CheckEmailCorectness.IsValidEmail(Email))
                 {
                     await Task.Run(() =>
                     {
                         App.AlertSvc.ShowAlert("", $"This string {Email} can not be Email");
-                        Email = null;   
+                        Email = null;
                     });
                 }
-                else if(!Password.Equals(RepeatedPassword))
+                else if (!Password.Equals(RepeatedPassword))
                 {
                     await Task.Run(() =>
                     {
