@@ -14,7 +14,6 @@ namespace Classes
         public string Password { get; set; } = null!;
         public uint Salary { get; set; }
         public string Email { get; set; } = null!;
-        public string Role { get; set; }
         public ushort? FamilyId { get; set; } = 0;
         public User(string Name, string Password, string email)
         {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Classes;
 using Database;
+using Members;
 
 
 
@@ -16,7 +17,7 @@ namespace WorkWithDatabase
             }
         }
 
-        public static async Task<bool> AddSalaryToUser(string UserEmail, uint salary)
+        public static async Task<bool> AddSalaryToUserAsync(string UserEmail, uint salary)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -45,9 +46,9 @@ namespace WorkWithDatabase
             using (ApplicationContext db = new ApplicationContext())
             {
                 User userFromDb = null;
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
-                    userFromDb = db.Users.Where(u => u.Email.Equals(user.Email)).FirstOrDefault();
+                    userFromDb = await db.Users.Where(u => u.Email.Equals(user.Email)).FirstOrDefaultAsync();
 
                 });
                 return userFromDb.Password.Equals(user.Password);
@@ -95,7 +96,7 @@ namespace WorkWithDatabase
 
         }
 
-        public static User GetFullPersonInformation(string email)
+        public static async Task<User> GetFullPersonInformation(string email)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
@@ -103,7 +104,10 @@ namespace WorkWithDatabase
                 try
                 {
                     User? user = null;
-                    user = db.Users.Where(u => u.Email == email).FirstOrDefault();
+                    await Task.Run(async () =>
+                     {
+                         user = await db.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
+                     });
                     return user;
                 }
                 catch
@@ -114,16 +118,16 @@ namespace WorkWithDatabase
 
         }
 
-        private static async Task<bool> AddFamilyIdToCreator(string email, ushort FamilyId)
+        private static async Task<bool> AddFamilyIdToCreatorAsync(string email, ushort FamilyId)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
                 try
                 {
                     User? user = null;
-                    await Task.Run(() =>
+                    await Task.Run(async () =>
                     {
-                        user = db.Users.Where(u => u.Email == email).FirstOrDefault();
+                        user = await db.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
                         user.FamilyId = FamilyId;
                         db.SaveChanges();
                     });
@@ -144,10 +148,10 @@ namespace WorkWithDatabase
                 try
                 {
                     User? user = null;
-                    await Task.Run(() =>
+                    await Task.Run(async () =>
                     {
-                        Family family = db.Families.Where(f => f.Email == CreatorEmail).FirstOrDefault();
-                        user = db.Users.Where(u => u.Email == Useremail).FirstOrDefault();
+                        Family family = await db.Families.Where(f => f.Email == CreatorEmail).FirstOrDefaultAsync();
+                        user = await db.Users.Where(u => u.Email == Useremail).FirstOrDefaultAsync();
                         user.FamilyId = family.Id;
                         db.SaveChanges();
                     });
@@ -195,7 +199,7 @@ namespace WorkWithDatabase
                 Family? family = null;
                 await Task.Run(async () =>
                 {
-                    family = db.Families.Where(f => f.Email == email).FirstOrDefault();
+                    family = await db.Families.Where(f => f.Email == email).FirstOrDefaultAsync();
                 });
                 return family.Password.Equals(password);
             }
@@ -210,29 +214,26 @@ namespace WorkWithDatabase
                 {
                     db.Families.Add(family);
                     db.SaveChanges();
-                    family = db.Families.Where(f => f.Email == family.Email).FirstOrDefault();
+                    family = await db.Families.Where(f => f.Email == family.Email).FirstOrDefaultAsync();
 
-                    return true && await AddFamilyIdToCreator(family.Email, family.Id);
+                    return true && await AddFamilyIdToCreatorAsync(family.Email, family.Id);
                 }
                 return false;
             }
         }
 
-        public static async Task<ushort?> GetFamilyId(string email)
+        public static async Task<ushort?> GetFamilyIdAync(string email)
         {
             using (ApplicationContext db = new ApplicationContext())
             {
                 ushort? Id = null;
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
-                    Family family = db.Families.Where(f => f.Email.Equals(email)).FirstOrDefault();
+                    Family family = await db.Families.Where(f => f.Email.Equals(email)).FirstOrDefaultAsync();
                     Id = family.Id;
                 });
                 return Id;
             }
         }
-
-
     }
 }
-

@@ -39,7 +39,7 @@
                     <Label Text="{Binding FamilyName}"/>
                 </HorizontalStackLayout>
 
-                <CollectionView SelectionMode="Single" ItemsSource="{Binding FamilyMembers}" SelectedItem="{Binding SelectedMember}">
+                <CollectionView SelectionMode="Single" ItemsSource="{Binding FamilyMembers}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <HorizontalStackLayout Spacing="15">

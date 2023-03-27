@@ -49,7 +49,7 @@ namespace FamilyRegistrationPage
                     }
                     else
                     {
-                        (App.Current as App)._user.FamilyId = await DatabaseLogic.GetFamilyId(_creatorEmaiJoin);
+                        (App.Current as App)._user.FamilyId = await DatabaseLogic.GetFamilyIdAync(_creatorEmaiJoin);
                         (App.Current as App)._family = new Family(FamilyNameCreation, FamilyPasswordCreation, (App.Current as App)._user.Email);
                         App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
                     }
