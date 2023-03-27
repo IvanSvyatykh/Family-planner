@@ -10,7 +10,6 @@ namespace FamilyRegistrationPage
     public class FamilyRegistrationViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        private static Family _family { get; set; } = null;
         public ICommand CreateFamily { get; set; }
         public ICommand JoinToFamily { get; set; }
         private string _familyNameCreation { get; set; } = null;
@@ -23,7 +22,7 @@ namespace FamilyRegistrationPage
         {
             JoinToFamily = new Command(async () =>
             {
-                if ((App.Current as App)._user.FamilyId != 0 || (App.Current as App)._user.FamilyId != null)
+                if ((App.Current as App)._user.FamilyId != 0 && (App.Current as App)._user.FamilyId != null)
                 {
                     await Task.Run(() =>
                     {
@@ -51,8 +50,8 @@ namespace FamilyRegistrationPage
                     else
                     {
                         (App.Current as App)._user.FamilyId = await DatabaseLogic.GetFamilyId(_creatorEmaiJoin);
+                        (App.Current as App)._family = new Family(FamilyNameCreation, FamilyPasswordCreation, (App.Current as App)._user.Email);
                         App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
-                        await Shell.Current.GoToAsync("AccountPageView");
                     }
                 }
                 else
@@ -63,16 +62,16 @@ namespace FamilyRegistrationPage
 
             CreateFamily = new Command(async () =>
             {
-                if ((App.Current as App)._user.FamilyId != 0 || (App.Current as App)._user.FamilyId != null)
+                if ((App.Current as App)._user.FamilyId != 0 && (App.Current as App)._user.FamilyId != null)
                 {
                     await Task.Run(() =>
                     {
                         App.AlertSvc.ShowAlert("", "You are alredy member of group");
                     });
-                }              
-                else if (ushort.Parse(FamilyPasswordCreation) != ushort.Parse(RepeatedFamilyPasswordCreation))
+                }
+                else if(!FamilyPasswordCreation.Equals(RepeatedFamilyPasswordCreation))
                 {
-                    App.AlertSvc.ShowAlert("", "Password and repeted password are noy equal");
+                    App.AlertSvc.ShowAlert("", "Password and repeted password are not equal");
                     RepeatedFamilyPasswordCreation = null;
                     FamilyPasswordCreation = null;
                 }
@@ -82,8 +81,8 @@ namespace FamilyRegistrationPage
                 }
                 else
                 {
-                    _family = new Family(FamilyNameCreation, FamilyPasswordCreation, (App.Current as App)._user.Email);
-                    if (!await DatabaseLogic.CreateFamilyAsync(_family, (App.Current as App)._user))
+                    (App.Current as App)._family = new Family(FamilyNameCreation, FamilyPasswordCreation, (App.Current as App)._user.Email);
+                    if (!await DatabaseLogic.CreateFamilyAsync((App.Current as App)._family, (App.Current as App)._user))
                     {
                         App.AlertSvc.ShowAlert("Sorry", "But we can't create family, something goes wrong");
                     }
@@ -92,13 +91,10 @@ namespace FamilyRegistrationPage
                         await Task.Run(() =>
                         {
                             App.AlertSvc.ShowAlert("Good", "Creation is successful");
-                            Shell.Current.GoToAsync("AccountPageView");
                         });
-
                     }
 
                 }
-
             });
         }
 

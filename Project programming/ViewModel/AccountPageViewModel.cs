@@ -10,10 +10,6 @@ namespace AccountPage
     public class AccountPageViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-
-
-        // private  Family _family = DatabaseLogic.GetFullFamilyInformation(_user.FamilyId);
-
         public ICommand SaveChangesInSalary { get; set; }
 
         public AccountPageViewModel()
@@ -35,22 +31,22 @@ namespace AccountPage
 
         public string Name => "Welcome, " + (App.Current as App)._user.Name;
         public string Email => (App.Current as App)._user.Email;
-        //public string FamilyName
-        //{
-        //    get
-        //    {
-        //        if (_family == null)
-        //        {
-        //            return null;
-        //        }
-        //        else
-        //        {
-        //            return "Family Name : " + _family.Name;
-        //        }
+        public string FamilyName
+        {
+            get
+            {
+                if ((App.Current as App)._family == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return "Family Name : " + (App.Current as App)._family.Name;
+                }
 
 
-        //    }
-        //}
+            }
+        }
         public string Salary
         {
             get => (App.Current as App)._user.Salary.ToString();

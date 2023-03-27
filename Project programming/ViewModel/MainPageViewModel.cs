@@ -45,6 +45,7 @@ namespace MainPage
                     {
 
                         (App.Current as App)._user = DatabaseLogic.GetFullPersonInformation(Email);
+                        (App.Current as App)._family = DatabaseLogic.GetFullFamilyInformation((ushort)(App.Current as App)._user.FamilyId);
                         await Task.Delay(1000);
                         await Shell.Current.GoToAsync("AccountPageView");
                     }
