@@ -13,6 +13,7 @@
         <Grid RowSpacing="20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -33,12 +34,22 @@
                     <Button Text="Save Salary Changes" Command="{Binding SaveChangesInSalary}"/>
                 </StackLayout>
             </HorizontalStackLayout>
-
             <VerticalStackLayout Grid.Row="1">
                 <HorizontalStackLayout>
                     <Label Text="{Binding FamilyName}"/>
                 </HorizontalStackLayout>
 
+                <CollectionView SelectionMode="Single" ItemsSource="{Binding FamilyMembers}" SelectedItem="{Binding SelectedMember}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <HorizontalStackLayout Spacing="15">
+                                <Label Text="{Binding MemberName}"/>
+                                <Label Text="{Binding MemberEmail}"/>
+                                <Label Text="{Binding MemberSalary}"/>
+                            </HorizontalStackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
             </VerticalStackLayout>
 
 

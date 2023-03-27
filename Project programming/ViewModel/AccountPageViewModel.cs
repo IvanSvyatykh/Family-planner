@@ -4,6 +4,8 @@ using Classes;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using AppService;
+using Members;
+using System.Collections.ObjectModel;
 
 namespace AccountPage
 {
@@ -11,9 +13,11 @@ namespace AccountPage
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand SaveChangesInSalary { get; set; }
-
+        public ObservableCollection<FamilyMember> FamilyMembers { get; set; }
+        private FamilyMember? _selectedPerson;
         public AccountPageViewModel()
         {
+            
             SaveChangesInSalary = new Command(async () =>
             {
                 if (uint.TryParse(Salary, out _))
@@ -28,7 +32,18 @@ namespace AccountPage
 
 
         }
-
+        public FamilyMember? SelectedMember
+        {
+            get => _selectedPerson;
+            set
+            {
+                if (_selectedPerson != value)
+                {
+                    _selectedPerson = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         public string Name => "Welcome, " + (App.Current as App)._user.Name;
         public string Email => (App.Current as App)._user.Email;
         public string FamilyName
