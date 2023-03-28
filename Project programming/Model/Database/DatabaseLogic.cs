@@ -23,7 +23,7 @@ namespace WorkWithDatabase
             {
                 try
                 {
-                    User? user = null;
+                    User user = null;
                     await Task.Run(async () =>
                     {
                         user = await db.Users.Where(u => u.Email.Equals(UserEmail)).FirstOrDefaultAsync();
@@ -63,9 +63,13 @@ namespace WorkWithDatabase
                 User user = new User(name, password, email);
                 if (!await IsUserExistsAsync(user))
                 {
-                    db.Users.Add(user);
-                    db.SaveChanges();
-                    return true;
+                    await Task.Run(async () =>
+                    {
+                        await db.Users.AddAsync(user);
+                        await db.SaveChangesAsync();
+                        return true;
+                    });
+
                 }
                 return false;
             }
@@ -77,12 +81,12 @@ namespace WorkWithDatabase
             {
                 try
                 {
-                    User? user = null;
+                    User user = null;
                     await Task.Run(async () =>
                     {
                         user = await db.Users.Where(u => u.Email.Equals(UserEmail)).FirstOrDefaultAsync();
                         user.Password = password;
-                        db.SaveChanges();
+                        await db.SaveChangesAsync();
                     });
 
                     return true;
@@ -103,11 +107,11 @@ namespace WorkWithDatabase
 
                 try
                 {
-                    User? user = null;
+                    User user = null;
                     await Task.Run(async () =>
-                     {
-                         user = await db.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
-                     });
+                    {
+                        user = await db.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
+                    });
                     return user;
                 }
                 catch
@@ -124,12 +128,12 @@ namespace WorkWithDatabase
             {
                 try
                 {
-                    User? user = null;
+                    User user = null;
                     await Task.Run(async () =>
                     {
                         user = await db.Users.Where(u => u.Email == email).FirstOrDefaultAsync();
                         user.FamilyId = FamilyId;
-                        db.SaveChanges();
+                        await db.SaveChangesAsync();
                     });
                     return true;
                 }
@@ -147,13 +151,13 @@ namespace WorkWithDatabase
             {
                 try
                 {
-                    User? user = null;
+                    User user = null;
                     await Task.Run(async () =>
                     {
                         Family family = await db.Families.Where(f => f.Email == CreatorEmail).FirstOrDefaultAsync();
                         user = await db.Users.Where(u => u.Email == Useremail).FirstOrDefaultAsync();
                         user.FamilyId = family.Id;
-                        db.SaveChanges();
+                        await db.SaveChangesAsync();
                     });
 
                     return true;
@@ -178,7 +182,7 @@ namespace WorkWithDatabase
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                Family? family = null;
+                Family family = null;
                 try
                 {
                     family = db.Families.Where(f => f.Id == Id).FirstOrDefault();
@@ -196,7 +200,7 @@ namespace WorkWithDatabase
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                Family? family = null;
+                Family family = null;
                 await Task.Run(async () =>
                 {
                     family = await db.Families.Where(f => f.Email == email).FirstOrDefaultAsync();
@@ -212,8 +216,8 @@ namespace WorkWithDatabase
             {
                 if (!await IsExistFamilyAsync(family.Email))
                 {
-                    db.Families.Add(family);
-                    db.SaveChanges();
+                    await db.Families.AddAsync(family);
+                    await db.SaveChangesAsync();
                     family = await db.Families.Where(f => f.Email == family.Email).FirstOrDefaultAsync();
 
                     return true && await AddFamilyIdToCreatorAsync(family.Email, family.Id);

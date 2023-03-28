@@ -13,10 +13,9 @@ namespace AccountPage
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand SaveChangesInSalary { get; set; }
-        
+
         public AccountPageViewModel()
         {
-           
             SaveChangesInSalary = new Command(async () =>
             {
                 if (uint.TryParse(Salary, out _))
@@ -28,7 +27,7 @@ namespace AccountPage
                     });
                 }
             });
-        }     
+        }
         public string Name => "Welcome, " + (App.Current as App)._user.Name;
         public string Email => (App.Current as App)._user.Email;
         public string FamilyName
