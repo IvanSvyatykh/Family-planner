@@ -29,8 +29,11 @@ namespace AccountPage
             {
                 if (uint.TryParse(Salary, out _))
                 {
+
+
                     await DatabaseLogic.AddSalaryToUserAsync(Email, uint.Parse(Salary));
-                    await Task.Run(() =>
+
+                    await Task.Run(async () =>
                     {
                         App.AlertSvc.ShowAlert("", "Salary succefully changed");
                     });
