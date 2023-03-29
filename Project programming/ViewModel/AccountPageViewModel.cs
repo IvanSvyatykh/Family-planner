@@ -18,12 +18,12 @@ namespace AccountPage
         private List<User> users = DatabaseLogic.GetAllAccountWithFamilyId((App.Current as App)._user.FamilyId);
         public AccountPageViewModel()
         {
-            foreach(var user in users)
+            foreach (var user in users)
             {
                 FamilyMember familyMember = new FamilyMember(user.Name, user.Email, user.Salary.ToString());
                 FamilyMembers.Add(familyMember);
-            }  
-            
+            }
+
 
             SaveChangesInSalary = new Command(async () =>
             {
@@ -32,9 +32,19 @@ namespace AccountPage
                     await DatabaseLogic.AddSalaryToUserAsync(Email, uint.Parse(Salary));
                     await Task.Run(() =>
                     {
-                        App.AlertSvc.ShowAlert("", "Salary succefully changed", "");
+                        App.AlertSvc.ShowAlert("", "Salary succefully changed");
+                    });
+
+                }
+                else
+                {
+                    Salary = (App.Current as App)._user.Salary.ToString();
+                    await Task.Run(() =>
+                    {
+                        App.AlertSvc.ShowAlert("", "Salary must be integer");
                     });
                 }
+
             });
         }
         public string Name => "Welcome, " + (App.Current as App)._user.Name;
@@ -60,11 +70,25 @@ namespace AccountPage
             get => (App.Current as App)._user.Salary.ToString();
             set
             {
-                if (value != (App.Current as App)._user.Salary.ToString() && uint.TryParse(value, out _))
+                if (!(App.Current as App)._user.Salary.Equals(value))
                 {
-                    (App.Current as App)._user.Salary = uint.Parse(value);
-                    OnPropertyChanged();
+                    if (uint.TryParse(value, out uint result))
+                    {
+                        (App.Current as App)._user.Salary = result;
+                        OnPropertyChanged();
+                    }
+                    else if (value == "" || value == null)
+                    {
+                        (App.Current as App)._user.Salary = 0;
+                        OnPropertyChanged();
+                    }
+                    else
+                    {
+                        Salary = (App.Current as App)._user.Salary.ToString();
+                        OnPropertyChanged();
+                    }
                 }
+
             }
         }
 
