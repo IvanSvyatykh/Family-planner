@@ -15,6 +15,7 @@ namespace Classes
         public uint Salary { get; set; }
         public string Email { get; set; } = null!;
         public ushort? FamilyId { get; set; } = 0;
+        public bool IsAdmin { get; set; }
         public User(string Name, string Password, string email)
         {
             this.Name = Name;

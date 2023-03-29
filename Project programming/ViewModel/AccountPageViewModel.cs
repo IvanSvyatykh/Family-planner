@@ -13,9 +13,18 @@ namespace AccountPage
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand SaveChangesInSalary { get; set; }
+        public ObservableCollection<FamilyMember> FamilyMembers { get; set; } = new ObservableCollection<FamilyMember>();
 
+        private List<User> users = DatabaseLogic.GetAllAccountWithFamilyId((App.Current as App)._user.FamilyId);
         public AccountPageViewModel()
         {
+            foreach(var user in users)
+            {
+                FamilyMember familyMember = new FamilyMember(user.Name, user.Email, user.Salary.ToString());
+                FamilyMembers.Add(familyMember);
+            }  
+            
+
             SaveChangesInSalary = new Command(async () =>
             {
                 if (uint.TryParse(Salary, out _))

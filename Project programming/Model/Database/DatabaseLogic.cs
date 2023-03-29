@@ -100,6 +100,21 @@ namespace WorkWithDatabase
 
         }
 
+        public static List<User> GetAllAccountWithFamilyId(ushort? FamilyId)
+        {
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                List<User> users = new List<User>();
+
+                var accounts = db.Users.Where(u => u.FamilyId == FamilyId);
+                foreach (var account in accounts)
+                {
+                    users.Add(account);
+                }
+                return users;
+            }
+        }
+
         public static async Task<User> GetFullPersonInformation(string email)
         {
             using (ApplicationContext db = new ApplicationContext())
