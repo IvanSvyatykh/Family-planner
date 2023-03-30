@@ -1,4 +1,7 @@
-﻿namespace MainPage
+﻿using InputKit.Shared.Validations;
+
+
+namespace MainPage
 {
     public partial class MainPageView : ContentPage
     {
@@ -8,4 +11,6 @@
             BindingContext = new MainPageViewModel();
         }
     }
+
+
 }

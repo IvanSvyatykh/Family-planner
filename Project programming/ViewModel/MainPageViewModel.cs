@@ -31,14 +31,7 @@ namespace MainPage
                         App.AlertSvc.ShowAlert("", "There is no internet, check your connection, please");
                     });
 
-                }
-                else if (!CheckEmailCorectness.IsValidEmail(Email))
-                {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("", "This string can not be Email");
-                    });
-                }
+                }                
                 else if (await DatabaseLogic.IsUserExistsAsync(user))
                 {
                     if (await DatabaseLogic.IsUserPasswordCorrectAsync(user))

@@ -1,3 +1,5 @@
+using UraniumUI.Material.Controls;
+
 namespace Expenses
 {
     public partial class ExpensesView : ContentPage
@@ -5,6 +7,7 @@ namespace Expenses
         public ExpensesView()
         {
             InitializeComponent();
+            BindingContext = new ExpensesViewModel();
         }
     }
 }
