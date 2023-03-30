@@ -69,7 +69,7 @@ namespace FamilyRegistrationPage
                         App.AlertSvc.ShowAlert("", "You are alredy member of group");
                     });
                 }
-                else if(!FamilyPasswordCreation.Equals(RepeatedFamilyPasswordCreation))
+                else if (!FamilyPasswordCreation.Equals(RepeatedFamilyPasswordCreation))
                 {
                     App.AlertSvc.ShowAlert("", "Password and repeted password are not equal");
                     RepeatedFamilyPasswordCreation = null;
@@ -87,7 +87,7 @@ namespace FamilyRegistrationPage
                         App.AlertSvc.ShowAlert("Sorry", "But we can't create family, something goes wrong");
                     }
                     else
-                    {
+                    {                      
                         await Task.Run(() =>
                         {
                             App.AlertSvc.ShowAlert("Good", "Creation is successful");

@@ -22,7 +22,7 @@ namespace MainPage
         public MainPageViewModel()
         {
             SignIn = new Command(async () =>
-            {
+            {               
                 User user = new User(null, Password, Email);
                 if (!CheckEmailCorectness.ConnectionAvailable())
                 {

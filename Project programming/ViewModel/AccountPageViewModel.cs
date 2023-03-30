@@ -18,11 +18,24 @@ namespace AccountPage
         private List<User> users = DatabaseLogic.GetAllAccountWithFamilyId((App.Current as App)._user.FamilyId);
         public AccountPageViewModel()
         {
-            foreach (var user in users)
+            if(users != null)
             {
-                FamilyMember familyMember = new FamilyMember(user.Name, user.Email, user.Salary.ToString());
-                FamilyMembers.Add(familyMember);
+                foreach (var user in users)
+                {
+                    FamilyMember familyMember;
+                    if ((App.Current as App)._user.Email.Equals((App.Current as App)._family.Email))
+                    {
+                        familyMember = new FamilyMember(user.Name, user.Email, user.Salary.ToString());
+                    }
+                    else
+                    {
+                        familyMember = new FamilyMember(user.Name, user.Email, null);
+                    }
+
+                    FamilyMembers.Add(familyMember);
+                }
             }
+            
 
 
             SaveChangesInSalary = new Command(async () =>
@@ -33,7 +46,7 @@ namespace AccountPage
 
                     await DatabaseLogic.AddSalaryToUserAsync(Email, uint.Parse(Salary));
 
-                    await Task.Run(async () =>
+                    await Task.Run(() =>
                     {
                         App.AlertSvc.ShowAlert("", "Salary succefully changed");
                     });

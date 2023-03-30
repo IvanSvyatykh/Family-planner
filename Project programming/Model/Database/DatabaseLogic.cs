@@ -66,10 +66,9 @@ namespace WorkWithDatabase
                     await Task.Run(async () =>
                     {
                         await db.Users.AddAsync(user);
-                        await db.SaveChangesAsync();
-                        return true;
+                        await db.SaveChangesAsync();                       
                     });
-
+                    return true;
                 }
                 return false;
             }
@@ -104,14 +103,22 @@ namespace WorkWithDatabase
         {
             using (ApplicationContext db = new ApplicationContext())
             {
-                List<User> users = new List<User>();
-
-                var accounts = db.Users.Where(u => u.FamilyId == FamilyId);
-                foreach (var account in accounts)
+                if(FamilyId != 0)
                 {
-                    users.Add(account);
+                    List<User> users = new List<User>();
+
+                    var accounts = db.Users.Where(u => u.FamilyId == FamilyId);
+                    foreach (var account in accounts)
+                    {
+                        users.Add(account);
+                    }
+                    return users;
                 }
-                return users;
+                else
+                {
+                    return null;
+                }
+               
             }
         }
 
