@@ -12,13 +12,20 @@ namespace AccountPage
     public class AccountPageViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
         public ICommand SaveChangesInSalary { get; set; }
         public ObservableCollection<FamilyMember> FamilyMembers { get; set; } = new ObservableCollection<FamilyMember>();
 
         private List<User> users = DatabaseLogic.GetAllAccountWithFamilyId((App.Current as App)._user.FamilyId);
+
+        public ObservableCollection<DataPerson> Person { get; set; } = new ObservableCollection<DataPerson>();
+
+
         public AccountPageViewModel()
         {
-            if(users != null)
+            DataPerson dataPerson = new DataPerson((App.Current as App)._user.Name, (App.Current as App)._user.Email, (App.Current as App)._user.Salary.ToString(), (App.Current as App)._family.Email);
+            Person.Add(dataPerson);
+            if (users != null)
             {
                 foreach (var user in users)
                 {
@@ -34,77 +41,6 @@ namespace AccountPage
 
                     FamilyMembers.Add(familyMember);
                 }
-            }
-            
-
-
-            SaveChangesInSalary = new Command(async () =>
-            {
-                if (uint.TryParse(Salary, out _))
-                {
-
-
-                    await DatabaseLogic.AddSalaryToUserAsync(Email, uint.Parse(Salary));
-
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("", "Salary succefully changed");
-                    });
-
-                }
-                else
-                {
-                    Salary = (App.Current as App)._user.Salary.ToString();
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("", "Salary must be integer");
-                    });
-                }
-
-            });
-        }
-        public string Name => "Welcome, " + (App.Current as App)._user.Name;
-        public string Email => (App.Current as App)._user.Email;
-        public string FamilyName
-        {
-            get
-            {
-                if ((App.Current as App)._family == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return "Family Name : " + (App.Current as App)._family.Name;
-                }
-
-
-            }
-        }
-        public string Salary
-        {
-            get => (App.Current as App)._user.Salary.ToString();
-            set
-            {
-                if (!(App.Current as App)._user.Salary.Equals(value))
-                {
-                    if (uint.TryParse(value, out uint result))
-                    {
-                        (App.Current as App)._user.Salary = result;
-                        OnPropertyChanged();
-                    }
-                    else if (value == "" || value == null)
-                    {
-                        (App.Current as App)._user.Salary = 0;
-                        OnPropertyChanged();
-                    }
-                    else
-                    {
-                        Salary = (App.Current as App)._user.Salary.ToString();
-                        OnPropertyChanged();
-                    }
-                }
-
             }
         }
 

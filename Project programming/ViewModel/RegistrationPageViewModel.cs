@@ -42,28 +42,12 @@ namespace RegistrationPage
                     });
 
                 }
-                else if (!CheckEmailCorectness.IsValidEmail(Email))
-                {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("", $"This string {Email} can not be Email");
-                        Email = null;
-                    });
-                }
                 else if (!Password.Equals(RepeatedPassword))
                 {
                     await Task.Run(() =>
                     {
                         App.AlertSvc.ShowAlert("", $"Password are not equal");
                     });
-                }
-                else if (!CheckEmailCorectness.ConnectionAvailable())
-                {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("Ooops ", "There is no internet, check your connection, please");
-                    });
-
                 }
                 else if (EmailWriter.SendMessage(Email, "Confirmation Code", "Code :" + _confirmationCode.ToString()))
                 {
@@ -85,21 +69,7 @@ namespace RegistrationPage
             ReigistarationButtonIsPressed = new Command(async () =>
             {
 
-                if (Answer == null)
-                {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("Attention", $"Code can not be null");
-                    });
-                }
-                else if (!CheckEmailCorectness.IsValidEmail(Email))
-                {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("Attention", $"You wrote string that can not be a Email");
-                    });
-                }
-                else if (await DatabaseLogic.IsUserExistsAsync(new User(Name, Password, Email)))
+                if (await DatabaseLogic.IsUserExistsAsync(new User(Name, Password, Email)))
                 {
                     await Task.Run(() =>
                     {

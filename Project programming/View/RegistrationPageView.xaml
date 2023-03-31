@@ -8,45 +8,46 @@
              xmlns:local="clr-namespace:Validations"
             BackgroundColor="Black" >
 
-    <ScrollView>
 
 
-        <VerticalStackLayout Spacing="20" VerticalOptions="Center" WidthRequest="500">
 
 
-            <controls:TextField Title="E-mail" Text="{Binding Email}" BorderColor="White" TextColor="White"  AccentColor="White" TitleColor="White" AllowClear="True">
-                <controls:TextField.Validations>
-                    <local:EmailValidation/>
-                </controls:TextField.Validations>
-            </controls:TextField>
 
-            <controls:TextField Title="Password" Text="{Binding Password}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True" IsPassword="True">
-                <validation:RequiredValidation Message="password can not be null"/>
-            </controls:TextField>
+    <VerticalStackLayout Spacing="20" VerticalOptions="Center" WidthRequest="500">
 
-            <controls:TextField Title="Repeated Password" Text="{Binding RepeatedPassword}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True" IsPassword="True">
-                <validation:RequiredValidation Message="password can not be null"/>
-            </controls:TextField>
+        <controls:TextField Title="E-mail" Text="{Binding Email}" BorderColor="White" TextColor="White"  AccentColor="White" TitleColor="White" AllowClear="True">
+            <controls:TextField.Validations>
+                <local:EmailValidation/>
+            </controls:TextField.Validations>
+        </controls:TextField>
 
-            <Button  BackgroundColor="WhiteSmoke" Text="Send confirmation code" TextColor="Black" 
+        <controls:TextField Title="Password" Text="{Binding Password}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True" IsPassword="True">
+            <validation:RequiredValidation Message="password can not be null"/>
+        </controls:TextField>
+
+        <controls:TextField Title="Repeated Password" Text="{Binding RepeatedPassword}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True" IsPassword="True">
+            <validation:RequiredValidation Message="password can not be null"/>
+        </controls:TextField>
+
+        <Button  BackgroundColor="WhiteSmoke" Text="Send confirmation code" TextColor="Black" 
                    WidthRequest="500" HorizontalOptions="Start" HeightRequest="50" Command="{Binding SendEmail}" FontSize="Medium"/>
 
 
-            <controls:TextField Title="Confirmation Code" Text="{Binding Answer}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True">
-                <validation:RequiredValidation Message="password can not be null"/>
-                <validation:DigitsOnlyValidation/>
-            </controls:TextField>
+        <controls:TextField Title="Confirmation Code" Text="{Binding Answer}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True">
+            <validation:RequiredValidation Message="password can not be null"/>
+            <validation:DigitsOnlyValidation/>
+        </controls:TextField>
 
-            <controls:TextField Title="Name" Text="{Binding Name}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True">
-                <validation:RequiredValidation Message="password can not be null"/>
-            </controls:TextField>
+        <controls:TextField Title="Name" Text="{Binding Name}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True">
+            <validation:RequiredValidation Message="password can not be null"/>
+        </controls:TextField>
 
-            <Button  BackgroundColor="WhiteSmoke" Text="Registrate" TextColor="Black" 
+        <Button  BackgroundColor="WhiteSmoke" Text="Registrate" TextColor="Black" 
                    WidthRequest="500" HorizontalOptions="Start" HeightRequest="50" Command="{Binding ReigistarationButtonIsPressed}" FontSize="Medium"/>
 
 
 
-        </VerticalStackLayout>
+    </VerticalStackLayout>
 
-    </ScrollView>
+
 </ContentPage>

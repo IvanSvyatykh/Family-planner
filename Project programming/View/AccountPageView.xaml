@@ -15,8 +15,12 @@
 
 
 
-    <VerticalStackLayout>
+    <VerticalStackLayout Spacing="20">
+
+        <controls:DataGrid ItemsSource="{Binding Person}" UseAutoColumns="True"  HorizontalOptions="Center"/>
+        
         <controls:DataGrid ItemsSource="{Binding FamilyMembers}" UseAutoColumns="True"  HorizontalOptions="Center"/>
+
     </VerticalStackLayout>
 
 </ContentPage>
