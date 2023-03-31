@@ -1,9 +1,9 @@
 ﻿using InputKit.Shared.Validations;
 using WorkWithEmail;
 
-namespace MainPage
+namespace Validations
 {
-    public class MainPageEmailValidation : IValidation
+    public class EmailValidation : IValidation
     {
         public string Message => "This string can not be an Email";
 

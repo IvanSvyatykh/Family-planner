@@ -2,61 +2,51 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="RegistrationPage.RegistrationPageView"
-             Title="Registration Page"
-             Shell.FlyoutBehavior="Disabled">
+             Shell.FlyoutBehavior="Disabled"
+             xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
+             xmlns:controls="clr-namespace:UraniumUI.Material.Controls;assembly=UraniumUI.Material"
+             xmlns:local="clr-namespace:Validations"
+            BackgroundColor="Black" >
 
     <ScrollView>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="200"/>
-                <RowDefinition Height="10*"/>
-                <RowDefinition Height="5*"/>
-                <RowDefinition Height="8*"/>
-                <RowDefinition Height="8*"/>
-                <RowDefinition Height="8*"/>
-                <RowDefinition Height="8*"/>
-                <RowDefinition Height="8*"/>
-            </Grid.RowDefinitions>
 
 
-            <BoxView Color="Black" Grid.Row="0"/>
-            <BoxView Color="White" Grid.Row="1"/>
-            
-            <StackLayout Grid.Row="2" >
-                <Label Text="Write your email and we send you code" TextColor="Black" FontSize="32"/>
-            </StackLayout>
-            
-            <StackLayout Grid.Row="3"  WidthRequest="500" HorizontalOptions="Start">
-                <Entry IsPassword="False"  TextColor="Black" Placeholder="Email" PlaceholderColor="Grey" MaxLength="64" 
-                      Text="{Binding Email}" IsSpellCheckEnabled="False" />
-            </StackLayout>
-            
-            <StackLayout Grid.Row="4"  WidthRequest="500" HorizontalOptions="Start">
-                <Entry IsPassword="True"  TextColor="Black" Placeholder="Password" PlaceholderColor="Grey" MaxLength="64" 
-                      Text="{Binding Password}"/>
-            </StackLayout>
-            
-            <StackLayout Grid.Row="5"  WidthRequest="500" HorizontalOptions="Start">
-                <Entry IsPassword="True"  TextColor="Black" Placeholder="RepeatedPassword" PlaceholderColor="Grey" MaxLength="64" 
-                      Text="{Binding RepeatedPassword}"/>
-                <Button  BackgroundColor="Black" Text="Send confirmation code" TextColor="WhiteSmoke" 
-                   WidthRequest="500" HorizontalOptions="Start" HeightRequest="50" Command="{Binding SendEmail}">
-                </Button>
-            </StackLayout>
+        <VerticalStackLayout Spacing="20" VerticalOptions="Center" WidthRequest="500">
 
-            <StackLayout Grid.Row="6"  WidthRequest="500" HorizontalOptions="Start">
-                <Entry IsPassword="False"  TextColor="Black" Placeholder="Confirmation Code" PlaceholderColor="Grey"
-                      Text="{Binding Answer}" MaxLength="5" WidthRequest="500"/>
-            </StackLayout>
 
-            <StackLayout Grid.Row="7"  WidthRequest="500" HorizontalOptions="Start">
-                <Entry IsPassword="False"  TextColor="Black" Placeholder="Name" PlaceholderColor="Grey"
-                      Text="{Binding Name}" MaxLength="64" WidthRequest="500"/>
-                <Button  BackgroundColor="Black" Text="Registrate" TextColor="WhiteSmoke" 
-                   WidthRequest="500" HorizontalOptions="Start" HeightRequest="50" Command="{Binding ReigistarationButtonIsPressed}">
-                </Button>
-            </StackLayout>
+            <controls:TextField Title="E-mail" Text="{Binding Email}" BorderColor="White" TextColor="White"  AccentColor="White" TitleColor="White" AllowClear="True">
+                <controls:TextField.Validations>
+                    <local:EmailValidation/>
+                </controls:TextField.Validations>
+            </controls:TextField>
 
-        </Grid>
+            <controls:TextField Title="Password" Text="{Binding Password}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True" IsPassword="True">
+                <validation:RequiredValidation Message="password can not be null"/>
+            </controls:TextField>
+
+            <controls:TextField Title="Repeated Password" Text="{Binding RepeatedPassword}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True" IsPassword="True">
+                <validation:RequiredValidation Message="password can not be null"/>
+            </controls:TextField>
+
+            <Button  BackgroundColor="WhiteSmoke" Text="Send confirmation code" TextColor="Black" 
+                   WidthRequest="500" HorizontalOptions="Start" HeightRequest="50" Command="{Binding SendEmail}" FontSize="Medium"/>
+
+
+            <controls:TextField Title="Confirmation Code" Text="{Binding Answer}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True">
+                <validation:RequiredValidation Message="password can not be null"/>
+                <validation:DigitsOnlyValidation/>
+            </controls:TextField>
+
+            <controls:TextField Title="Name" Text="{Binding Name}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True">
+                <validation:RequiredValidation Message="password can not be null"/>
+            </controls:TextField>
+
+            <Button  BackgroundColor="WhiteSmoke" Text="Registrate" TextColor="Black" 
+                   WidthRequest="500" HorizontalOptions="Start" HeightRequest="50" Command="{Binding ReigistarationButtonIsPressed}" FontSize="Medium"/>
+
+
+
+        </VerticalStackLayout>
+
     </ScrollView>
 </ContentPage>

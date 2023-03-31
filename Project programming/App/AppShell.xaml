@@ -9,7 +9,8 @@
     xmlns:expensesView="clr-namespace:Expenses"
     xmlns:familyRegistrationView="clr-namespace:FamilyRegistrationPage"
     Shell.FlyoutBehavior="Locked"
-    FlyoutVerticalScrollMode="Auto"  
+    FlyoutVerticalScrollMode="Auto"
+    Background="Black"
      >
 
 
@@ -23,15 +24,16 @@
 
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
-                                    <Setter Property="BackgroundColor" Value="White"/>
+                                    <Setter Property="BackgroundColor" Value="Black"/>
 
                                 </VisualState.Setters>
                             </VisualState>
 
+                           
+
                             <VisualState x:Name="Selected">
                                 <VisualState.Setters>
                                     <Setter Property="BackgroundColor" Value="Grey"/>
-
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
@@ -39,14 +41,15 @@
                 </VisualStateManager.VisualStateGroups>
                 <Image Source="{Binding Icon}" WidthRequest="25"/>
 
-                <Label Grid.Column="1" Text="{Binding Title}" />
+                <Label Grid.Column="1" Text="{Binding Title}"  TextColor="WhiteSmoke"/>
             </Grid>
         </DataTemplate>
     </Shell.ItemTemplate>
 
     <ShellContent ContentTemplate="{DataTemplate local:MainPageView}" Shell.FlyoutBehavior="Disabled" Shell.FlyoutItemIsVisible="False"/>
 
-    
+   
+
     <FlyoutItem   Title="Account Page" Icon="account.png">
         <Tab>
             <ShellContent ContentTemplate="{DataTemplate acountView:AccountPageView}"/>

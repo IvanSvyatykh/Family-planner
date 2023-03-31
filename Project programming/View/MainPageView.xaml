@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
              xmlns:controls="clr-namespace:UraniumUI.Material.Controls;assembly=UraniumUI.Material"
-             xmlns:local="clr-namespace:MainPage"
-             x:Class="MainPage.MainPageView" BackgroundColor="White"
-             Title="Family Planner"
+             xmlns:local="clr-namespace:Validations"
+             x:Class="MainPage.MainPageView" BackgroundColor="Black"
+                       
              >
 
 
@@ -21,23 +21,22 @@
             </Grid.RowDefinitions>
 
 
-            <BoxView Color="Black" Grid.Row="0"/>
-            <BoxView Color="White" Grid.Row="1"/>
+
             <StackLayout Grid.Row="2" >
-                <Label Text="Welcome back" TextColor="Black" FontSize="32"/>
+                <Label Text="Welcome back" TextColor="White" FontSize="32"/>
             </StackLayout>
-            <HorizontalStackLayout Grid.Row="3" Spacing="45">
+            <HorizontalStackLayout Grid.Row="3" Spacing="20">
                 <StackLayout  WidthRequest="500" HorizontalOptions="Start">
-                    
-                    <controls:TextField Title="Email" Text="{Binding Email}" BorderColor="Black" TextColor="Black"  AccentColor="Black">
+
+                    <controls:TextField Title="E-mail" Text="{Binding Email}" BorderColor="White" TextColor="White"  AccentColor="White"  TitleColor="White" AllowClear="True">
                         <controls:TextField.Validations>
-                            <local:MainPageEmailValidation/>
+                            <local:EmailValidation/>
                         </controls:TextField.Validations>
                     </controls:TextField>
-                    
+
                 </StackLayout>
 
-                <Label Text="Registration">
+                <Label Text="Registration" TextColor="White">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding Registration}"/>
                     </Label.GestureRecognizers>
@@ -47,13 +46,13 @@
 
                 <StackLayout Grid.Row="4" WidthRequest="500" HorizontalOptions="Start" >
 
-                    <controls:TextField Title="Password" Text="{Binding Password}" BorderColor="Black" TextColor="Black" AccentColor="Black"  TitleColor="Black">
+                    <controls:TextField Title="Password" Text="{Binding Password}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True" IsPassword="True">
                         <validation:RequiredValidation Message="password can not be null"/>
                     </controls:TextField>
 
                 </StackLayout>
 
-                <Label Text="Forget Password?">
+                <Label Text="Forget Password?" TextColor="White">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Command="{Binding ForgetPassword}"/>
                     </Label.GestureRecognizers>
@@ -61,9 +60,10 @@
 
             </HorizontalStackLayout>
 
+            <Button Command="{Binding SignIn }" Grid.Row="5" WidthRequest="1000" 
+                    HorizontalOptions="Center" BackgroundColor="WhiteSmoke" Text="Sign in" TextColor="Black"  FontSize="Medium"/>
 
-            <Button Grid.Row="5" Text="Sign in" TextColor="Black" 
-        WidthRequest="1000" HorizontalOptions="Center" Command="{Binding SignIn }" BackgroundColor="White" StyleClass="FilledButton"/>
         </Grid>
     </ScrollView>
+
 </ContentPage>

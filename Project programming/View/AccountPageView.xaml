@@ -3,46 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:UraniumUI.Material.Controls;assembly=UraniumUI.Material"
              x:Class="AccountPage.AccountPageView"     
-             Title="{Binding Name}"                 
+             Title="{Binding Name}"  
+             
+             BackgroundColor="Black"
              >
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsVisible="False" IsEnabled="False" />
     </Shell.BackButtonBehavior>
 
 
-    <ScrollView BackgroundColor="WhiteSmoke">
-        <Grid RowSpacing="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
 
-            <HorizontalStackLayout Grid.Row="0" Spacing="20">
-                <StackLayout>
-                    <Label Text="Email:"/>
-                </StackLayout>
-                <StackLayout>
-                    <Label Text="{Binding Email}" WidthRequest="150"/>
-                </StackLayout>
-                <StackLayout>
-                    <Label Text="Salary: "/>
-                </StackLayout>
-                <StackLayout>
-                    <Entry Text="{Binding Salary}"/>
-                </StackLayout>
-                <StackLayout>
-                    <Button Text="Save Salary Changes" Command="{Binding SaveChangesInSalary}"/>
-                </StackLayout>
-            </HorizontalStackLayout>
-            <VerticalStackLayout Grid.Row="1">
-                <HorizontalStackLayout>
-                    <Label Text="{Binding FamilyName}"/>
-                </HorizontalStackLayout>
 
-                <controls:DataGrid ItemsSource="{Binding FamilyMembers}" UseAutoColumns="True" Margin="30" HorizontalOptions="Center"/>
 
-            </VerticalStackLayout>
-        </Grid>
-    </ScrollView>
+    <VerticalStackLayout>
+        <controls:DataGrid ItemsSource="{Binding FamilyMembers}" UseAutoColumns="True"  HorizontalOptions="Center"/>
+    </VerticalStackLayout>
+
 </ContentPage>
