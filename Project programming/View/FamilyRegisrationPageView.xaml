@@ -2,7 +2,11 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FamilyRegistrationPage.FamilyRegisrationPageView"
-             Title="Family Regisration">
+             xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
+             xmlns:controls="clr-namespace:UraniumUI.Material.Controls;assembly=UraniumUI.Material"
+             xmlns:local="clr-namespace:Validations"
+             BackgroundColor="Black" 
+             >
     <ScrollView>
         <Grid>
             <Grid.ColumnDefinitions>
@@ -11,22 +15,42 @@
             </Grid.ColumnDefinitions>
 
             <StackLayout  Spacing="20" WidthRequest="400" HorizontalOptions="Start">
-                <Label Text="Create new family" FontSize="Medium"/>
-                <Entry IsPassword="False" Placeholder="Family Name" MaxLength="64" PlaceholderColor="Grey" BackgroundColor="White" Grid.Column="0"
-                      Text="{Binding FamilyNameCreation}" />
-                <Entry IsPassword="True" Placeholder="Password of Family" PlaceholderColor="Grey" BackgroundColor="White" Grid.Column="0" 
-                   Text="{Binding FamilyPasswordCreation}"    />
-                <Entry IsPassword="True" Placeholder="Repeat Password of Family" PlaceholderColor="Grey" BackgroundColor="White" Grid.Column="0" 
-                    Text="{Binding RepeatedFamilyPasswordCreation}"   />
-                <Button Text="Create New Family" Background="White" TextColor="Black" Command="{Binding CreateFamily}"/>
+                <Label Text="Create new family" FontSize="Medium" TextColor="WhiteSmoke"/>
+
+                <controls:TextField Title="Family Name" Text="{Binding FamilyNameCreation}" BorderColor="White" TextColor="White"  AccentColor="White" TitleColor="White" AllowClear="True">
+                    <controls:TextField.Validations>
+                        <local:EmailValidation/>
+                    </controls:TextField.Validations>
+                </controls:TextField>
+
+                <controls:TextField Title="Password of Family" Text="{Binding FamilyPasswordCreation}" BorderColor="White" TextColor="White"  AccentColor="White" TitleColor="White" AllowClear="True" IsPassword="True">
+                    <controls:TextField.Validations>
+                        <validation:RequiredValidation Message="password can not be null"/>
+                    </controls:TextField.Validations>
+                </controls:TextField>
+
+                <controls:TextField Title="Repeat Password of Family" Text="{Binding RepeatedFamilyPasswordCreation}" BorderColor="White" TextColor="White"  AccentColor="White" TitleColor="White" AllowClear="True" IsPassword="True">
+                    <controls:TextField.Validations>
+                        <validation:RequiredValidation Message="password can not be null"/>
+                    </controls:TextField.Validations>
+                </controls:TextField>
+
+                <Button Text="Create New Family" BackgroundColor="WhiteSmoke"  TextColor="Black" 
+                   WidthRequest="500" HorizontalOptions="Start" HeightRequest="50" Command="{Binding CreateFamily}" FontSize="Medium"/>
             </StackLayout>
 
             <StackLayout  Spacing="20" WidthRequest="400" HorizontalOptions="End" Grid.Column="1">
-                <Label Text="Unite with already exist family" FontSize="Medium"/>
-                <Entry IsPassword="False" Placeholder="Email of Family" PlaceholderColor="Grey" BackgroundColor="White" 
-                       Text="{Binding CreatorEmailJoin}" />
-                <Entry IsPassword="True" Placeholder="Password of Family" PlaceholderColor="Grey" BackgroundColor="White" Text="{Binding FamilyPasswordJoin}" />
-                <Button Text="Join to family" Background="White" TextColor="Black" Command="{Binding JoinToFamily}"/>
+                <Label Text="Unite with already exist family" FontSize="Medium" TextColor="WhiteSmoke"/>
+                <controls:TextField Title="E-mail of Family" Text="{Binding CreatorEmailJoin}" BorderColor="White" TextColor="White"  AccentColor="White" TitleColor="White" AllowClear="True">
+                    <controls:TextField.Validations>
+                        <local:EmailValidation/>
+                    </controls:TextField.Validations>
+                </controls:TextField>
+                <controls:TextField Title="Password of Family" Text="{Binding FamilyPasswordJoin}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True" IsPassword="True">
+                    <validation:RequiredValidation Message="password can not be null"/>
+                </controls:TextField>
+                <Button Text="Join to family" BackgroundColor="WhiteSmoke"  TextColor="Black" 
+                   WidthRequest="500" HorizontalOptions="Start" HeightRequest="50" Command="{Binding JoinToFamily}" FontSize="Medium" />
             </StackLayout>
 
         </Grid>

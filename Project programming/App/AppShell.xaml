@@ -10,7 +10,8 @@
     xmlns:familyRegistrationView="clr-namespace:FamilyRegistrationPage"
     Shell.FlyoutBehavior="Locked"
     FlyoutVerticalScrollMode="Auto"
-    Background="Black"
+    FlyoutBackgroundColor="Black"
+   
      >
 
 
