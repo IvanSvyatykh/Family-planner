@@ -4,66 +4,59 @@
              xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
              xmlns:controls="clr-namespace:UraniumUI.Material.Controls;assembly=UraniumUI.Material"
              xmlns:local="clr-namespace:Validations"
-             x:Class="MainPage.MainPageView" BackgroundColor="Black"
-                       
+             xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+             x:Class="MainPage.MainPageView" BackgroundColor="Black"                       
              >
 
 
     <ScrollView>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="200"/>
-                <RowDefinition Height="100"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="70"/>
-            </Grid.RowDefinitions>
 
+        <input:FormView SubmitCommand="{Binding SignIn}">
+            <VerticalStackLayout VerticalOptions="End" Spacing="30">
 
-
-            <StackLayout Grid.Row="2" >
                 <Label Text="Welcome back" TextColor="White" FontSize="32"/>
-            </StackLayout>
-            <HorizontalStackLayout Grid.Row="3" Spacing="20">
-                <StackLayout  WidthRequest="500" HorizontalOptions="Start">
 
-                    <controls:TextField Title="E-mail" Text="{Binding Email}" BorderColor="White" TextColor="White"  AccentColor="White"  TitleColor="White" AllowClear="True">
-                        <controls:TextField.Validations>
+                <HorizontalStackLayout  Spacing="20" HorizontalOptions="Start" >
+
+
+                    <controls:EditorField Title="E-mail" Text="{Binding Email}" BorderColor="White" TextColor="White"  AccentColor="White"  TitleColor="White"  WidthRequest="500">
+                        <controls:EditorField.Validations>
                             <local:EmailValidation/>
+                            
+                        </controls:EditorField.Validations>
+                    </controls:EditorField>
+
+
+
+                    <Label Text="Registration" TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Registration}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout Spacing="20" HorizontalOptions="Start">
+                    <controls:TextField Title="Password" Text="{Binding Password}" BorderColor="White" TextColor="White" AccentColor="White" WidthRequest="500"  TitleColor="White" AllowClear="True" IsPassword="True">
+                        <controls:TextField.Validations>
+                            <validation:RequiredValidation Message="Password can not be null"/>
                         </controls:TextField.Validations>
                     </controls:TextField>
 
-                </StackLayout>
 
-                <Label Text="Registration" TextColor="White">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding Registration}"/>
-                    </Label.GestureRecognizers>
-                </Label>
-            </HorizontalStackLayout>
-            <HorizontalStackLayout Grid.Row="4" Spacing="20">
+                    <Label Text="Forget Password?" TextColor="White">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ForgetPassword}"/>
+                        </Label.GestureRecognizers>
+                    </Label>
 
-                <StackLayout Grid.Row="4" WidthRequest="500" HorizontalOptions="Start" >
+                </HorizontalStackLayout>
 
-                    <controls:TextField Title="Password" Text="{Binding Password}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True" IsPassword="True">
-                        <validation:RequiredValidation Message="password can not be null"/>
-                    </controls:TextField>
+                <Button  WidthRequest="1000" 
+                    HorizontalOptions="Center" BackgroundColor="WhiteSmoke" Text="Sign in" TextColor="Black"  FontSize="Medium" input:FormView.IsSubmitButton="True" StyleClass="FilledButton"/>
+            </VerticalStackLayout>
 
-                </StackLayout>
-
-                <Label Text="Forget Password?" TextColor="White">
-                    <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ForgetPassword}"/>
-                    </Label.GestureRecognizers>
-                </Label>
-
-            </HorizontalStackLayout>
-
-            <Button Command="{Binding SignIn }" Grid.Row="5" WidthRequest="1000" 
-                    HorizontalOptions="Center" BackgroundColor="WhiteSmoke" Text="Sign in" TextColor="Black"  FontSize="Medium"/>
-
-        </Grid>
+        </input:FormView>
+       
     </ScrollView>
 
 </ContentPage>

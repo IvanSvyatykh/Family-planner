@@ -9,7 +9,11 @@ namespace Validations
 
         public bool Validate(object value)
         {
-            return CheckEmailCorectness.IsValidEmail(value.ToString());
+            if (value is string text)
+            {
+                return text.Count(x => x == '@') == 1 && text.Split('@').Last().Length >= 2;
+            }
+            return false;
         }
     }
 }

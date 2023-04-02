@@ -11,13 +11,10 @@ namespace ForgottenPasswordPage
     public class ForgottenPasswordPageViewModel : INotifyPropertyChanged
     {
         private string _email;
-
-        private DateTime? _date = null;
+        private bool _isSend = false;
         private int? _answer { get; set; } = null;
         public ICommand SendEmail { get; set; }
         public ICommand Continue { get; set; }
-
-        private int countTry = 0;
 
         public event PropertyChangedEventHandler PropertyChanged;
         private int? _newPassword { get; set; } = null;
@@ -45,6 +42,7 @@ namespace ForgottenPasswordPage
                 {
                     await Task.Run(() =>
                     {
+                        _isSend= true;
                         App.AlertSvc.ShowAlert("Confirmation Code", "We have sent you confirmation code on Email", "Ok");
                     });
                 }
@@ -55,26 +53,16 @@ namespace ForgottenPasswordPage
                         App.AlertSvc.ShowAlert("Sorry", "But we cant't find account with this Email", "Ok");
                     });
                 }
-            },
-            () => IsEmailCorrect);
+            });
 
             Continue = new Command(async () =>
             {
-                countTry++;
-                if ((countTry < 3) && !Answer.Equals(_newPassword))
+                if (!Answer.Equals(_newPassword))
                 {
                     await Task.Run(() =>
                      {
-                         App.AlertSvc.ShowAlert("Attention", $"You have wrote wrong confirmation code, you have {3 - countTry} attempts left ", "Ok");
+                         App.AlertSvc.ShowAlert("Attention", $"You have wrote wrong confirmation code");
                      });
-                }
-                else if (countTry == 3)
-                {
-                    SetTheTime();
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("Sorry", "You have used all attepts, you should wait for 3 minutes, then you will be able to get new code");
-                    });
                 }
                 else
                 {
@@ -86,7 +74,7 @@ namespace ForgottenPasswordPage
                         });
                         (App.Current as App)._user = await DatabaseLogic.GetFullPersonInformation(Email);
                         (App.Current as App)._family = DatabaseLogic.GetFullFamilyInformation((ushort)(App.Current as App)._user.FamilyId);
-                        await Task.Delay(2000); 
+                        await Task.Delay(2000);
                         await Shell.Current.GoToAsync("AccountPageView");
                     }
                     else
@@ -99,12 +87,9 @@ namespace ForgottenPasswordPage
 
                 }
             },
-            () => IsEmailCorrect && !(_date > DateTime.Now) && Answer != null);
+            () =>_isSend);
         }
-        private void SetTheTime() => _date = DateTime.Now.AddMinutes(2);
-        private void GiveANumberToCode() => _newPassword = PasswordLog.RandomNumberGenerator();
-        public bool IsEmailCorrect => CheckEmailCorectness.IsValidEmail(Email);
-
+        private void GiveANumberToCode() => _newPassword = PasswordLog.RandomNumberGenerator();      
         public string Email
         {
             get => _email;

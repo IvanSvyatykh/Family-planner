@@ -20,10 +20,6 @@ namespace RegistrationPage
         private string _name;
 
         private string _email;
-
-        private int countTry = 0;
-
-        private DateTime? _date = null;
         private int? _answer { get; set; } = null;
         private int? _confirmationCode { get; set; } = null;
         public ICommand SendEmail { get; set; }
@@ -75,22 +71,7 @@ namespace RegistrationPage
                     {
                         App.AlertSvc.ShowAlert("Attention", $"Account with this Email alredy exist");
                     });
-                }
-                else if ((countTry < 3) && !Answer.Equals(_confirmationCode))
-                {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("Attention", $"You have wrote wrong confirmation code, you have {3 - countTry} attempts left ");
-                    });
-                }
-                else if (countTry == 3)
-                {
-                    SetTheTime();
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("Sorry", "You have used all attepts, you should wait for 3 minutes, then you will be able to get new code");
-                    });
-                }
+                }               
                 else if (Answer.Equals(_confirmationCode))
                 {
                     if (await DatabaseLogic.AddUserAsync(Name, Password, Email))
@@ -112,12 +93,18 @@ namespace RegistrationPage
                         });
                         await Shell.Current.GoToAsync("ForgottenPasswordPage");
                     }
-                    countTry = 0;
+                }
+                else
+                {
+                    await Task.Run(() =>
+                    {
+                        App.AlertSvc.ShowAlert("", "Confirmation Code should be equal to your answer");
+                        Answer = null;
+                    });
                 }
             });
 
         }
-        private void SetTheTime() => _date = DateTime.Now.AddMinutes(2);
         private void GiveANumberToCode() => _confirmationCode = PasswordLog.RandomNumberGenerator();
         public string Name
         {
