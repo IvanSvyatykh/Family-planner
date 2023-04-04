@@ -2,8 +2,8 @@
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Classes;
-using WorkWithDatabase;
 using AppService;
+using Database;
 
 namespace FamilyRegistrationPage
 {
@@ -18,6 +18,9 @@ namespace FamilyRegistrationPage
         private string _familyPasswordCreation { get; set; } = null;
         private string _repeatedFamilyPasswordCreation { get; set; } = null;
 
+        private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
+
+        private SQLUserRepository _userRepository = new SQLUserRepository();
         public FamilyRegistrationViewModel()
         {
             JoinToFamily = new Command(async () =>
@@ -29,7 +32,7 @@ namespace FamilyRegistrationPage
                         App.AlertSvc.ShowAlert("", "You are alredy member of group");
                     });
                 }
-                else if (!await DatabaseLogic.IsExistFamilyAsync(CreatorEmailJoin))
+                else if (!await _familyRepository.IsExistFamilyAsync(CreatorEmailJoin))
                 {
                     await Task.Run(() =>
                     {
@@ -37,9 +40,9 @@ namespace FamilyRegistrationPage
                         CreatorEmailJoin = null;
                     });
                 }
-                else if (await DatabaseLogic.IsFamilyPasswordCorrectAsync(CreatorEmailJoin, FamilyPasswordJoin))
+                else if (await _familyRepository.IsFamilyPasswordCorrectAsync(CreatorEmailJoin, FamilyPasswordJoin))
                 {
-                    if (!await DatabaseLogic.AddFamilyToUserAsync(CreatorEmailJoin, (App.Current as App)._user.Email))
+                    if (!await _userRepository.AddFamilyToUserAsync(CreatorEmailJoin, (App.Current as App)._user.Email))
                     {
                         await Task.Run(() =>
                         {
@@ -49,7 +52,7 @@ namespace FamilyRegistrationPage
                     }
                     else
                     {
-                        (App.Current as App)._user.FamilyId = await DatabaseLogic.GetFamilyIdAync(_creatorEmaiJoin);
+                        (App.Current as App)._user.FamilyId = await _familyRepository.GetFamilyIdAync(_creatorEmaiJoin);
                         (App.Current as App)._family = new Family(FamilyNameCreation, FamilyPasswordCreation, (App.Current as App)._user.Email);
                         App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
                     }
@@ -82,12 +85,12 @@ namespace FamilyRegistrationPage
                 else
                 {
                     (App.Current as App)._family = new Family(FamilyNameCreation, FamilyPasswordCreation, (App.Current as App)._user.Email);
-                    if (!await DatabaseLogic.CreateFamilyAsync((App.Current as App)._family, (App.Current as App)._user))
+                    if (!await _familyRepository.CreateFamilyAsync((App.Current as App)._family) && !await _userRepository.AddFamilyToUserAsync(CreatorEmailJoin, (App.Current as App)._user.Email))
                     {
                         App.AlertSvc.ShowAlert("Sorry", "But we can't create family, something goes wrong");
                     }
                     else
-                    {                      
+                    {
                         await Task.Run(() =>
                         {
                             App.AlertSvc.ShowAlert("Good", "Creation is successful");

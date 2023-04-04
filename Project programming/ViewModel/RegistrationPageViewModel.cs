@@ -4,8 +4,8 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Classes;
 using System.Windows.Input;
-using WorkWithDatabase;
 using AppService;
+using Database;
 
 namespace RegistrationPage
 {
@@ -24,6 +24,9 @@ namespace RegistrationPage
         private int? _confirmationCode { get; set; } = null;
         public ICommand SendEmail { get; set; }
         public ICommand ReigistarationButtonIsPressed { get; set; }
+
+        private SQLUserRepository _userRepository = new SQLUserRepository();
+        private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
 
         public RegistrationPageViewModel()
         {
@@ -65,23 +68,24 @@ namespace RegistrationPage
             ReigistarationButtonIsPressed = new Command(async () =>
             {
 
-                if (await DatabaseLogic.IsUserExistsAsync(new User(Name, Password, Email)))
+                if (await _userRepository.IsUserExistsAsync(new User(Name, Password, Email)))
                 {
                     await Task.Run(() =>
                     {
                         App.AlertSvc.ShowAlert("Attention", $"Account with this Email alredy exist");
                     });
-                }               
+                }
                 else if (Answer.Equals(_confirmationCode))
                 {
-                    if (await DatabaseLogic.AddUserAsync(Name, Password, Email))
+                    User user = new User(Name, Password, Email);
+                    if (await _userRepository.AddUserAsync(user))
                     {
                         await Task.Run(() =>
                         {
                             App.AlertSvc.ShowAlert("Great", "You Succesfully registered");
                         });
-                        (App.Current as App)._user = await DatabaseLogic.GetFullPersonInformation(Email);
-                        (App.Current as App)._family = DatabaseLogic.GetFullFamilyInformation((ushort)(App.Current as App)._user.FamilyId);
+                        (App.Current as App)._family = await _familyRepository.GetFullFamilyInformationAsync((ushort)(App.Current as App)._user.FamilyId);
+                        (App.Current as App)._user = await _userRepository.GetFullPersonInformationAsync(Email);
                         await Task.Delay(1000);
                         await Shell.Current.GoToAsync("AccountPageView");
                     }

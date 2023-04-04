@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using WorkWithEmail;
 using System.Runtime.CompilerServices;
-using WorkWithDatabase;
 using AppService;
 using Classes;
 using Database;
@@ -18,6 +17,10 @@ namespace MainPage
         private string _email { get; set; }
         private string _password { get; set; }
 
+        private SQLUserRepository _userRepository = new SQLUserRepository();
+
+        private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
+
         private int _countTry = 0;
         public MainPageViewModel()
         {
@@ -32,13 +35,13 @@ namespace MainPage
                     });
 
                 }                
-                else if (await DatabaseLogic.IsUserExistsAsync(user))
+                else if (await _userRepository.IsUserExistsAsync(user))
                 {
-                    if (await DatabaseLogic.IsUserPasswordCorrectAsync(user))
+                    if (await _userRepository.IsUserPasswordCorrectAsync(user))
                     {
 
-                        (App.Current as App)._user = await DatabaseLogic.GetFullPersonInformation(Email);
-                        (App.Current as App)._family = DatabaseLogic.GetFullFamilyInformation((ushort)(App.Current as App)._user.FamilyId);
+                        (App.Current as App)._user = await _userRepository.GetFullPersonInformationAsync(Email);
+                        (App.Current as App)._family = await _familyRepository.GetFullFamilyInformationAsync((ushort)(App.Current as App)._user.FamilyId);
                         await Task.Delay(1000);
                         await Shell.Current.GoToAsync("AccountPageView");
                     }

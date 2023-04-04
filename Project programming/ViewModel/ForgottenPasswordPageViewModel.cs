@@ -3,8 +3,8 @@ using WorkWithEmail;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using WorkWithDatabase;
 using AppService;
+using Database;
 
 namespace ForgottenPasswordPage
 {
@@ -17,6 +17,9 @@ namespace ForgottenPasswordPage
         public ICommand Continue { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private SQLUserRepository _userRepository = new SQLUserRepository();
+        private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
         private int? _newPassword { get; set; } = null;
         public ForgottenPasswordPageViewModel()
         {
@@ -38,11 +41,11 @@ namespace ForgottenPasswordPage
                         App.AlertSvc.ShowAlert("O_o ", "You wrote non-existed Email", "ОК ");
                     });
                 }
-                else if (await DatabaseLogic.IsUserExistsAsync(new Classes.User(null, null, Email)))
+                else if (await _userRepository.IsUserExistsAsync(new Classes.User(null, null, Email)))
                 {
                     await Task.Run(() =>
                     {
-                        _isSend= true;
+                        _isSend = true;
                         App.AlertSvc.ShowAlert("Confirmation Code", "We have sent you confirmation code on Email", "Ok");
                     });
                 }
@@ -66,14 +69,14 @@ namespace ForgottenPasswordPage
                 }
                 else
                 {
-                    if (await DatabaseLogic.ChangeUserPasswordAsync(Email, Answer.ToString()))
+                    if (await _userRepository.ChangeUserPasswordAsync(Email, Answer.ToString()))
                     {
                         await Task.Run(() =>
                         {
                             App.AlertSvc.ShowAlert("", "You changed your password");
                         });
-                        (App.Current as App)._user = await DatabaseLogic.GetFullPersonInformation(Email);
-                        (App.Current as App)._family = DatabaseLogic.GetFullFamilyInformation((ushort)(App.Current as App)._user.FamilyId);
+                        (App.Current as App)._user = await _userRepository.GetFullPersonInformationAsync(Email);
+                        (App.Current as App)._family = await _familyRepository.GetFullFamilyInformationAsync((ushort)(App.Current as App)._user.FamilyId);
                         await Task.Delay(2000);
                         await Shell.Current.GoToAsync("AccountPageView");
                     }
@@ -87,9 +90,9 @@ namespace ForgottenPasswordPage
 
                 }
             },
-            () =>_isSend);
+            () => _isSend);
         }
-        private void GiveANumberToCode() => _newPassword = PasswordLog.RandomNumberGenerator();      
+        private void GiveANumberToCode() => _newPassword = PasswordLog.RandomNumberGenerator();
         public string Email
         {
             get => _email;
