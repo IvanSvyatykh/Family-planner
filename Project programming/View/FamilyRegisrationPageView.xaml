@@ -18,21 +18,21 @@
             <StackLayout  Spacing="20" WidthRequest="400" HorizontalOptions="Start">
                 <Label Text="Create new family" FontSize="Medium" TextColor="WhiteSmoke"/>
 
-                <controls:TextField Title="Family Name" Text="{Binding FamilyNameCreation}" BorderColor="White" TextColor="White"  AccentColor="White" TitleColor="White" AllowClear="True">
+                <controls:TextField Title="Family Name" Text="{Binding FamilyNameCreation}" BorderColor="White" TextColor="White"  AccentColor="White" TitleColor="White">
                     <controls:TextField.Validations>
-                        <local:EmailValidation/>
+                        <validation:RequiredValidation Message="Name can not be null "/>
                     </controls:TextField.Validations>
                 </controls:TextField>
 
                 <controls:TextField Title="Password of Family" Text="{Binding FamilyPasswordCreation}" BorderColor="White" TextColor="White"  AccentColor="White" TitleColor="White" AllowClear="True" IsPassword="True">
                     <controls:TextField.Validations>
-                        <validation:RequiredValidation Message="password can not be null"/>
+                        <validation:RequiredValidation Message="Password can not be null"/>
                     </controls:TextField.Validations>
                 </controls:TextField>
 
                 <controls:TextField Title="Repeat Password of Family" Text="{Binding RepeatedFamilyPasswordCreation}" BorderColor="White" TextColor="White"  AccentColor="White" TitleColor="White" AllowClear="True" IsPassword="True">
                     <controls:TextField.Validations>
-                        <validation:RequiredValidation Message="password can not be null"/>
+                        <validation:RequiredValidation Message="Password can not be null"/>
                     </controls:TextField.Validations>
                 </controls:TextField>
 
@@ -42,13 +42,13 @@
 
             <StackLayout  Spacing="20" WidthRequest="400" HorizontalOptions="End" Grid.Column="1">
                 <Label Text="Unite with already exist family" FontSize="Medium" TextColor="WhiteSmoke"/>
-                <controls:TextField Title="E-mail of Family" Text="{Binding CreatorEmailJoin}" BorderColor="White" TextColor="White"  AccentColor="White" TitleColor="White" AllowClear="True">
-                    <controls:TextField.Validations>
+                <controls:EditorField Title="E-mail of Family" Text="{Binding CreatorEmailJoin}" BorderColor="White" TextColor="White"  AccentColor="White" TitleColor="White">
+                    <controls:EditorField.Validations>
                         <local:EmailValidation/>
-                    </controls:TextField.Validations>
-                </controls:TextField>
+                    </controls:EditorField.Validations>
+                </controls:EditorField>
                 <controls:TextField Title="Password of Family" Text="{Binding FamilyPasswordJoin}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True" IsPassword="True">
-                    <validation:RequiredValidation Message="password can not be null"/>
+                    <validation:RequiredValidation Message="Password can not be null"/>
                 </controls:TextField>
                 <Button Text="Join to family" BackgroundColor="WhiteSmoke"  TextColor="Black" 
                    WidthRequest="500" HorizontalOptions="Start" HeightRequest="50" Command="{Binding JoinToFamily}" FontSize="Medium" />
