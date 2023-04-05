@@ -52,7 +52,7 @@ namespace FamilyRegistrationPage
                     }
                     else
                     {
-                        (App.Current as App)._user.FamilyId = await _familyRepository.GetFamilyIdAync(_creatorEmaiJoin);
+                        (App.Current as App)._user.FamilyId = (ushort)await _familyRepository.GetFamilyIdAync(_creatorEmaiJoin);
                         (App.Current as App)._family = new Family(FamilyNameCreation, FamilyPasswordCreation, (App.Current as App)._user.Email);
                         App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
                     }
@@ -65,7 +65,7 @@ namespace FamilyRegistrationPage
 
             CreateFamily = new Command(async () =>
             {
-                if ((App.Current as App)._user.FamilyId != 0 && (App.Current as App)._user.FamilyId != null)
+                if ((App.Current as App)._user.FamilyId != 0)
                 {
                     await Task.Run(() =>
                     {

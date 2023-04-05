@@ -8,18 +8,51 @@
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsVisible="False" IsEnabled="False" />
     </Shell.BackButtonBehavior>
-    
 
 
 
 
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
 
-    <VerticalStackLayout Spacing="20" HorizontalOptions="Center">
+        </Grid.ColumnDefinitions>
 
-        <controls:DataGrid ItemsSource="{Binding Person}" UseAutoColumns="True" />
+        <VerticalStackLayout HorizontalOptions="Center" Margin="20" Grid.Column="0">
 
-        <controls:DataGrid ItemsSource="{Binding FamilyMembers}" UseAutoColumns="True" />
 
-    </VerticalStackLayout>
+            
+            <StackLayout Spacing="20">
+                <Label Text="Information About Fmaily" TextColor="WhiteSmoke" FontSize="Medium"/>
+                <controls:DataGrid ItemsSource="{Binding FamilyMembers}"   SelectedItems="{Binding SelectedMember}"  BorderColor="White" SelectionColor="Grey">
+                    <controls:DataGrid.Columns>
+                        <controls:DataGridSelectionColumn Title="Select" Width="*"/>
+                        <controls:DataGridColumn Binding="{Binding MemberName}"  Title="Name" Width="*"/>
+                        <controls:DataGridColumn Binding="{Binding MemberEmail}" Title="E-mail" Width="*"/>
+                    </controls:DataGrid.Columns>
+                </controls:DataGrid>
 
+                <Button Text="Delete Selected Member"  HorizontalOptions="Center" Command="{Binding RemoveMember}"/>
+            </StackLayout>
+
+
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Column="1" Spacing="20"  Margin="20">
+
+            <StackLayout Spacing="20">
+                <Label Text="Information about account" TextColor="WhiteSmoke" FontSize="Medium"/>
+                <controls:DataGrid ItemsSource="{Binding Person}"  BorderColor="White">
+                    <controls:DataGrid.Columns >
+                        <controls:DataGridColumn Binding="{Binding Name}" Title="Name" Width="Auto"/>
+                        <controls:DataGridColumn Binding="{Binding Email}" Title="E-mail" Width="*"/>
+                        <controls:DataGridColumn Binding="{Binding Salary}" Title="Salary" Width="*"/>
+                        <controls:DataGridColumn Binding="{Binding Status}" Title="Status" Width="100"/>
+                    </controls:DataGrid.Columns>
+                </controls:DataGrid>
+                <Button Text="Save changes"  HorizontalOptions="Center"/>
+            </StackLayout>
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

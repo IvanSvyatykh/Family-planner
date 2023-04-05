@@ -52,7 +52,7 @@ namespace Database
                 family = await db.Families.Where(f => f.Id == Id).FirstOrDefaultAsync();
             });
             return family;
-        }
+        }      
 
     }
 }

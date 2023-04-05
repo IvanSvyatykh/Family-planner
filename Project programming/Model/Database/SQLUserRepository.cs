@@ -112,6 +112,24 @@ namespace Database
 
 
         }
+        public async Task<bool> RemoveMemberOfFamily(ushort FamilyId)
+        {
+            try
+            {
+                await Task.Run(async () =>
+                {
+
+                    var userFromDb = await db.Users.FirstOrDefaultAsync(u => u.FamilyId == FamilyId);
+                    userFromDb.FamilyId = 0;
+                    await db.SaveChangesAsync();
+                });
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public List<User> GetAllAccountWithFamilyId(ushort? FamilyId)
         {
 

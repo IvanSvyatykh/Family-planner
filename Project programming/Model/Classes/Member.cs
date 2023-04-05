@@ -11,13 +11,13 @@ namespace Members
     {
         public string MemberName { get; set; }
         public string MemberEmail { get; set; }
-        public string MemberSalary { get; set; }
-
-        public FamilyMember(string MemberName, string MemberEmail, string MemberSalary)
+        public ushort FamilyId { get; set; }
+        public FamilyMember(string MemberName, string MemberEmail , ushort FamilyId)
         {
             this.MemberName = MemberName;
-            this.MemberEmail = MemberEmail; 
-            this.MemberSalary = MemberSalary;   
+            this.MemberEmail = MemberEmail;
+            this.FamilyId = FamilyId;
         }
+
     }
 }
