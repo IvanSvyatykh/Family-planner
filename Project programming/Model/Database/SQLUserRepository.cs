@@ -10,7 +10,7 @@ namespace Database
         {
             db = new ApplicationContext();
         }
-        public async Task<bool> IsUserExistsAsync(User user) => await db.Users.Where(u => u.Email.Equals(user.Email)).AnyAsync();
+        public async Task<bool> IsUserExistsAsync(string email) => await db.Users.Where(u => u.Email.Equals(email)).AnyAsync();
         public async Task<bool> IsUserPasswordCorrectAsync(User user)
         {
             User userFromDb = null;
@@ -29,7 +29,7 @@ namespace Database
                 await Task.Run(async () =>
                 {
                     user = await db.Users.Where(u => u.Email.Equals(UserEmail)).FirstOrDefaultAsync();
-                    user.Salary = salary;
+                    user.ChangeSalary(salary);
                     db.SaveChanges();
 
                 });
@@ -42,7 +42,7 @@ namespace Database
         }
         public async Task<bool> AddUserAsync(User user)
         {
-            if (!await IsUserExistsAsync(user))
+            if (!await IsUserExistsAsync(user.Email))
             {
                 await Task.Run(async () =>
                 {
@@ -61,7 +61,7 @@ namespace Database
                 await Task.Run(async () =>
                 {
                     user = await db.Users.Where(u => u.Email.Equals(UserEmail)).FirstOrDefaultAsync();
-                    user.Password = password;
+                    user.ChangePassword(password);
                     await db.SaveChangesAsync();
                 });
 
@@ -99,7 +99,7 @@ namespace Database
                 {
                     Family family = await db.Families.Where(f => f.Email == CreatorEmail).FirstOrDefaultAsync();
                     user = await db.Users.Where(u => u.Email == UserEmail).FirstOrDefaultAsync();
-                    user.FamilyId = family.Id;
+                    user.ChangeFamilyId(family.Id);
                     await db.SaveChangesAsync();
                 });
 
@@ -120,7 +120,7 @@ namespace Database
                 {
 
                     var userFromDb = await db.Users.FirstOrDefaultAsync(u => u.FamilyId == FamilyId);
-                    userFromDb.FamilyId = 0;
+                    userFromDb.ChangeFamilyId(0);
                     await db.SaveChangesAsync();
                 });
                 return true;

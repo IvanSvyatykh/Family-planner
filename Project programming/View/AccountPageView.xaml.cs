@@ -1,3 +1,4 @@
+using Classes;
 namespace AccountPage
 {
     public  partial  class AccountPageView : ContentPage

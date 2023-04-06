@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using AppService;
 using Database;
-using DataContext;
+using Classes;
 
 namespace ForgottenPasswordPage
 {
@@ -42,7 +42,7 @@ namespace ForgottenPasswordPage
                         App.AlertSvc.ShowAlert("O_o ", "You wrote non-existed Email", "ОК ");
                     });
                 }
-                else if (await _userRepository.IsUserExistsAsync(new Classes.User(null, null, Email)))
+                else if (await _userRepository.IsUserExistsAsync(Email))
                 {
                     await Task.Run(() =>
                     {
@@ -76,10 +76,11 @@ namespace ForgottenPasswordPage
                         {
                             App.AlertSvc.ShowAlert("", "You changed your password");
                         });
-                        CurrentDataContext.AddUser(await _userRepository.GetFullPersonInformationAsync(Email));
-                        CurrentDataContext.AddFamily(await _familyRepository.GetFullFamilyInformationAsync(CurrentDataContext.GetUserFamailyId));
-                        await Task.Delay(2000);
-                        await Shell.Current.GoToAsync("AccountPageView");
+                        Dictionary<string, object> data = new Dictionary<string, object>();
+                        User user = await _userRepository.GetFullPersonInformationAsync(Email);
+                        data.Add("User", user);
+                        data.Add("Family", await _familyRepository.GetFullFamilyInformationAsync(user.FamilyId));
+                        await Shell.Current.GoToAsync("AccountPageView", data);
                     }
                     else
                     {

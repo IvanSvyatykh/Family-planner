@@ -6,35 +6,46 @@ using AppService;
 using Members;
 using System.Collections.ObjectModel;
 using Database;
-using DataContext;
 
 namespace AccountPage
 {
-    public class AccountPageViewModel : INotifyPropertyChanged
+    public class AccountPageViewModel : INotifyPropertyChanged, IQueryAttributable
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand RemoveMember { get; set; }
         public ObservableCollection<FamilyMember> FamilyMembers { get; set; } = new ObservableCollection<FamilyMember>();
         public ObservableCollection<FamilyMember> SelectedMember { get; set; } = new ObservableCollection<FamilyMember>();
+        private User User { get; set; }
+        private Family Family { get; set; }
+        public void ApplyQueryAttributes(IDictionary<string, object> query)
+        {
+            User = query["User"] as User;
+            OnPropertyChanged("User");
+            Family = query["Family"] as Family;
+            OnPropertyChanged("Family");
+        }
 
-        private SQLUserRepository _userRepository = new SQLUserRepository();
+        private SQLUserRepository _userRepository { get; set } = new SQLUserRepository();
 
         public ObservableCollection<DataPerson> Person { get; set; } = new ObservableCollection<DataPerson>();
 
+
+
         public AccountPageViewModel()
         {
+
             DataPerson dataPerson;
-            if (CurrentDataContext.GetFamily == null)
+            if (Family == null)
             {
-                dataPerson = new DataPerson(CurrentDataContext.GetUserName, CurrentDataContext.GetUserName, CurrentDataContext.GetUserSalary, null);
+                dataPerson = new DataPerson(User.Name, User.Email, User.Salary, null);
             }
             else
             {
-                dataPerson = new DataPerson(CurrentDataContext.GetUserName, CurrentDataContext.GetUserName, CurrentDataContext.GetUserSalary, CurrentDataContext.GetFamilyEmail);
+                dataPerson = new DataPerson(User.Name, User.Email, User.Salary, Family.Email);
             }
 
             Person.Add(dataPerson);
-            List<User> users = _userRepository.GetAllAccountWithFamilyId(CurrentDataContext.GetUserFamailyId);
+            List<User> users = _userRepository.GetAllAccountWithFamilyId(User.FamilyId);
             if (users != null)
             {
                 foreach (var user in users)

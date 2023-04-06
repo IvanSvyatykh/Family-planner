@@ -5,10 +5,10 @@ using System.Runtime.CompilerServices;
 using AppService;
 using Classes;
 using Database;
-using DataContext;
 
 namespace MainPage
 {
+
     public class MainPageViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -26,7 +26,7 @@ namespace MainPage
         public MainPageViewModel()
         {
             SignIn = new Command(async () =>
-            {               
+            {
                 User user = new User(null, Password, Email);
                 if (!CheckEmailCorectness.ConnectionAvailable())
                 {
@@ -35,16 +35,19 @@ namespace MainPage
                         App.AlertSvc.ShowAlert("", "There is no internet, check your connection, please");
                     });
 
-                }                
-                else if (await _userRepository.IsUserExistsAsync(user))
+                }
+                else if (await _userRepository.IsUserExistsAsync(user.Email))
                 {
                     if (await _userRepository.IsUserPasswordCorrectAsync(user))
                     {
-
-                        CurrentDataContext.AddUser(await _userRepository.GetFullPersonInformationAsync(Email));
-                        CurrentDataContext.AddFamily(await _familyRepository.GetFullFamilyInformationAsync(CurrentDataContext.GetUserFamailyId));
                         await Task.Delay(1000);
-                        await Shell.Current.GoToAsync("AccountPageView");
+                        IDictionary<string, object> data = new Dictionary<string, object>();
+                        user = await _userRepository.GetFullPersonInformationAsync(Email);
+                        data.Add("User", user);
+                        ushort FamilyId = user.FamilyId;
+                        data.Add("Family", await _familyRepository.GetFullFamilyInformationAsync(FamilyId));
+                        await Task.Delay(2000);
+                        await Shell.Current.GoToAsync("AccountPageView", data);
                     }
                     else
                     {
@@ -57,6 +60,7 @@ namespace MainPage
                         {
                             _countTry = 0;
                             await Shell.Current.GoToAsync("ForgottenPasswordPage");
+
                         }
                     }
                 }
@@ -111,6 +115,7 @@ namespace MainPage
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
             ((Command)SignIn).ChangeCanExecute();
         }
+
 
     }
 }

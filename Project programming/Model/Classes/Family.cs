@@ -20,5 +20,13 @@ namespace Classes
             this.Password = Password;
             Email = email;
         }
+
+        public void AddId(ushort id)
+        {
+            Id = id;
+        }
+
+
+
     }
 }

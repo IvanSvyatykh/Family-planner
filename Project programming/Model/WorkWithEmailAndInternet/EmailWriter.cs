@@ -33,7 +33,7 @@ namespace WorkWithEmail
                 mess.Dispose();
                 return true;
             }
-            catch (Exception e)
+            catch
             {
                 //на случай если пользователь ошибся в почте и отправка не возможна
                 return false;
