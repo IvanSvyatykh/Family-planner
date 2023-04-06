@@ -6,6 +6,7 @@ using Classes;
 using System.Windows.Input;
 using AppService;
 using Database;
+using DataContext;
 
 namespace RegistrationPage
 {
@@ -84,8 +85,8 @@ namespace RegistrationPage
                         {
                             App.AlertSvc.ShowAlert("Great", "You Succesfully registered");
                         });
-                        (App.Current as App)._family = await _familyRepository.GetFullFamilyInformationAsync((ushort)(App.Current as App)._user.FamilyId);
-                        (App.Current as App)._user = await _userRepository.GetFullPersonInformationAsync(Email);
+                        CurrentDataContext.AddUser(await _userRepository.GetFullPersonInformationAsync(Email));
+                        CurrentDataContext.AddFamily(await _familyRepository.GetFullFamilyInformationAsync(CurrentDataContext.GetUserFamailyId));
                         await Task.Delay(1000);
                         await Shell.Current.GoToAsync("AccountPageView");
                     }

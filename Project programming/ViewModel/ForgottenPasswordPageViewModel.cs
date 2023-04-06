@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using AppService;
 using Database;
+using DataContext;
 
 namespace ForgottenPasswordPage
 {
@@ -75,8 +76,8 @@ namespace ForgottenPasswordPage
                         {
                             App.AlertSvc.ShowAlert("", "You changed your password");
                         });
-                        (App.Current as App)._user = await _userRepository.GetFullPersonInformationAsync(Email);
-                        (App.Current as App)._family = await _familyRepository.GetFullFamilyInformationAsync((ushort)(App.Current as App)._user.FamilyId);
+                        CurrentDataContext.AddUser(await _userRepository.GetFullPersonInformationAsync(Email));
+                        CurrentDataContext.AddFamily(await _familyRepository.GetFullFamilyInformationAsync(CurrentDataContext.GetUserFamailyId));
                         await Task.Delay(2000);
                         await Shell.Current.GoToAsync("AccountPageView");
                     }

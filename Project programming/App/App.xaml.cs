@@ -10,9 +10,7 @@ namespace AppService
     public partial class App : Application
     {
         public static IServiceProvider Services;
-        public static IAlertService AlertSvc;
-        public User _user;
-        public Family _family;
+        public static IAlertService AlertSvc;       
         public App(IServiceProvider provider)
         {
             InitializeComponent();

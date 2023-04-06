@@ -6,6 +6,7 @@ using AppService;
 using Members;
 using System.Collections.ObjectModel;
 using Database;
+using DataContext;
 
 namespace AccountPage
 {
@@ -23,17 +24,17 @@ namespace AccountPage
         public AccountPageViewModel()
         {
             DataPerson dataPerson;
-            if ((App.Current as App)._family == null)
+            if (CurrentDataContext.GetFamily == null)
             {
-                dataPerson = new DataPerson((App.Current as App)._user.Name, (App.Current as App)._user.Email, (App.Current as App)._user.Salary.ToString(), null);
+                dataPerson = new DataPerson(CurrentDataContext.GetUserName, CurrentDataContext.GetUserName, CurrentDataContext.GetUserSalary, null);
             }
             else
             {
-                dataPerson = new DataPerson((App.Current as App)._user.Name, (App.Current as App)._user.Email, (App.Current as App)._user.Salary.ToString(), (App.Current as App)._family.Email);
+                dataPerson = new DataPerson(CurrentDataContext.GetUserName, CurrentDataContext.GetUserName, CurrentDataContext.GetUserSalary, CurrentDataContext.GetFamilyEmail);
             }
 
             Person.Add(dataPerson);
-            List<User> users = _userRepository.GetAllAccountWithFamilyId((App.Current as App)._user.FamilyId);
+            List<User> users = _userRepository.GetAllAccountWithFamilyId(CurrentDataContext.GetUserFamailyId);
             if (users != null)
             {
                 foreach (var user in users)

@@ -4,12 +4,13 @@ using System.Windows.Input;
 using Classes;
 using AppService;
 using Database;
+using DataContext;
 
 namespace FamilyRegistrationPage
 {
     public class FamilyRegistrationViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler? PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
         public ICommand CreateFamily { get; set; }
         public ICommand JoinToFamily { get; set; }
         private string _familyNameCreation { get; set; } = null;
@@ -25,7 +26,7 @@ namespace FamilyRegistrationPage
         {
             JoinToFamily = new Command(async () =>
             {
-                if ((App.Current as App)._user.FamilyId != 0 && (App.Current as App)._user.FamilyId != null)
+                if (CurrentDataContext.GetUserFamailyId != 0)
                 {
                     await Task.Run(() =>
                     {
@@ -42,7 +43,7 @@ namespace FamilyRegistrationPage
                 }
                 else if (await _familyRepository.IsFamilyPasswordCorrectAsync(CreatorEmailJoin, FamilyPasswordJoin))
                 {
-                    if (!await _userRepository.AddFamilyToUserAsync(CreatorEmailJoin, (App.Current as App)._user.Email))
+                    if (!await _userRepository.AddFamilyToUserAsync(CreatorEmailJoin, CurrentDataContext.GetUserEmail))
                     {
                         await Task.Run(() =>
                         {
@@ -52,8 +53,8 @@ namespace FamilyRegistrationPage
                     }
                     else
                     {
-                        (App.Current as App)._user.FamilyId = (ushort)await _familyRepository.GetFamilyIdAync(_creatorEmaiJoin);
-                        (App.Current as App)._family = new Family(FamilyNameCreation, FamilyPasswordCreation, (App.Current as App)._user.Email);
+                        CurrentDataContext.AddFamilyIdToUser((ushort)await _familyRepository.GetFamilyIdAync(_creatorEmaiJoin));
+                        CurrentDataContext.AddFamily(new Family(FamilyNameCreation, FamilyPasswordCreation, CurrentDataContext.GetUserEmail));
                         App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
                     }
                 }
@@ -65,7 +66,7 @@ namespace FamilyRegistrationPage
 
             CreateFamily = new Command(async () =>
             {
-                if ((App.Current as App)._user.FamilyId != 0)
+                if (CurrentDataContext.GetUserFamailyId != 0)
                 {
                     await Task.Run(() =>
                     {
@@ -84,8 +85,8 @@ namespace FamilyRegistrationPage
                 }
                 else
                 {
-                    (App.Current as App)._family = new Family(FamilyNameCreation, FamilyPasswordCreation, (App.Current as App)._user.Email);
-                    if (!await _familyRepository.CreateFamilyAsync((App.Current as App)._family) && !await _userRepository.AddFamilyToUserAsync(CreatorEmailJoin, (App.Current as App)._user.Email))
+                    CurrentDataContext.AddFamily(new Family(FamilyNameCreation, FamilyPasswordCreation, CurrentDataContext.GetUserEmail));
+                    if (!await _familyRepository.CreateFamilyAsync(CurrentDataContext.GetFamily) && !await _userRepository.AddFamilyToUserAsync(CreatorEmailJoin, CurrentDataContext.GetUserEmail))
                     {
                         App.AlertSvc.ShowAlert("Sorry", "But we can't create family, something goes wrong");
                     }

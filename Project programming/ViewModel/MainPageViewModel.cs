@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using AppService;
 using Classes;
 using Database;
+using DataContext;
 
 namespace MainPage
 {
@@ -40,8 +41,8 @@ namespace MainPage
                     if (await _userRepository.IsUserPasswordCorrectAsync(user))
                     {
 
-                        (App.Current as App)._user = await _userRepository.GetFullPersonInformationAsync(Email);
-                        (App.Current as App)._family = await _familyRepository.GetFullFamilyInformationAsync((ushort)(App.Current as App)._user.FamilyId);
+                        CurrentDataContext.AddUser(await _userRepository.GetFullPersonInformationAsync(Email));
+                        CurrentDataContext.AddFamily(await _familyRepository.GetFullFamilyInformationAsync(CurrentDataContext.GetUserFamailyId));
                         await Task.Delay(1000);
                         await Shell.Current.GoToAsync("AccountPageView");
                     }
