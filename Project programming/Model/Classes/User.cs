@@ -8,12 +8,12 @@ namespace Classes
 {
     public class User
     {
-        public ushort Id { get; set; }
-        public string Name { get; set; } = null!;
-        public string Password { get; set; } = null!;
-        public uint Salary { get; set; }
-        public string Email { get; set; } = null!;
-        public ushort FamilyId { get; set; } = 0;
+        public uint Id {get; private set; }
+        public string Name { get; private set; } = null!;
+        public string Password { get; private set; } = null!;
+        public uint Salary { get; private set; }
+        public string Email { get; private set; } = null!;
+        public ushort FamilyId { get; private set; } = 0;
         public User(string Name, string Password, string Email)
         {
             this.Name = Name;

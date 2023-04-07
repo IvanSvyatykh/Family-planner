@@ -18,88 +18,112 @@ namespace FamilyRegistrationPage
         private string _familyPasswordCreation { get; set; } = null;
         private string _repeatedFamilyPasswordCreation { get; set; } = null;
 
+        private Dictionary<string, object> FamilyRegistrationPageData = (App.Current as App).currentData;
+
+        private User User;
+
+        private Family Family;
+
+
         private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
 
         private SQLUserRepository _userRepository = new SQLUserRepository();
         public FamilyRegistrationViewModel()
         {
+            User = FamilyRegistrationPageData["User"] as User;
+            JoinToFamily = new Command(async () =>
+            {
+                if (User.FamilyId != 0)
+                {
+                    await Task.Run(() =>
+                    {
+                        App.AlertSvc.ShowAlert("", "You are alredy member of group");
+                    });
+                }
+                else if (!await _familyRepository.IsExistFamilyAsync(CreatorEmailJoin))
+                {
+                    await Task.Run(() =>
+                    {
+                        App.AlertSvc.ShowAlert("", "Family with this Email does not exist");
+                        CreatorEmailJoin = null;
+                    });
+                }
+                else if (await _familyRepository.IsFamilyPasswordCorrectAsync(CreatorEmailJoin, FamilyPasswordJoin))
+                {
+                    if (!await _userRepository.AddFamilyToUserAsync(CreatorEmailJoin, User.Email))
+                    {
+                        await Task.Run(() =>
+                        {
+                            App.AlertSvc.ShowAlert("", "Sorry, but something goes wrong and we can not add Family Id");
+                        });
+                    }
+                    else
+                    {
+                        User.ChangeFamilyId(await _familyRepository.GetFamilyIdAync(_creatorEmaiJoin));
+                        Family = new Family(FamilyNameCreation, FamilyPasswordCreation, User.Email);
+                        FamilyRegistrationPageData["User"] = User;
+                        FamilyRegistrationPageData["Family"] = Family;
+                        (App.Current as App).currentData = FamilyRegistrationPageData;
+                        App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
+                    }
+                }
+                else
+                {
+                    App.AlertSvc.ShowAlert("", "Password isn't correct");
+                }
+            });
 
-        //    JoinToFamily = new Command(async () =>
-        //    {
-        //        if (CurrentDataContext.GetUserFamailyId != 0)
-        //        {
-        //            await Task.Run(() =>
-        //            {
-        //                App.AlertSvc.ShowAlert("", "You are alredy member of group");
-        //            });
-        //        }
-        //        else if (!await _familyRepository.IsExistFamilyAsync(CreatorEmailJoin))
-        //        {
-        //            await Task.Run(() =>
-        //            {
-        //                App.AlertSvc.ShowAlert("", "Family with this Id does not exist");
-        //                CreatorEmailJoin = null;
-        //            });
-        //        }
-        //        else if (await _familyRepository.IsFamilyPasswordCorrectAsync(CreatorEmailJoin, FamilyPasswordJoin))
-        //        {
-        //            if (!await _userRepository.AddFamilyToUserAsync(CreatorEmailJoin, CurrentDataContext.GetUserEmail))
-        //            {
-        //                await Task.Run(() =>
-        //                {
-        //                    App.AlertSvc.ShowAlert("", "Sorry, but something goes wrong and we can not add Family Id");
-        //                });
+            CreateFamily = new Command(async () =>
+            {
+                if (User.FamilyId != 0)
+                {
+                    await Task.Run(() =>
+                    {
+                        App.AlertSvc.ShowAlert("", "You are alredy member of group");
+                    });
+                }
+                else if (!FamilyPasswordCreation.Equals(RepeatedFamilyPasswordCreation))
+                {
+                    App.AlertSvc.ShowAlert("", "Password and repeted password are not equal");
+                    RepeatedFamilyPasswordCreation = null;
+                    FamilyPasswordCreation = null;
+                }
+                else if (FamilyNameCreation == null || FamilyNameCreation == "")
+                {
+                    App.AlertSvc.ShowAlert("Sorry", "Name of Family can not be null");
+                }
+                else
+                {
+                    Family = new Family(FamilyNameCreation, FamilyPasswordCreation, User.Email);
+                    if (!await _familyRepository.CreateFamilyAsync(Family))
+                    {
+                        await Task.Run(() =>
+                        {
+                            App.AlertSvc.ShowAlert("Sorry", "But we can't create family, something goes wrong");
+                        });
 
-        //            }
-        //            else
-        //            {
-        //                CurrentDataContext.AddFamilyIdToUser((ushort)await _familyRepository.GetFamilyIdAync(_creatorEmaiJoin));
-        //                CurrentDataContext.AddFamily(new Family(FamilyNameCreation, FamilyPasswordCreation, CurrentDataContext.GetUserEmail));
-        //                App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
-        //            }
-        //        }
-        //        else
-        //        {
-        //            App.AlertSvc.ShowAlert("", "Password isn't correct");
-        //        }
-        //    });
+                    }
+                    else if (!await _userRepository.AddFamilyToUserAsync(User.Email, User.Email))
+                    {
+                        await Task.Run(() =>
+                        {
+                            App.AlertSvc.ShowAlert("Sorry", "But we can't add familyId to user");
+                        });
+                        
+                    }
+                    else
+                    {
+                        FamilyRegistrationPageData["User"] = User;
+                        FamilyRegistrationPageData["Family"] = Family;
+                        (App.Current as App).currentData = FamilyRegistrationPageData;
+                        await Task.Run(() =>
+                        {
+                            App.AlertSvc.ShowAlert("Good", "Creation is successful");
+                        });
+                    }
 
-        //    CreateFamily = new Command(async () =>
-        //    {
-        //        if (CurrentDataContext.GetUserFamailyId != 0)
-        //        {
-        //            await Task.Run(() =>
-        //            {
-        //                App.AlertSvc.ShowAlert("", "You are alredy member of group");
-        //            });
-        //        }
-        //        else if (!FamilyPasswordCreation.Equals(RepeatedFamilyPasswordCreation))
-        //        {
-        //            App.AlertSvc.ShowAlert("", "Password and repeted password are not equal");
-        //            RepeatedFamilyPasswordCreation = null;
-        //            FamilyPasswordCreation = null;
-        //        }
-        //        else if (FamilyNameCreation == null || FamilyNameCreation == "")
-        //        {
-        //            App.AlertSvc.ShowAlert("Sorry", "But Name of Family can not be null");
-        //        }
-        //        else
-        //        {
-        //            CurrentDataContext.AddFamily(new Family(FamilyNameCreation, FamilyPasswordCreation, CurrentDataContext.GetUserEmail));
-        //            if (!await _familyRepository.CreateFamilyAsync(CurrentDataContext.GetFamily) && !await _userRepository.AddFamilyToUserAsync(CreatorEmailJoin, CurrentDataContext.GetUserEmail))
-        //            {
-        //                App.AlertSvc.ShowAlert("Sorry", "But we can't create family, something goes wrong");
-        //            }
-        //            else
-        //            {
-        //                await Task.Run(() =>
-        //                {
-        //                    App.AlertSvc.ShowAlert("Good", "Creation is successful");
-        //                });
-        //            }
-
-        //        }
-        //    });
+                }
+            });
         }
 
         public string RepeatedFamilyPasswordCreation

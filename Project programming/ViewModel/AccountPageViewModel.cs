@@ -19,9 +19,7 @@ namespace AccountPage
         private Family Family { get; set; }
 
         private Dictionary<string, object> AccountPageCurrentData = (App.Current as App).currentData;
-
         private SQLUserRepository _userRepository { get; set; } = new SQLUserRepository();
-
         public ObservableCollection<DataPerson> Person { get; set; } = new ObservableCollection<DataPerson>();
 
 
@@ -29,7 +27,7 @@ namespace AccountPage
         public AccountPageViewModel()
         {
             User = AccountPageCurrentData["User"] as User;
-            Family = AccountPageCurrentData["Family"] as Family;    
+            Family = AccountPageCurrentData["Family"] as Family;
             DataPerson dataPerson;
             if (Family == null)
             {

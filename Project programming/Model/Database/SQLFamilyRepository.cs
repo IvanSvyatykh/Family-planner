@@ -33,9 +33,9 @@ namespace Database
             return false;
 
         }
-        public async Task<ushort?> GetFamilyIdAync(string email)
+        public async Task<ushort> GetFamilyIdAync(string email)
         {
-            ushort? Id = null;
+            ushort Id = 0;
             await Task.Run(async () =>
             {
                 Family family = await db.Families.Where(f => f.Email.Equals(email)).FirstOrDefaultAsync();
