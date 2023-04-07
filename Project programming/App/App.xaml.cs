@@ -10,7 +10,8 @@ namespace AppService
     public partial class App : Application
     {
         public static IServiceProvider Services;
-        public static IAlertService AlertSvc;       
+        public static IAlertService AlertSvc;
+        public Dictionary<string , object> currentData = new Dictionary<string , object>();
         public App(IServiceProvider provider)
         {
             InitializeComponent();

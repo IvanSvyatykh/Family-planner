@@ -9,7 +9,7 @@ using Database;
 
 namespace AccountPage
 {
-    public class AccountPageViewModel : INotifyPropertyChanged, IQueryAttributable
+    public class AccountPageViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand RemoveMember { get; set; }
@@ -17,15 +17,10 @@ namespace AccountPage
         public ObservableCollection<FamilyMember> SelectedMember { get; set; } = new ObservableCollection<FamilyMember>();
         private User User { get; set; }
         private Family Family { get; set; }
-        public void ApplyQueryAttributes(IDictionary<string, object> query)
-        {
-            User = query["User"] as User;
-            OnPropertyChanged("User");
-            Family = query["Family"] as Family;
-            OnPropertyChanged("Family");
-        }
 
-        private SQLUserRepository _userRepository { get; set } = new SQLUserRepository();
+        private Dictionary<string, object> AccountPageCurrentData = (App.Current as App).currentData;
+
+        private SQLUserRepository _userRepository { get; set; } = new SQLUserRepository();
 
         public ObservableCollection<DataPerson> Person { get; set; } = new ObservableCollection<DataPerson>();
 
@@ -33,7 +28,8 @@ namespace AccountPage
 
         public AccountPageViewModel()
         {
-
+            User = AccountPageCurrentData["User"] as User;
+            Family = AccountPageCurrentData["Family"] as Family;    
             DataPerson dataPerson;
             if (Family == null)
             {
@@ -54,6 +50,9 @@ namespace AccountPage
                     FamilyMembers.Add(familyMember);
                 }
             }
+
+
+
 
             RemoveMember = new Command(async () =>
             {

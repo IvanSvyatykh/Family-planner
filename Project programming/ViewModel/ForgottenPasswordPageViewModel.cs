@@ -22,6 +22,8 @@ namespace ForgottenPasswordPage
         private SQLUserRepository _userRepository = new SQLUserRepository();
         private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
         private int? _newPassword { get; set; } = null;
+
+        private Dictionary<string, object> ForgottenPageData = (App.Current as App).currentData;
         public ForgottenPasswordPageViewModel()
         {
             SendEmail = new Command(async () =>
@@ -76,11 +78,13 @@ namespace ForgottenPasswordPage
                         {
                             App.AlertSvc.ShowAlert("", "You changed your password");
                         });
-                        Dictionary<string, object> data = new Dictionary<string, object>();
+                        await Task.Delay(1000);
                         User user = await _userRepository.GetFullPersonInformationAsync(Email);
-                        data.Add("User", user);
-                        data.Add("Family", await _familyRepository.GetFullFamilyInformationAsync(user.FamilyId));
-                        await Shell.Current.GoToAsync("AccountPageView", data);
+                        ForgottenPageData.Add("User", user);
+                        ushort FamilyId = user.FamilyId;
+                        ForgottenPageData.Add("Family", await _familyRepository.GetFullFamilyInformationAsync(FamilyId));
+                        (App.Current as App).currentData = ForgottenPageData;
+                        await Shell.Current.GoToAsync("AccountPageView");
                     }
                     else
                     {

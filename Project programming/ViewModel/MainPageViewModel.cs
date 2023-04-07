@@ -22,6 +22,8 @@ namespace MainPage
 
         private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
 
+        private Dictionary<string , object> MainPageData = (App.Current as App).currentData;   
+
         private int _countTry = 0;
         public MainPageViewModel()
         {
@@ -41,13 +43,12 @@ namespace MainPage
                     if (await _userRepository.IsUserPasswordCorrectAsync(user))
                     {
                         await Task.Delay(1000);
-                        IDictionary<string, object> data = new Dictionary<string, object>();
                         user = await _userRepository.GetFullPersonInformationAsync(Email);
-                        data.Add("User", user);
+                        MainPageData.Add("User", user);
                         ushort FamilyId = user.FamilyId;
-                        data.Add("Family", await _familyRepository.GetFullFamilyInformationAsync(FamilyId));
-                        await Task.Delay(2000);
-                        await Shell.Current.GoToAsync("AccountPageView", data);
+                        MainPageData.Add("Family", await _familyRepository.GetFullFamilyInformationAsync(FamilyId));
+                        (App.Current as App).currentData = MainPageData;
+                        await Shell.Current.GoToAsync("AccountPageView");
                     }
                     else
                     {

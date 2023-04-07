@@ -28,6 +28,8 @@ namespace RegistrationPage
         private SQLUserRepository _userRepository = new SQLUserRepository();
         private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
 
+        private Dictionary<string, object> RegistrationPageData = (App.Current as App).currentData;
+
         public RegistrationPageViewModel()
         {
             SendEmail = new Command(async () =>
@@ -85,11 +87,13 @@ namespace RegistrationPage
                             App.AlertSvc.ShowAlert("Great", "You Succesfully registered");
                         });
 
-                        IDictionary<string, object> data = new Dictionary<string, object>();
+                        await Task.Delay(1000);
                         user = await _userRepository.GetFullPersonInformationAsync(Email);
-                        data.Add("User", user);
-                        data.Add("Family", await _familyRepository.GetFullFamilyInformationAsync(user.FamilyId));
-                        await Shell.Current.GoToAsync("AccountPageView", data);
+                        RegistrationPageData.Add("User", user);
+                        ushort FamilyId = user.FamilyId;
+                        RegistrationPageData.Add("Family", await _familyRepository.GetFullFamilyInformationAsync(FamilyId));
+                        (App.Current as App).currentData = RegistrationPageData;
+                        await Shell.Current.GoToAsync("AccountPageView");
                     }
                     else
                     {
