@@ -10,18 +10,23 @@ using Classes;
 namespace ForgottenPasswordPage
 {
     public class ForgottenPasswordPageViewModel : INotifyPropertyChanged
-    {
-        private string _email;
-        private bool _isSend = false;
-        private int? _answer { get; set; } = null;
+    {      
         public ICommand SendEmail { get; set; }
         public ICommand Continue { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         private SQLUserRepository _userRepository = new SQLUserRepository();
+
         private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
-        private int? _newPassword { get; set; } = null;
+
+        private int? _newPassword  = null;
+
+        private string _email;
+
+        private bool _isSend = false;
+
+        private int? _answer = null;
 
         private Dictionary<string, object> ForgottenPageData = (App.Current as App).currentData;
         public ForgottenPasswordPageViewModel()

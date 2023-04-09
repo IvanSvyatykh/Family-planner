@@ -12,6 +12,12 @@ namespace RegistrationPage
     public class RegistrationPageViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+        public ICommand SendEmail { get; set; }
+        public ICommand ReigistarationButtonIsPressed { get; set; }
+
+        private SQLUserRepository _userRepository = new SQLUserRepository();
+
+        private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
 
         private string _password;
 
@@ -20,13 +26,11 @@ namespace RegistrationPage
         private string _name;
 
         private string _email;
-        private int? _answer { get; set; } = null;
-        private int? _confirmationCode { get; set; } = null;
-        public ICommand SendEmail { get; set; }
-        public ICommand ReigistarationButtonIsPressed { get; set; }
 
-        private SQLUserRepository _userRepository = new SQLUserRepository();
-        private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
+        private int? _answer = null;
+
+        private int? _confirmationCode = null;
+
 
         private Dictionary<string, object> RegistrationPageData = (App.Current as App).currentData;
 

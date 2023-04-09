@@ -15,14 +15,15 @@ namespace AccountPage
         public ICommand RemoveMember { get; set; }
         public ObservableCollection<FamilyMember> FamilyMembers { get; set; } = new ObservableCollection<FamilyMember>();
         public ObservableCollection<FamilyMember> SelectedMember { get; set; } = new ObservableCollection<FamilyMember>();
-        private User User { get; set; }
-        private Family Family { get; set; }
-
-        private Dictionary<string, object> AccountPageCurrentData = (App.Current as App).currentData;
-        private SQLUserRepository _userRepository { get; set; } = new SQLUserRepository();
         public ObservableCollection<DataPerson> Person { get; set; } = new ObservableCollection<DataPerson>();
 
+        private SQLUserRepository _userRepository = new SQLUserRepository();
 
+        private User User;
+
+        private Family Family;
+
+        private Dictionary<string, object> AccountPageCurrentData = (App.Current as App).currentData;
 
         public AccountPageViewModel()
         {

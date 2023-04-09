@@ -15,8 +15,10 @@ namespace MainPage
         public ICommand SignIn { get; set; }
         public ICommand Registration { get; set; }
         public ICommand ForgetPassword { get; set; }
-        private string _email { get; set; }
-        private string _password { get; set; }
+
+        private string _email = string.Empty;
+
+        private string _password = string.Empty;
 
         private SQLUserRepository _userRepository = new SQLUserRepository();
 

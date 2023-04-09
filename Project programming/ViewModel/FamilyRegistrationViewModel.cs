@@ -12,11 +12,16 @@ namespace FamilyRegistrationPage
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand CreateFamily { get; set; }
         public ICommand JoinToFamily { get; set; }
-        private string _familyNameCreation { get; set; } = null;
-        private string _familyPasswordJoin { get; set; } = null;
-        private string _creatorEmaiJoin { get; set; } = null;
-        private string _familyPasswordCreation { get; set; } = null;
-        private string _repeatedFamilyPasswordCreation { get; set; } = null;
+
+        private string _familyNameCreation = null;
+
+        private string _familyPasswordJoin = null;
+
+        private string _creatorEmaiJoin = null;
+
+        private string _familyPasswordCreation = null;
+
+        private string _repeatedFamilyPasswordCreation = null;
 
         private Dictionary<string, object> FamilyRegistrationPageData = (App.Current as App).currentData;
 
@@ -109,7 +114,7 @@ namespace FamilyRegistrationPage
                         {
                             App.AlertSvc.ShowAlert("Sorry", "But we can't add familyId to user");
                         });
-                        
+
                     }
                     else
                     {
