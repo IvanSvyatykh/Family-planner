@@ -13,11 +13,14 @@ namespace AccountPage
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand RemoveMember { get; set; }
+        public ICommand UpdateData { get; set; }
         public ObservableCollection<FamilyMember> FamilyMembers { get; set; } = new ObservableCollection<FamilyMember>();
         public ObservableCollection<FamilyMember> SelectedMember { get; set; } = new ObservableCollection<FamilyMember>();
         public ObservableCollection<DataPerson> Person { get; set; } = new ObservableCollection<DataPerson>();
 
         private SQLUserRepository _userRepository = new SQLUserRepository();
+
+        private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
 
         private static Dictionary<string, object> AccountPageCurrentData = (App.Current as App).currentData;
 
@@ -37,38 +40,47 @@ namespace AccountPage
 
                 if (SelectedMember.Count == 0)
                 {
-                    await Task.Run(async () =>
-                    {
-                       await App.AlertSvc.ShowAlertAsync("", "You did not choose anybody from family");
-                    });
+                    await App.AlertSvc.ShowAlertAsync("", "You did not choose anybody from family");
                 }
                 else if (!SelectedMember.All(m => m.MemberEmail.Equals(Family.Email)))
                 {
                     foreach (var user in SelectedMember)
                     {
-                        if (Family.Email.Equals(user.MemberEmail))
-                        {
-
-                        }
                         await _userRepository.RemoveMemberOfFamilyAsync(user.FamilyId);
                         FamilyMembers.Remove(user);
                     }
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("", "We deleted members");
-                    });
+
+                    await App.AlertSvc.ShowAlertAsync("", "We deleted members");
                 }
-                else if(await App.AlertSvc.ShowConfirmationAsync("" , "You chose creator account, if you delete this account, family will be deleted to"))
+                else if (await App.AlertSvc.ShowConfirmationAsync("", "You chose creator account, if you delete this account, family will be deleted too. Are you sure?"))
                 {
 
+                    foreach (var user in FamilyMembers)
+                    {
+                        await _userRepository.RemoveMemberOfFamilyAsync(user.FamilyId);                      
+                        SelectedMember.Remove(user);
+                        OnPropertyChanged();
+                    }
+                    FamilyMembers.Clear();
+                    if(await _familyRepository.RemoveFamily(Family.Id))
+                    {
+                        await App.AlertSvc.ShowAlertAsync("", "Famly was deleted");
+                    }
+                    else
+                    {
+                        await App.AlertSvc.ShowAlertAsync("", "Something goes wrong");
+                    }
+                    
                 }
-
-
-
-
+                else
+                {
+                    SelectedMember.Clear();
+                    OnPropertyChanged();
+                }
             });
+        
         }
-
+     
         private ObservableCollection<FamilyMember> GetAllFamilyAccount(List<User> users)
         {
             ObservableCollection<FamilyMember> members = new ObservableCollection<FamilyMember>();

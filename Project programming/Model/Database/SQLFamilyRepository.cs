@@ -33,7 +33,7 @@ namespace Database
             return false;
 
         }
-        public async Task<ushort> GetFamilyIdAync(string email)
+        public async Task<ushort> GetFamilyIdAsync(string email)
         {
             ushort Id = 0;
             await Task.Run(async () =>
@@ -52,7 +52,27 @@ namespace Database
                 family = await db.Families.Where(f => f.Id == Id).FirstOrDefaultAsync();
             });
             return family;
-        }      
+        }
+
+        public async Task<bool> RemoveFamily(ushort Id)
+        {
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    Family family = await db.Families.Where(f => f.Id == Id).FirstOrDefaultAsync();
+                    db.Families.Remove(family);
+                    await db.SaveChangesAsync();
+                });
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
+        }
 
     }
 }

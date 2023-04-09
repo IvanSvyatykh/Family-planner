@@ -55,7 +55,7 @@ namespace FamilyRegistrationPage
                     }
                     else
                     {
-                        User.ChangeFamilyId(await _familyRepository.GetFamilyIdAync(_creatorEmaiJoin));
+                        User.ChangeFamilyId(await _familyRepository.GetFamilyIdAsync(_creatorEmaiJoin));
                         Family = new Family(FamilyNameCreation, FamilyPasswordCreation, User.Email);
                         FamilyRegistrationPageData["User"] = User;
                         FamilyRegistrationPageData["Family"] = Family;
@@ -98,6 +98,7 @@ namespace FamilyRegistrationPage
                     }
                     else
                     {
+                        User.ChangeFamilyId(await _familyRepository.GetFamilyIdAsync(User.Email));
                         FamilyRegistrationPageData["User"] = User;
                         FamilyRegistrationPageData["Family"] = Family;
                         (App.Current as App).currentData = FamilyRegistrationPageData;

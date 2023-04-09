@@ -26,6 +26,10 @@
             <StackLayout Spacing="20">
                 <Label Text="Information About Fmaily" TextColor="WhiteSmoke" FontSize="Medium"/>
                 <controls:DataGrid ItemsSource="{Binding FamilyMembers}"   SelectedItems="{Binding SelectedMember}"  BorderColor="White" SelectionColor="Grey">
+                    <ActivityIndicator IsRunning="{Binding IsBusy}"/>
+                    <controls:DataGrid.EmptyView>
+                        <Label Text="You are not a family member" TextColor="Black"/>
+                    </controls:DataGrid.EmptyView>
                     <controls:DataGrid.Columns>
                         <controls:DataGridSelectionColumn Title="Select" Width="*"/>
                         <controls:DataGridColumn Binding="{Binding MemberName}"  Title="Name" Width="*"/>
@@ -33,7 +37,11 @@
                     </controls:DataGrid.Columns>
                 </controls:DataGrid>
 
-                <Button Text="Delete Selected Member"  HorizontalOptions="Center" Command="{Binding RemoveMember}"/>
+                <HorizontalStackLayout Spacing="20">
+                    <Button Text="Delete Selected Member"  HorizontalOptions="Start" Command="{Binding RemoveMember}"/>
+                    <Button Text="Update Family" HorizontalOptions="End" Command="{Binding UpdateData}"/>
+                </HorizontalStackLayout>
+               
             </StackLayout>
 
 
