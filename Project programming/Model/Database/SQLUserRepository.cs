@@ -112,7 +112,7 @@ namespace Database
 
 
         }
-        public async Task<bool> RemoveMemberOfFamily(ushort FamilyId)
+        public async Task<bool> RemoveMemberOfFamilyAsync(ushort FamilyId)
         {
             try
             {

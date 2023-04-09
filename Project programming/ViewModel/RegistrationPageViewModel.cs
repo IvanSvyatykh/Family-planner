@@ -41,33 +41,19 @@ namespace RegistrationPage
                 GiveANumberToCode();
                 if (!CheckEmailCorectness.ConnectionAvailable())
                 {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("Ooops ", "There is no internet, check your connection, please", "ОК ");
-                    });
-
+                    await App.AlertSvc.ShowAlertAsync("Ooops ", "There is no internet, check your connection, please", "ОК ");
                 }
                 else if (!Password.Equals(RepeatedPassword))
                 {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("", $"Password are not equal");
-                    });
+                    await App.AlertSvc.ShowAlertAsync("", $"Password are not equal");
                 }
                 else if (EmailWriter.SendMessage(Email, "Confirmation Code", "Code :" + _confirmationCode.ToString()))
                 {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("Confirmation Code", "We have sent you confirmation code on Email");
-                    });
-
+                    await App.AlertSvc.ShowAlertAsync("Confirmation Code", "We have sent you confirmation code on Email");
                 }
                 else
                 {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("O_o ", "You wrote non-existed Email");
-                    });
+                    await App.AlertSvc.ShowAlertAsync("O_o ", "You wrote non-existed Email");
                 }
             });
 
@@ -76,45 +62,36 @@ namespace RegistrationPage
 
                 if (await _userRepository.IsUserExistsAsync(Email))
                 {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("Attention", $"Account with this Email alredy exist");
-                    });
+                    await App.AlertSvc.ShowAlertAsync("Attention", $"Account with this Email alredy exist");
                 }
                 else if (Answer.Equals(_confirmationCode))
                 {
                     User user = new User(Name, Password, Email);
                     if (await _userRepository.AddUserAsync(user))
                     {
-                        await Task.Run(() =>
-                        {
-                            App.AlertSvc.ShowAlert("Great", "You Succesfully registered");
-                        });
 
+                        await App.AlertSvc.ShowAlertAsync("Great", "You Succesfully registered");
                         await Task.Delay(1000);
+
                         user = await _userRepository.GetFullPersonInformationAsync(Email);
                         RegistrationPageData.Add("User", user);
                         ushort FamilyId = user.FamilyId;
                         RegistrationPageData.Add("Family", await _familyRepository.GetFullFamilyInformationAsync(FamilyId));
                         (App.Current as App).currentData = RegistrationPageData;
+
                         await Shell.Current.GoToAsync("AccountPageView");
                     }
                     else
                     {
-                        await Task.Run(() =>
-                        {
-                            App.AlertSvc.ShowAlert("", "You alreade have account");
-                        });
+                        await App.AlertSvc.ShowAlertAsync("", "You alreade have account");
+
                         await Shell.Current.GoToAsync("ForgottenPasswordPage");
                     }
                 }
                 else
                 {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("", "Confirmation Code should be equal to your answer");
-                        Answer = null;
-                    });
+                    await App.AlertSvc.ShowAlertAsync("", "Confirmation Code should be equal to your answer");
+                    Answer = null;
                 }
             });
 

@@ -40,27 +40,18 @@ namespace FamilyRegistrationPage
             {
                 if (User.FamilyId != 0)
                 {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("", "You are alredy member of group");
-                    });
+                    await App.AlertSvc.ShowAlertAsync("", "You are alredy member of group");
                 }
                 else if (!await _familyRepository.IsExistFamilyAsync(CreatorEmailJoin))
                 {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("", "Family with this Email does not exist");
-                        CreatorEmailJoin = null;
-                    });
+                    await App.AlertSvc.ShowAlertAsync("", "Family with this Email does not exist");
+                    CreatorEmailJoin = null;
                 }
                 else if (await _familyRepository.IsFamilyPasswordCorrectAsync(CreatorEmailJoin, FamilyPasswordJoin))
                 {
                     if (!await _userRepository.AddFamilyToUserAsync(CreatorEmailJoin, User.Email))
                     {
-                        await Task.Run(() =>
-                        {
-                            App.AlertSvc.ShowAlert("", "Sorry, but something goes wrong and we can not add Family Id");
-                        });
+                        await App.AlertSvc.ShowAlertAsync("", "Sorry, but something goes wrong and we can not add Family Id");
                     }
                     else
                     {
@@ -74,7 +65,7 @@ namespace FamilyRegistrationPage
                 }
                 else
                 {
-                    App.AlertSvc.ShowAlert("", "Password isn't correct");
+                    await App.AlertSvc.ShowAlertAsync("", "Password isn't correct");
                 }
             });
 
@@ -82,49 +73,36 @@ namespace FamilyRegistrationPage
             {
                 if (User.FamilyId != 0)
                 {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("", "You are alredy member of group");
-                    });
+                    await App.AlertSvc.ShowAlertAsync("", "You are alredy member of group");
                 }
                 else if (!FamilyPasswordCreation.Equals(RepeatedFamilyPasswordCreation))
                 {
-                    App.AlertSvc.ShowAlert("", "Password and repeted password are not equal");
+                    await App.AlertSvc.ShowAlertAsync("", "Password and repeted password are not equal");
                     RepeatedFamilyPasswordCreation = null;
                     FamilyPasswordCreation = null;
                 }
                 else if (FamilyNameCreation == null || FamilyNameCreation == "")
                 {
-                    App.AlertSvc.ShowAlert("Sorry", "Name of Family can not be null");
+                    await App.AlertSvc.ShowAlertAsync("Sorry", "Name of Family can not be null");
                 }
                 else
                 {
                     Family = new Family(FamilyNameCreation, FamilyPasswordCreation, User.Email);
                     if (!await _familyRepository.CreateFamilyAsync(Family))
                     {
-                        await Task.Run(() =>
-                        {
-                            App.AlertSvc.ShowAlert("Sorry", "But we can't create family, something goes wrong");
-                        });
-
+                        await App.AlertSvc.ShowAlertAsync("Sorry", "But we can't create family, something goes wrong");
                     }
                     else if (!await _userRepository.AddFamilyToUserAsync(User.Email, User.Email))
                     {
-                        await Task.Run(() =>
-                        {
-                            App.AlertSvc.ShowAlert("Sorry", "But we can't add familyId to user");
-                        });
-
+                        await App.AlertSvc.ShowAlertAsync("Sorry", "But we can't add familyId to user");
                     }
                     else
                     {
                         FamilyRegistrationPageData["User"] = User;
                         FamilyRegistrationPageData["Family"] = Family;
                         (App.Current as App).currentData = FamilyRegistrationPageData;
-                        await Task.Run(() =>
-                        {
-                            App.AlertSvc.ShowAlert("Good", "Creation is successful");
-                        });
+
+                        await App.AlertSvc.ShowAlertAsync("Good", "Creation is successful");
                     }
 
                 }

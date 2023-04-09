@@ -24,7 +24,7 @@ namespace MainPage
 
         private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
 
-        private Dictionary<string , object> MainPageData = (App.Current as App).currentData;   
+        private Dictionary<string, object> MainPageData = (App.Current as App).currentData;
 
         private int _countTry = 0;
         public MainPageViewModel()
@@ -34,11 +34,7 @@ namespace MainPage
                 User user = new User(null, Password, Email);
                 if (!CheckEmailCorectness.ConnectionAvailable())
                 {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("", "There is no internet, check your connection, please");
-                    });
-
+                    await App.AlertSvc.ShowAlertAsync("", "There is no internet, check your connection, please");
                 }
                 else if (await _userRepository.IsUserExistsAsync(user.Email))
                 {
@@ -54,30 +50,21 @@ namespace MainPage
                     }
                     else
                     {
-                        await Task.Run(() =>
-                        {
-                            App.AlertSvc.ShowAlert("", "You write wrong password");
-                            _countTry++;
-                        });
+                        await App.AlertSvc.ShowAlertAsync("", "You write wrong password");
+                        _countTry++;
+
                         if (_countTry == 3)
                         {
                             _countTry = 0;
                             await Shell.Current.GoToAsync("ForgottenPasswordPage");
-
                         }
                     }
                 }
                 else
                 {
-                    await Task.Run(() =>
-                    {
-                        App.AlertSvc.ShowAlert("", "We don't have account with this Email");
-                    });
-                    await Shell.Current.GoToAsync("RegistrationPage");
+                    await App.AlertSvc.ShowAlertAsync("", "We don't have account with this Email");
                 }
-
-            },
-            () => Password != null);
+            });
 
             ForgetPassword = new Command(async () =>
             {
@@ -118,7 +105,5 @@ namespace MainPage
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
             ((Command)SignIn).ChangeCanExecute();
         }
-
-
     }
 }

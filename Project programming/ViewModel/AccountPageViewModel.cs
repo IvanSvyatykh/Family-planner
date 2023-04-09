@@ -19,55 +19,38 @@ namespace AccountPage
 
         private SQLUserRepository _userRepository = new SQLUserRepository();
 
-        private User User;
+        private static Dictionary<string, object> AccountPageCurrentData = (App.Current as App).currentData;
 
-        private Family Family;
+        private User User = AccountPageCurrentData["User"] as User;
 
-        private Dictionary<string, object> AccountPageCurrentData = (App.Current as App).currentData;
+        private Family Family = AccountPageCurrentData["Family"] as Family;
 
         public AccountPageViewModel()
         {
-            User = AccountPageCurrentData["User"] as User;
-            Family = AccountPageCurrentData["Family"] as Family;
-            DataPerson dataPerson;
-            if (Family == null)
-            {
-                dataPerson = new DataPerson(User.Name, User.Email, User.Salary, null);
-            }
-            else
-            {
-                dataPerson = new DataPerson(User.Name, User.Email, User.Salary, Family.Email);
-            }
+            DataPerson CurrentUserData = InitializationCurrentUser();
+            Person.Add(CurrentUserData);
 
-            Person.Add(dataPerson);
-            List<User> users = _userRepository.GetAllAccountWithFamilyId(User.FamilyId);
-            if (users != null)
-            {
-                foreach (var user in users)
-                {
-                    FamilyMember familyMember = new FamilyMember(user.Name, user.Email, user.FamilyId);
-                    FamilyMembers.Add(familyMember);
-                }
-            }
-
-
-
+            FamilyMembers = GetAllFamilyAccount(_userRepository.GetAllAccountWithFamilyId(User.FamilyId));
 
             RemoveMember = new Command(async () =>
             {
 
                 if (SelectedMember.Count == 0)
                 {
-                    await Task.Run(() =>
+                    await Task.Run(async () =>
                     {
-                        App.AlertSvc.ShowAlert("", "You did not choose anybody from family");
+                       await App.AlertSvc.ShowAlertAsync("", "You did not choose anybody from family");
                     });
                 }
-                else
+                else if (!SelectedMember.All(m => m.MemberEmail.Equals(Family.Email)))
                 {
                     foreach (var user in SelectedMember)
                     {
-                        await _userRepository.RemoveMemberOfFamily(user.FamilyId);
+                        if (Family.Email.Equals(user.MemberEmail))
+                        {
+
+                        }
+                        await _userRepository.RemoveMemberOfFamilyAsync(user.FamilyId);
                         FamilyMembers.Remove(user);
                     }
                     await Task.Run(() =>
@@ -75,11 +58,45 @@ namespace AccountPage
                         App.AlertSvc.ShowAlert("", "We deleted members");
                     });
                 }
+                else if(await App.AlertSvc.ShowConfirmationAsync("" , "You chose creator account, if you delete this account, family will be deleted to"))
+                {
+
+                }
 
 
 
 
             });
+        }
+
+        private ObservableCollection<FamilyMember> GetAllFamilyAccount(List<User> users)
+        {
+            ObservableCollection<FamilyMember> members = new ObservableCollection<FamilyMember>();
+
+            if (users != null)
+            {
+                foreach (var user in users)
+                {
+                    FamilyMember familyMember = new FamilyMember(user.Name, user.Email, user.FamilyId);
+                    members.Add(familyMember);
+                }
+            }
+            return members;
+
+        }
+
+        private DataPerson InitializationCurrentUser()
+        {
+            DataPerson CurrentUserData;
+            if (Family == null)
+            {
+                CurrentUserData = new DataPerson(User.Name, User.Email, User.Salary, null);
+            }
+            else
+            {
+                CurrentUserData = new DataPerson(User.Name, User.Email, User.Salary, Family.Email);
+            }
+            return CurrentUserData;
         }
 
         public void OnPropertyChanged([CallerMemberName] string prop = "")
