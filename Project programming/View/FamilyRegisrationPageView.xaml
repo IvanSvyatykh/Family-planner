@@ -36,7 +36,7 @@
                     </controls:TextField.Validations>
                 </controls:TextField>
 
-                <Button Text="Create New Family" BackgroundColor="WhiteSmoke"  TextColor="Black" 
+                <Button Text="Create New Family"  TextColor="Black" 
                    WidthRequest="500" HorizontalOptions="Start" HeightRequest="50" Command="{Binding CreateFamily}" FontSize="Medium"/>
             </StackLayout>
 
@@ -50,7 +50,7 @@
                 <controls:TextField Title="Password of Family" Text="{Binding FamilyPasswordJoin}" BorderColor="White" TextColor="White" AccentColor="White"  TitleColor="White" AllowClear="True" IsPassword="True">
                     <validation:RequiredValidation Message="Password can not be null"/>
                 </controls:TextField>
-                <Button Text="Join to family" BackgroundColor="WhiteSmoke"  TextColor="Black" 
+                <Button Text="Join to family"  TextColor="Black" 
                    WidthRequest="500" HorizontalOptions="Start" HeightRequest="50" Command="{Binding JoinToFamily}" FontSize="Medium" />
             </StackLayout>
 

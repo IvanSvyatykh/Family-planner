@@ -22,7 +22,7 @@
                     <controls:EditorField Title="E-mail" Text="{Binding Email}" BorderColor="White" TextColor="White"  AccentColor="White"  TitleColor="White"  WidthRequest="500">
                         <controls:EditorField.Validations>
                             <local:EmailValidation/>
-                            
+
                         </controls:EditorField.Validations>
                     </controls:EditorField>
 
@@ -52,11 +52,11 @@
                 </HorizontalStackLayout>
 
                 <Button  WidthRequest="1000" 
-                    HorizontalOptions="Center" BackgroundColor="WhiteSmoke" Text="Sign in" TextColor="Black"  FontSize="Medium" input:FormView.IsSubmitButton="True" StyleClass="FilledButton"/>
+                    HorizontalOptions="Center"  Text="Sign in" TextColor="Black"  FontSize="Medium" input:FormView.IsSubmitButton="True" StyleClass="FilledButton"/>
             </VerticalStackLayout>
 
         </input:FormView>
-       
+
     </ScrollView>
 
 </ContentPage>
