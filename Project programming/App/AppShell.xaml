@@ -8,6 +8,7 @@
     xmlns:statisticsView="clr-namespace:Statistics"
     xmlns:expensesView="clr-namespace:Expenses"
     xmlns:familyRegistrationView="clr-namespace:FamilyRegistrationPage"
+    xmlns:goodsCategoryView="clr-namespace:GoodsCategotyPage"
     Shell.FlyoutBehavior="Locked"
     FlyoutVerticalScrollMode="Auto"
     FlyoutBackgroundColor="Black"
@@ -69,6 +70,11 @@
     <FlyoutItem   Title="Family" Icon="family.png">
         <Tab>
             <ShellContent ContentTemplate="{DataTemplate  familyRegistrationView:FamilyRegisrationPageView}"/>
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem   Title="Goods categoty">
+        <Tab>
+            <ShellContent ContentTemplate="{DataTemplate  goodsCategoryView:GoodsCategotyPageView}"/>
         </Tab>
     </FlyoutItem>
 

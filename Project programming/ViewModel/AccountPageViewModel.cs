@@ -79,8 +79,8 @@ namespace AccountPage
                 }
             });
         
-        }
-     
+        }      
+        
         private ObservableCollection<FamilyMember> GetAllFamilyAccount(List<User> users)
         {
             ObservableCollection<FamilyMember> members = new ObservableCollection<FamilyMember>();

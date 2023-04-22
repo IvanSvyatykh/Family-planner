@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+             xmlns:controls="clr-namespace:UraniumUI.Material.Controls;assembly=UraniumUI.Material"
+             xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+             xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
+             x:Class="GoodsCategotyPage.GoodsCategotyPageView"
+             BackgroundColor="Black">
+
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+
+
+        <VerticalStackLayout Spacing="20" HorizontalOptions="Start">
+
+            <Label Text="See current categories" TextColor="White" FontSize="Medium" WidthRequest="400"/>
+            <material:PickerField TextColor="White" Title="Type"  TitleColor="White"  WidthRequest="400" ItemsSource="{Binding}" AccentColor="White" AllowClear="True" BorderColor="White" >
+                
+            </material:PickerField>
+        </VerticalStackLayout>
+
+
+        <VerticalStackLayout Spacing="20" HorizontalOptions="EndAndExpand" Grid.Column="1">
+            <Label Text="Add new category" TextColor="White" FontSize="Medium"/>
+
+            <controls:EditorField Title="New type of goods" BorderColor="White" TextColor="White"  AccentColor="White"  TitleColor="White"  WidthRequest="400">
+                <controls:EditorField.Validations>
+                    <validation:RequiredValidation Message="Name Of Product can not be null"/>
+                </controls:EditorField.Validations>
+
+            </controls:EditorField>
+        </VerticalStackLayout>
+        
+        
+    </Grid>
+
+
+
+
+
+
+
+
+
+</ContentPage>

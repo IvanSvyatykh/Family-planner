@@ -22,7 +22,6 @@
                     <controls:EditorField Title="E-mail" Text="{Binding Email}" BorderColor="White" TextColor="White"  AccentColor="White"  TitleColor="White"  WidthRequest="500">
                         <controls:EditorField.Validations>
                             <local:EmailValidation/>
-
                         </controls:EditorField.Validations>
                     </controls:EditorField>
 
