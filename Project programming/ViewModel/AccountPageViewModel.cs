@@ -102,11 +102,11 @@ namespace AccountPage
             DataPerson CurrentUserData;
             if (Family == null)
             {
-                CurrentUserData = new DataPerson(User.Name, User.Email, User.Salary, null);
+                CurrentUserData = new DataPerson(User.Name, User.Email,  null);
             }
             else
             {
-                CurrentUserData = new DataPerson(User.Name, User.Email, User.Salary, Family.Email);
+                CurrentUserData = new DataPerson(User.Name, User.Email, Family.Email);
             }
             return CurrentUserData;
         }

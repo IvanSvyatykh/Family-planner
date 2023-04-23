@@ -21,25 +21,6 @@ namespace Database
             });
             return userFromDb.Password.Equals(user.Password);
         }
-        public async Task<bool> AddSalaryToUserAsync(string UserEmail, uint salary)
-        {
-            try
-            {
-                User user = null;
-                await Task.Run(async () =>
-                {
-                    user = await db.Users.Where(u => u.Email.Equals(UserEmail)).FirstOrDefaultAsync();
-                    user.ChangeSalary(salary);
-                    db.SaveChanges();
-
-                });
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
         public async Task<bool> AddUserAsync(User user)
         {
             if (!await IsUserExistsAsync(user.Email))
@@ -151,6 +132,5 @@ namespace Database
 
 
         }
-
     }
 }

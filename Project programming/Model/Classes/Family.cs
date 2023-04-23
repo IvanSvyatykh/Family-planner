@@ -11,7 +11,6 @@ namespace Classes
     {
         public ushort Id { get; private set; }
         public string Name { get; private set; } = null!;
-        public uint? Balance { get; private set; }
         public string Password { get; private set; } = null!;
         public string Email { get; private set; } = null!;
         public Family(string Name, string Password, string email)

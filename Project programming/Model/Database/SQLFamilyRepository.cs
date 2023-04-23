@@ -53,7 +53,6 @@ namespace Database
             });
             return family;
         }
-
         public async Task<bool> RemoveFamily(ushort Id)
         {
             try
