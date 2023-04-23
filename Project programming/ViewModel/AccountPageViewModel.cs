@@ -64,7 +64,7 @@ namespace AccountPage
                     FamilyMembers.Clear();
                     if(await _familyRepository.RemoveFamily(Family.Id))
                     {
-                        await App.AlertSvc.ShowAlertAsync("", "Famly was deleted");
+                        await App.AlertSvc.ShowAlertAsync("", "Family was deleted");
                     }
                     else
                     {

@@ -31,8 +31,26 @@ namespace GoodsCategotyPage
 
         public GoodsCategoryPageViewModel()
         {
-
             Categories = new ObservableCollection<GoodsCategory>(_categoriesRepository.GetAllUsersCategories(User.Id));
+
+            RemoveCategory = new Command(async () =>
+            {
+                if(SelectedCategories.Count == 0)
+                {
+                    await App.AlertSvc.ShowAlertAsync("", "You didn't choose any categories");
+                }
+                else
+                {
+                    foreach(var category in SelectedCategories) 
+                    {
+                        if(! await _categoriesRepository.RemoveCategory(category))
+                        {
+                            await App.AlertSvc.ShowAlertAsync("", "Something goes wrong");
+                        }
+                        Categories.Remove(category);    
+                    }                  
+                }
+            });
 
             AddCategory = new Command(async () =>
             {

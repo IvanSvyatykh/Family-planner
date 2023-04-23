@@ -24,7 +24,7 @@ namespace Database
             }
 
             if (categories == null)
-            {               
+            {
                 categories.Add(new GoodsCategory { Id = 0, Name = "You don't have any categories yet" });
             }
 
@@ -35,6 +35,22 @@ namespace Database
             await db.Goods.AddAsync(new GoodsCategory { Name = categoryName, UserId = userId });
             await db.SaveChangesAsync();
             return await db.Goods.Where(g => g.Name.Equals(categoryName)).FirstOrDefaultAsync();
+        }
+        public async Task<bool> RemoveCategory(GoodsCategory goodsCategory)
+        {
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    db.Goods.Remove(goodsCategory);
+                    await db.SaveChangesAsync();
+                });
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
