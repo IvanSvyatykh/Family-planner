@@ -8,10 +8,6 @@
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsVisible="False" IsEnabled="False" />
     </Shell.BackButtonBehavior>
-
-
-
-
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -20,9 +16,7 @@
         </Grid.ColumnDefinitions>
 
         <VerticalStackLayout HorizontalOptions="Center" Margin="20" Grid.Column="0">
-
-
-            
+          
             <StackLayout Spacing="20" IsVisible="{Binding IsAdmin}" IsEnabled="{Binding IsAdmin}">
                 <Label Text="Information About Fmaily" TextColor="WhiteSmoke" FontSize="Medium"/>
                 <controls:DataGrid ItemsSource="{Binding FamilyMembers}"   SelectedItems="{Binding SelectedMember}"  BorderColor="White" SelectionColor="Grey">

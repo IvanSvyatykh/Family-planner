@@ -12,11 +12,13 @@ namespace Database
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Family> Families { get; set; }
+        public DbSet<GoodsCategory> Goods { get; set; }
        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<Family>().HasKey(f=> f.Id); 
+            modelBuilder.Entity<GoodsCategory>().HasKey(g=> g.Id);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
