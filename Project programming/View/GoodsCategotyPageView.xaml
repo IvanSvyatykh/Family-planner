@@ -20,33 +20,29 @@
 
         <VerticalStackLayout Spacing="20" HorizontalOptions="Start">
 
+
             <Label Text="See current categories" TextColor="White" FontSize="Medium" WidthRequest="400"/>
-            <material:PickerField TextColor="White" Title="Type"  TitleColor="White"  WidthRequest="400" ItemsSource="{Binding}" AccentColor="White" AllowClear="True" BorderColor="White" >
-                
-            </material:PickerField>
+            <controls:PickerField TextColor="White" Title="Type"  TitleColor="White"  WidthRequest="400" ItemsSource="{Binding}" AccentColor="White" AllowClear="True" BorderColor="White" >
+
+            </controls:PickerField>
+
+            <Button Text="Delete category" Command="{Binding RemoveCategory}" TextColor="Black"  FontSize="Medium"  StyleClass="FilledButton"/>
+
         </VerticalStackLayout>
 
 
         <VerticalStackLayout Spacing="20" HorizontalOptions="EndAndExpand" Grid.Column="1">
             <Label Text="Add new category" TextColor="White" FontSize="Medium"/>
 
-            <controls:EditorField Title="New type of goods" BorderColor="White" TextColor="White"  AccentColor="White"  TitleColor="White"  WidthRequest="400">
-                <controls:EditorField.Validations>
-                    <validation:RequiredValidation Message="Name Of Product can not be null"/>
-                </controls:EditorField.Validations>
+            <input:FormView Spacing="20">
+                <controls:EditorField Title="New type of goods" BorderColor="White" TextColor="White"  AccentColor="White"  TitleColor="White"  WidthRequest="400">
+                    <controls:EditorField.Validations>
+                        <validation:RequiredValidation Message="Name Of Product can not be null"/>
+                    </controls:EditorField.Validations>
+                </controls:EditorField>
 
-            </controls:EditorField>
+                <Button Text="Add category" Command="{Binding AddCategory}" TextColor="Black"  FontSize="Medium" input:FormView.IsSubmitButton="True" StyleClass="FilledButton"/>
+            </input:FormView>
         </VerticalStackLayout>
-        
-        
     </Grid>
-
-
-
-
-
-
-
-
-
 </ContentPage>
