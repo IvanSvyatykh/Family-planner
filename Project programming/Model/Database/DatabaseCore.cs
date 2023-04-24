@@ -7,7 +7,6 @@ namespace Database
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Family> Families { get; set; }   
-
         public DbSet<Expenses> Expenses { get; set; }   
         public DbSet<GoodsCategory> Goods { get; set; } 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

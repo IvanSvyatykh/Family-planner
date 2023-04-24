@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:MainPage"
     xmlns:acountView="clr-namespace:AccountPage"
     xmlns:statisticsView="clr-namespace:Statistics"
-    xmlns:expensesView="clr-namespace:Expenses"
+    xmlns:expensesView="clr-namespace:ExpensesPage"
     xmlns:familyRegistrationView="clr-namespace:FamilyRegistrationPage"
     xmlns:goodsCategoryView="clr-namespace:GoodsCategotyPage"
     Shell.FlyoutBehavior="Locked"

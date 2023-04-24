@@ -21,12 +21,13 @@
 
         <HorizontalStackLayout Spacing="15" Grid.Row="0" Margin="30">
 
-            <controls:PickerField Title="Choose category" AllowClear="True" TitleColor="White" TextColor="White" BorderColor="White" WidthRequest="300" AccentColor="White" />
-
-            <controls:DatePickerField Title="Choose date" AllowClear="True" TitleColor="WhiteSmoke" BorderColor="White" WidthRequest="300"/>
+            <controls:PickerField Title="Choose category" SelectedItem="{Binding ChosenCategory}" ItemsSource="{Binding CategoryNames}" AllowClear="True" TitleColor="White" TextColor="White" BorderColor="White" WidthRequest="300" AccentColor="White" />
 
 
-            <controls:EditorField TitleColor="White" Title="Cost" BorderColor="White" WidthRequest="300" AccentColor="White">
+            <controls:DatePickerField Title="Choose date" AllowClear="True" TitleColor="WhiteSmoke" BorderColor="White" WidthRequest="300" Date="{Binding DateOfPurshchase}"/>
+
+
+            <controls:EditorField TitleColor="White" Title="Cost" BorderColor="White" TextColor="White" WidthRequest="300" AccentColor="White" Text="{Binding Cost}">
                 <controls:EditorField.Validations>
                     <validation:DigitsOnlyValidation Message="Cost can be written only in digit form"/>
                 </controls:EditorField.Validations>
