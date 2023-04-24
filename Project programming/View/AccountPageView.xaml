@@ -16,8 +16,8 @@
         </Grid.ColumnDefinitions>
 
         <VerticalStackLayout HorizontalOptions="Center" Margin="20" Grid.Column="0">
-          
-            <StackLayout Spacing="20" IsVisible="{Binding IsAdmin}" IsEnabled="{Binding IsAdmin}">
+
+            <StackLayout Spacing="20" HorizontalOptions="Center">
                 <Label Text="Information About Fmaily" TextColor="WhiteSmoke" FontSize="Medium"/>
                 <controls:DataGrid ItemsSource="{Binding FamilyMembers}"   SelectedItems="{Binding SelectedMember}"  BorderColor="White" SelectionColor="Grey">
                     <controls:DataGrid.EmptyView>
@@ -30,10 +30,8 @@
                     </controls:DataGrid.Columns>
                 </controls:DataGrid>
 
-                <HorizontalStackLayout Spacing="20">
-                    <Button Text="Delete Selected Member"  HorizontalOptions="Center" Command="{Binding RemoveMember}"/>
-                </HorizontalStackLayout>
-               
+
+                <Button Text="Delete Selected Member"  HorizontalOptions="Center" Command="{Binding RemoveMember}" FontSize="Medium"/>
             </StackLayout>
 
 
@@ -41,7 +39,7 @@
 
         <VerticalStackLayout Grid.Column="1" Spacing="20"  Margin="20">
 
-            <StackLayout Spacing="20">
+            <StackLayout Spacing="20" HorizontalOptions="Center">
                 <Label Text="Information about account" TextColor="WhiteSmoke" FontSize="Medium"/>
                 <controls:DataGrid ItemsSource="{Binding Person}"  BorderColor="White">
                     <controls:DataGrid.Columns >
@@ -50,7 +48,7 @@
                         <controls:DataGridColumn Binding="{Binding Status}" Title="Status" Width="100"/>
                     </controls:DataGrid.Columns>
                 </controls:DataGrid>
-                <Button Text="Save changes"  HorizontalOptions="Center"/>
+                <Button Text="Save changes"  HorizontalOptions="Center" FontSize="Medium"/>
             </StackLayout>
         </VerticalStackLayout>
     </Grid>

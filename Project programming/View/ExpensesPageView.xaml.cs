@@ -1,6 +1,6 @@
 using UraniumUI.Material.Controls;
 
-namespace Expenses
+namespace ExpensesPage
 {
     public partial class ExpensesView : ContentPage
     {

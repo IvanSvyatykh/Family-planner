@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Expenses
+namespace ExpensesPage
 {
     public class ExpensesViewModel : INotifyPropertyChanged
     {

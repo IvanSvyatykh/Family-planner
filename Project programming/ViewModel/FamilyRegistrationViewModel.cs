@@ -40,7 +40,7 @@ namespace FamilyRegistrationPage
             {
                 if (User.FamilyId != 0)
                 {
-                    await App.AlertSvc.ShowAlertAsync("", "You are alredy member of group");
+                    await App.AlertSvc.ShowAlertAsync("", "You are alredy member of family");
                 }
                 else if (!await _familyRepository.IsExistFamilyAsync(CreatorEmailJoin))
                 {
@@ -73,7 +73,7 @@ namespace FamilyRegistrationPage
             {
                 if (User.FamilyId != 0)
                 {
-                    await App.AlertSvc.ShowAlertAsync("", "You are alredy member of group");
+                    await App.AlertSvc.ShowAlertAsync("", "You are alredy member of family");
                 }
                 else if (!FamilyPasswordCreation.Equals(RepeatedFamilyPasswordCreation))
                 {

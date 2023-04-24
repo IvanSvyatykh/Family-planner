@@ -21,8 +21,6 @@
 
         <ScrollView>
             <VerticalStackLayout Spacing="20" HorizontalOptions="Start">
-
-
                 <Label Text="See current categories" TextColor="White" FontSize="Medium" WidthRequest="400"/>
 
                 <controls:DataGrid ItemsSource="{Binding Categories}" SelectedItems="{Binding SelectedCategories}" BorderColor="White" SelectionColor="Grey">
@@ -30,8 +28,8 @@
                         <Label Text="There aren't any categories" TextColor="Black" HorizontalOptions="Center"/>
                     </controls:DataGrid.EmptyView>
                     <controls:DataGrid.Columns>
-                        <controls:DataGridSelectionColumn Title="Select" Width="*" />
                         <controls:DataGridColumn Binding="{Binding Name}"  Title="Name" Width="*"/>
+                        <controls:DataGridSelectionColumn Title="Select" Width="*" />
                     </controls:DataGrid.Columns>
                 </controls:DataGrid>
 
@@ -43,14 +41,14 @@
         <VerticalStackLayout Spacing="20" HorizontalOptions="EndAndExpand" Grid.Column="1">
             <Label Text="Add new category" TextColor="White" FontSize="Medium"/>
 
-            <input:FormView Spacing="20">
+            <input:FormView Spacing="20" SubmitCommand="{Binding AddCategory}">
                 <controls:EditorField Title="New type of goods" BorderColor="White" TextColor="White" Text="{Binding NewCategory}"  AccentColor="White"  TitleColor="White"  WidthRequest="400">
                     <controls:EditorField.Validations>
                         <validation:RequiredValidation Message="Name Of Product can not be null"/>
                     </controls:EditorField.Validations>
                 </controls:EditorField>
 
-                <Button Text="Add category" Command="{Binding AddCategory}" TextColor="Black"  FontSize="Medium" input:FormView.IsSubmitButton="True" StyleClass="FilledButton"/>
+                <Button Text="Add category" TextColor="Black"  FontSize="Medium" input:FormView.IsSubmitButton="True" StyleClass="FilledButton"/>
             </input:FormView>
         </VerticalStackLayout>
     </Grid>
