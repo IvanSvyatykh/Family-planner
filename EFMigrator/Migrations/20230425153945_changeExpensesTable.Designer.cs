@@ -3,6 +3,7 @@ using System;
 using Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EFMigrator.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20230425153945_changeExpensesTable")]
+    partial class changeExpensesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,8 +36,8 @@ namespace EFMigrator.Migrations
                     b.Property<long?>("Cost")
                         .HasColumnType("bigint");
 
-                    b.Property<DateOnly?>("ExpensesDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("ExpensesDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ExpensesName")
                         .HasColumnType("text");

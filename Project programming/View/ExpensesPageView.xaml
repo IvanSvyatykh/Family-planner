@@ -19,10 +19,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
+        
 
         <HorizontalStackLayout Spacing="15" Grid.Row="0" Margin="30">
 
@@ -38,7 +35,7 @@
                 </controls:EditorField.Validations>
             </controls:EditorField>
 
-            <Button Text="Add purshcase" TextColor="White" WidthRequest="200" FontSize="Medium"/>
+            <Button Text="Add purshcase" TextColor="White" WidthRequest="200" FontSize="Medium" Command="{Binding AddExpenses}"/>
 
 
 
@@ -47,19 +44,22 @@
 
         <HorizontalStackLayout Grid.Row="1" Spacing="20" Margin="30">
 
-            <controls:DataGrid BorderColor="White" ItemsSource="{Binding Expenses}" WidthRequest="500" Grid.Column="0">
-                <controls:DataGrid.Columns>
+            <ScrollView>
+                <controls:DataGrid BorderColor="White" ItemsSource="{Binding Expenses}" WidthRequest="500" HorizontalOptions="Start">
+                    <controls:DataGrid.Columns>
 
-                    <controls:DataGridColumn Binding="{Binding ExpensesName}" Title="Goods Name"/>
-                    <controls:DataGridColumn Binding="{Binding ExpensesDate}" Title="Date of Expense"/>
-                    <controls:DataGridColumn Binding="{Binding Cost}" Title="Cost"/>
+                        <controls:DataGridColumn Binding="{Binding ExpensesName}" Title="Goods Name"/>
+                        <controls:DataGridColumn Binding="{Binding ExpensesDate}" Title="Date of Expense"/>
+                        <controls:DataGridColumn Binding="{Binding Cost}" Title="Cost"/>
 
 
 
-                </controls:DataGrid.Columns>
-            </controls:DataGrid>
+                    </controls:DataGrid.Columns>
+                </controls:DataGrid>
+            </ScrollView>
+           
 
-            <VerticalStackLayout Spacing="20" Margin="30" HorizontalOptions="End" Grid.Column="1">
+            <VerticalStackLayout Spacing="20" Margin="30" HorizontalOptions="End">
 
 
                 <controls:PickerField Title="Choose category" ItemsSource="{Binding CategoryNames}" SelectedItem="{Binding ChosenCategoryForTable}" AllowClear="True" TitleColor="White" TextColor="White" BorderColor="White" WidthRequest="300" AccentColor="White" />

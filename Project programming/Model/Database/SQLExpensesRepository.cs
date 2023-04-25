@@ -16,11 +16,28 @@ namespace Database
             db = new ApplicationContext();
         }
 
-        public List<Expenses> GetUserExpensesByCategoty(uint userId, string categoryName) => db.Expenses.Where(e => e.UserId == userId && e.ExpensesName.Equals(categoryName)).ToList();
+        public List<Expenses> GetUserExpensesByCategoty(uint userId, string categoryName)
+        {
+            var expenses = db.Expenses.Where(e => e.UserId == userId && e.ExpensesName.Equals(categoryName)).ToList();
+            if (expenses.Count == 0)
+            {
+                expenses.Add(new Expenses() { Cost = null, ExpensesDate = null, ExpensesName = null, UserId = null, Id = 0 });
+            }
+            return expenses;
+        }
 
-
-
-
-
+        public async Task<bool> AddExpenseAsync(Expenses expenses)
+        {
+            try
+            {
+                await db.Expenses.AddAsync(expenses);
+                await db.SaveChangesAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

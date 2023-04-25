@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using System.Collections.Specialized;
 
 namespace ExpensesPage
 {
@@ -25,28 +26,44 @@ namespace ExpensesPage
 
         private uint? _cost;
 
-        private DateTime? _dateOfPurshchase { get; set; } = null;
+        private DateTime _dateOfPurshchase { get; set; } = DateTime.Today;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public ObservableCollection<Expenses> Expenses { get; set; }
-        private string _chosenCategoryForAdd { get; set; } 
+        private string _chosenCategoryForAdd { get; set; }
         private string _chosenCategoryForTable { get; set; }
         public List<string> CategoryNames { get; set; }
+        public ICommand ChangeCategory { get; set; }
+        public ICommand AddExpenses { get; set; }
 
-        public ICommand ChangeCategory {get; set;}
-        
 
         public ExpensesViewModel()
         {
             CategoryNames = _categoriesRepository.GetAllUsersCategoriesName(User.Id);
-            Expenses = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id , CategoryNames[0]));
+            Expenses = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id, "Fruit"));
 
-            ChangeCategory = new Command(() => 
+            ChangeCategory = new Command(() =>
             {
-                Expenses = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id, ChosenCategoryForTable));
+                var ExpensesFromTable = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id, ChosenCategoryForTable));
+                Expenses.Clear();
+                foreach (var category in ExpensesFromTable)
+                {
+                    Expenses.Add(category);
+                    OnPropertyChanged();
+                }
+                OnPropertyChanged();
+            });
+
+            AddExpenses = new Command(async () =>
+            {
+                if (!await _expensesRepositiry.AddExpenseAsync(new Expenses() { Cost = Cost, UserId = User.Id, ExpensesName = ChosenCategoryForAdd, ExpensesDate = DateOnly.FromDateTime(DateOfPurshchase) }))
+                {
+                    await App.AlertSvc.ShowAlertAsync("Sorry", "Something goes wrong we can't add expense");
+                }
             });
 
         }
+
         public string ChosenCategoryForTable
         {
             get => _chosenCategoryForTable;
@@ -67,7 +84,7 @@ namespace ExpensesPage
 
             set
             {
-                if(value != _chosenCategoryForAdd)
+                if (value != _chosenCategoryForAdd)
                 {
                     _chosenCategoryForAdd = value;
                     OnPropertyChanged();
@@ -75,7 +92,7 @@ namespace ExpensesPage
             }
         }
 
-        public DateTime? DateOfPurshchase
+        public DateTime DateOfPurshchase
         {
             get => _dateOfPurshchase;
 
