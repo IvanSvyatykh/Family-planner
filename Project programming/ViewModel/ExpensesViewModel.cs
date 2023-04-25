@@ -22,7 +22,7 @@ namespace ExpensesPage
 
         private SQLGoodsCategoriesRepository _categoriesRepository = new SQLGoodsCategoriesRepository();
 
-        private uint _cost;
+        private uint? _cost;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public ObservableCollection<Expenses> Expenses { get; set; }
@@ -51,7 +51,7 @@ namespace ExpensesPage
                 }
             }
         }
-        public uint Cost
+        public uint? Cost
         {
             get => _cost;
             set
