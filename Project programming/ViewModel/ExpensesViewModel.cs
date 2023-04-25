@@ -9,6 +9,7 @@ using AppService;
 using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace ExpensesPage
 {
@@ -24,19 +25,54 @@ namespace ExpensesPage
 
         private uint? _cost;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        public ObservableCollection<Expenses> Expenses { get; set; }
-        public GoodsCategory ChosenCategory { get; set; } = new GoodsCategory();
-        public List<string> CategoryNames { get; set; }
-
         private DateTime? _dateOfPurshchase { get; set; } = null;
 
+        public event PropertyChangedEventHandler PropertyChanged;
+        public ObservableCollection<Expenses> Expenses { get; set; }
+        private string _chosenCategoryForAdd { get; set; } 
+        private string _chosenCategoryForTable { get; set; }
+        public List<string> CategoryNames { get; set; }
 
+        public ICommand ChangeCategory {get; set;}
+        
 
         public ExpensesViewModel()
         {
             CategoryNames = _categoriesRepository.GetAllUsersCategoriesName(User.Id);
+            Expenses = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id , CategoryNames[0]));
 
+            ChangeCategory = new Command(() => 
+            {
+                Expenses = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id, ChosenCategoryForTable));
+            });
+
+        }
+        public string ChosenCategoryForTable
+        {
+            get => _chosenCategoryForTable;
+
+            set
+            {
+                if (value != _chosenCategoryForTable)
+                {
+                    _chosenCategoryForTable = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string ChosenCategoryForAdd
+        {
+            get => _chosenCategoryForAdd;
+
+            set
+            {
+                if(value != _chosenCategoryForAdd)
+                {
+                    _chosenCategoryForAdd = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         public DateTime? DateOfPurshchase
