@@ -25,29 +25,38 @@ namespace ExpensesPage
         private SQLGoodsCategoriesRepository _categoriesRepository = new SQLGoodsCategoriesRepository();
 
         private uint? _cost;
-        private DateTime _dateOfPurshchase { get; set; } = DateTime.Today;
+
+        private ExtendedMonth ExtendedMonthes = new ExtendedMonth();
 
         public event PropertyChangedEventHandler PropertyChanged;
+        private DateTime _dateOfPurshchase { get; set; } = DateTime.Today;
         public ObservableCollection<Expenses> Expenses { get; set; }
+        public ObservableCollection<string> Monthes { get; set; }
         public ObservableCollection<Expenses> Selected { get; set; } = new ObservableCollection<Expenses>();
         private string _chosenCategoryForAdd { get; set; }
         private string _chosenCategoryForTable { get; set; }
+        private string _chosenMonth { get; set; }
         public List<string> CategoryNames { get; set; }
         public ICommand ChangeCategory { get; set; }
         public ICommand AddExpenses { get; set; }
         public ICommand DeleteExpenses { get; set; }
 
-
         public ExpensesViewModel()
         {
+            ChosenMonth = ExtendedMonthes.GetMonthInStringFromByte((byte)DateTime.Now.Month);
+            Monthes = new ObservableCollection<string>(ExtendedMonthes.GetAllMonthes());
+
             CategoryNames = _categoriesRepository.GetAllUsersCategoriesName(User.Id);
             CategoryNames.Sort((l, r) => l.CompareTo(r));
+
             ChosenCategoryForTable = CategoryNames[0];
-            Expenses = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id, ChosenCategoryForTable));
+            Expenses = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id, ChosenCategoryForTable, 
+                ExtendedMonthes.GetMonthInByteFromString(ChosenMonth)));
 
             ChangeCategory = new Command(() =>
             {
-                var ExpensesFromTable = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id, ChosenCategoryForTable));
+                var ExpensesFromTable = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id, ChosenCategoryForTable, 
+                    ExtendedMonthes.GetMonthInByteFromString(ChosenMonth)));
                 ExpensesFromTable.ToList().Sort((l, r) => l.ExpensesDate.CompareTo(r.ExpensesDate));
                 Expenses.Clear();
                 Selected.Clear();
@@ -74,15 +83,31 @@ namespace ExpensesPage
 
             DeleteExpenses = new Command(async () =>
             {
-                foreach(var select in Selected) 
+                foreach (var select in Selected)
                 {
                     Expenses.Remove(select);
                     if (!await _expensesRepositiry.RemoveExpense(select))
                     {
                         await App.AlertSvc.ShowAlertAsync("Sorry", "Something goes wrong we can't delete expense");
                     }
-                }                             
+                }
+                if(Expenses.Count == 0)
+                {
+                    Expenses.Add(new Expenses() { Cost = null, ExpensesName = null, UserId = null, Id = 0 });
+                }
             });
+        }
+        public string ChosenMonth
+        {
+            get => _chosenMonth;
+            set
+            {
+                if (value != _chosenMonth)
+                {
+                    _chosenMonth = value;
+                    OnPropertyChanged();
+                }
+            }
         }
 
         public string ChosenCategoryForTable

@@ -17,9 +17,9 @@ namespace Database
             db = new ApplicationContext();
         }
 
-        public List<Expenses> GetUserExpensesByCategoty(uint userId, string categoryName)
+        public List<Expenses> GetUserExpensesByCategoty(uint userId, string categoryName, byte monthInByte)
         {
-            var expenses = db.Expenses.Where(e => e.UserId == userId && e.ExpensesName.Equals(categoryName)).ToList();
+            var expenses = db.Expenses.Where(e => e.UserId == userId && e.ExpensesDate.Month==monthInByte && e.ExpensesName.Equals(categoryName)).ToList();
             if (expenses.Count == 0)
             {
                 expenses.Add(new Expenses() { Cost = null, ExpensesName = null, UserId = null, Id = 0 });

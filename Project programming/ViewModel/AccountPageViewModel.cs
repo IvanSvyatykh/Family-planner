@@ -3,7 +3,6 @@ using Classes;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using AppService;
-using Members;
 using System.Collections.ObjectModel;
 using Database;
 
