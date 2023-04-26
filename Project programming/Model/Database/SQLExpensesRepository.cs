@@ -1,4 +1,5 @@
 ﻿using Classes;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace Database
             var expenses = db.Expenses.Where(e => e.UserId == userId && e.ExpensesName.Equals(categoryName)).ToList();
             if (expenses.Count == 0)
             {
-                expenses.Add(new Expenses() { Cost = null, ExpensesDate = null, ExpensesName = null, UserId = null, Id = 0 });
+                expenses.Add(new Expenses() { Cost = null, ExpensesName = null, UserId = null, Id = 0 });
             }
             return expenses;
         }
@@ -38,6 +39,24 @@ namespace Database
             {
                 return false;
             }
+        }
+
+        public async Task<bool> RemoveExpense(Expenses expense)
+        {
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    db.Expenses.Remove(await db.Expenses.Where(e => e.Id == expense.Id).FirstOrDefaultAsync());
+                    await db.SaveChangesAsync();
+                });
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+
         }
     }
 }

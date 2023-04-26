@@ -25,32 +25,39 @@ namespace ExpensesPage
         private SQLGoodsCategoriesRepository _categoriesRepository = new SQLGoodsCategoriesRepository();
 
         private uint? _cost;
-
         private DateTime _dateOfPurshchase { get; set; } = DateTime.Today;
 
         public event PropertyChangedEventHandler PropertyChanged;
         public ObservableCollection<Expenses> Expenses { get; set; }
+        public ObservableCollection<Expenses> Selected { get; set; } = new ObservableCollection<Expenses>();
         private string _chosenCategoryForAdd { get; set; }
         private string _chosenCategoryForTable { get; set; }
         public List<string> CategoryNames { get; set; }
         public ICommand ChangeCategory { get; set; }
         public ICommand AddExpenses { get; set; }
+        public ICommand DeleteExpenses { get; set; }
 
 
         public ExpensesViewModel()
         {
             CategoryNames = _categoriesRepository.GetAllUsersCategoriesName(User.Id);
-            Expenses = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id, "Fruit"));
+            CategoryNames.Sort((l, r) => l.CompareTo(r));
+            ChosenCategoryForTable = CategoryNames[0];
+            Expenses = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id, ChosenCategoryForTable));
 
             ChangeCategory = new Command(() =>
             {
                 var ExpensesFromTable = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id, ChosenCategoryForTable));
+                ExpensesFromTable.ToList().Sort((l, r) => l.ExpensesDate.CompareTo(r.ExpensesDate));
                 Expenses.Clear();
+                Selected.Clear();
                 foreach (var category in ExpensesFromTable)
                 {
+
                     Expenses.Add(category);
                     OnPropertyChanged();
                 }
+
                 OnPropertyChanged();
             });
 
@@ -60,8 +67,22 @@ namespace ExpensesPage
                 {
                     await App.AlertSvc.ShowAlertAsync("Sorry", "Something goes wrong we can't add expense");
                 }
+                ChosenCategoryForAdd = null;
+                DateOfPurshchase = DateTime.Today;
+                Cost = null;
             });
 
+            DeleteExpenses = new Command(async () =>
+            {
+                foreach(var select in Selected) 
+                {
+                    Expenses.Remove(select);
+                    if (!await _expensesRepositiry.RemoveExpense(select))
+                    {
+                        await App.AlertSvc.ShowAlertAsync("Sorry", "Something goes wrong we can't delete expense");
+                    }
+                }                             
+            });
         }
 
         public string ChosenCategoryForTable

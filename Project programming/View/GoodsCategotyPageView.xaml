@@ -19,22 +19,25 @@
         </Grid.ColumnDefinitions>
 
 
-        <VerticalStackLayout Spacing="20" HorizontalOptions="Start">
-            <Label Text="See current categories" TextColor="White" FontSize="Medium" WidthRequest="400"/>
+        <ScrollView>
+            <VerticalStackLayout Spacing="20" HorizontalOptions="Start">
+                <Label Text="See current categories" TextColor="White" FontSize="Medium" WidthRequest="400"/>
 
-            <controls:DataGrid ItemsSource="{Binding Categories}" SelectedItems="{Binding SelectedCategories}" BorderColor="White" SelectionColor="Grey">
-                <controls:DataGrid.EmptyView>
-                    <Label Text="There aren't any categories" TextColor="Black" HorizontalOptions="Center"/>
-                </controls:DataGrid.EmptyView>
-                <controls:DataGrid.Columns>
-                    <controls:DataGridColumn Binding="{Binding Name}"  Title="Name" Width="*"/>
-                    <controls:DataGridSelectionColumn Title="Select" Width="*" />
-                </controls:DataGrid.Columns>
-            </controls:DataGrid>
+                <controls:DataGrid ItemsSource="{Binding Categories}" SelectedItems="{Binding SelectedCategories}" BorderColor="White" SelectionColor="Grey">
+                    <controls:DataGrid.EmptyView>
+                        <Label Text="There aren't any categories" TextColor="Black" HorizontalOptions="Center"/>
+                    </controls:DataGrid.EmptyView>
+                    <controls:DataGrid.Columns>
+                        <controls:DataGridColumn Binding="{Binding Name}"  Title="Name" Width="*"/>
+                        <controls:DataGridSelectionColumn Title="Select" Width="*" />
+                    </controls:DataGrid.Columns>
+                </controls:DataGrid>
 
-            <Button Text="Delete category" Command="{Binding RemoveCategory}" TextColor="Black"  FontSize="Medium"  StyleClass="FilledButton"/>
+                <Button Text="Delete category" Command="{Binding RemoveCategory}" TextColor="Black"  FontSize="Medium"  StyleClass="FilledButton"/>
 
-        </VerticalStackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
+      
 
 
         <VerticalStackLayout Spacing="20" HorizontalOptions="EndAndExpand" Grid.Column="1">

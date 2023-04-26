@@ -19,7 +19,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        
 
         <HorizontalStackLayout Spacing="15" Grid.Row="0" Margin="30">
 
@@ -36,28 +35,20 @@
             </controls:EditorField>
 
             <Button Text="Add purshcase" TextColor="White" WidthRequest="200" FontSize="Medium" Command="{Binding AddExpenses}"/>
-
-
-
         </HorizontalStackLayout>
-
 
         <HorizontalStackLayout Grid.Row="1" Spacing="20" Margin="30">
 
             <ScrollView>
-                <controls:DataGrid BorderColor="White" ItemsSource="{Binding Expenses}" WidthRequest="500" HorizontalOptions="Start">
+                <controls:DataGrid BorderColor="White" ItemsSource="{Binding Expenses}" SelectedItems="{Binding Selected}" WidthRequest="500" HorizontalOptions="Start">
                     <controls:DataGrid.Columns>
-
                         <controls:DataGridColumn Binding="{Binding ExpensesName}" Title="Goods Name"/>
                         <controls:DataGridColumn Binding="{Binding ExpensesDate}" Title="Date of Expense"/>
                         <controls:DataGridColumn Binding="{Binding Cost}" Title="Cost"/>
-
-
-
+                        <controls:DataGridSelectionColumn Title="Select"/>
                     </controls:DataGrid.Columns>
                 </controls:DataGrid>
             </ScrollView>
-           
 
             <VerticalStackLayout Spacing="20" Margin="30" HorizontalOptions="End">
 
@@ -65,10 +56,10 @@
                 <controls:PickerField Title="Choose category" ItemsSource="{Binding CategoryNames}" SelectedItem="{Binding ChosenCategoryForTable}" AllowClear="True" TitleColor="White" TextColor="White" BorderColor="White" WidthRequest="300" AccentColor="White" />
 
                 <Button Text="See expenses at chosen category" TextColor="Black" FontSize="Medium" Command="{Binding ChangeCategory}"/>
+
+                <Button Text="Delete selected expenses" TextColor="Black" FontSize="Medium" Command="{Binding DeleteExpenses}"/>
             </VerticalStackLayout>
 
         </HorizontalStackLayout>
     </Grid>
-
-
 </ContentPage>
