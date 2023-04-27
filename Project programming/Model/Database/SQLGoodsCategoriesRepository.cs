@@ -12,7 +12,12 @@ namespace Database
         {
             db = new ApplicationContext();
         }
-        public List<GoodsCategory> GetAllUsersCategories(uint userId) => db.Goods.Where(g => g.UserId == userId).ToList();
+        public List<GoodsCategory> GetAllUsersCategories(uint userId)
+        {
+            List<GoodsCategory> goods =  db.Goods.Where(g => g.UserId == userId).ToList();
+            goods.Sort((l, r) => l.Name.CompareTo(r.Name));
+            return goods;
+        }
 
         public  List<string> GetAllUsersCategoriesName(uint userId) => db.Goods.Where(g => g.UserId == userId).Select(g=> new string(g.Name)).ToList();
         public async Task<GoodsCategory> AddCategoryAsync(string categoryName, uint userId)

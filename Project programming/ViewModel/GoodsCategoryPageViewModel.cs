@@ -34,6 +34,7 @@ namespace GoodsCategotyPage
 
         public GoodsCategoryPageViewModel()
         {
+            
             Categories = new ObservableCollection<GoodsCategory>(_categoriesRepository.GetAllUsersCategories(User.Id));
 
             RemoveCategory = new Command(async () =>
