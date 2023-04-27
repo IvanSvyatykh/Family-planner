@@ -10,7 +10,6 @@ using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using System.Collections.Specialized;
 
 namespace ExpensesPage
 {
@@ -36,26 +35,26 @@ namespace ExpensesPage
         private string _chosenCategoryForAdd { get; set; }
         private string _chosenCategoryForTable { get; set; }
         private string _chosenMonth { get; set; }
-        public List<string> CategoryNames { get; set; }
+        public ObservableCollection<string> CategoryNames { get; set; }
         public ICommand ChangeCategory { get; set; }
         public ICommand AddExpenses { get; set; }
         public ICommand DeleteExpenses { get; set; }
+        public ICommand RefreshCategory { get; set; }
 
         public ExpensesViewModel()
         {
             ChosenMonth = ExtendedMonthes.GetMonthInStringFromByte((byte)DateTime.Now.Month);
             Monthes = new ObservableCollection<string>(ExtendedMonthes.GetAllMonthes());
 
-            CategoryNames = _categoriesRepository.GetAllUsersCategoriesName(User.Id);
-            CategoryNames.Sort((l, r) => l.CompareTo(r));
+            CategoryNames = new ObservableCollection<string>(_categoriesRepository.GetAllUsersCategoriesName(User.Id));
 
             ChosenCategoryForTable = CategoryNames[0];
-            Expenses = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id, ChosenCategoryForTable, 
+            Expenses = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id, ChosenCategoryForTable,
                 ExtendedMonthes.GetMonthInByteFromString(ChosenMonth)));
 
             ChangeCategory = new Command(() =>
             {
-                var ExpensesFromTable = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id, ChosenCategoryForTable, 
+                var ExpensesFromTable = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id, ChosenCategoryForTable,
                     ExtendedMonthes.GetMonthInByteFromString(ChosenMonth)));
                 ExpensesFromTable.ToList().Sort((l, r) => l.ExpensesDate.CompareTo(r.ExpensesDate));
                 Expenses.Clear();
@@ -91,10 +90,22 @@ namespace ExpensesPage
                         await App.AlertSvc.ShowAlertAsync("Sorry", "Something goes wrong we can't delete expense");
                     }
                 }
-                if(Expenses.Count == 0)
+                if (Expenses.Count == 0)
                 {
                     Expenses.Add(new Expenses() { Cost = null, ExpensesName = null, UserId = null, Id = 0 });
                 }
+            });
+
+            RefreshCategory = new Command(() =>
+            {
+                ObservableCollection<string> NewCategories = new ObservableCollection<string>(_categoriesRepository.GetAllUsersCategoriesName(User.Id));
+                CategoryNames.Clear();
+
+                foreach (var category in NewCategories) 
+                {
+                    CategoryNames.Add(category);
+                }
+                ChosenCategoryForTable = CategoryNames[0];
             });
         }
         public string ChosenMonth

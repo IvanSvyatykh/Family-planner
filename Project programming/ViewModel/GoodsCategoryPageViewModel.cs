@@ -27,10 +27,10 @@ namespace GoodsCategotyPage
 
         public event PropertyChangedEventHandler PropertyChanged;
         public ObservableCollection<GoodsCategory> Categories { get; set; }
-        public ObservableCollection<GoodsCategory> SelectedCategories { get; set; } = new ObservableCollection<GoodsCategory>();
-   
+        public ObservableCollection<GoodsCategory> SelectedCategories { get; set; } = new ObservableCollection<GoodsCategory>();  
         public ICommand RemoveCategory { get; set; }
         public ICommand AddCategory { get; set; }
+          
 
         public GoodsCategoryPageViewModel()
         {
@@ -70,6 +70,8 @@ namespace GoodsCategotyPage
                     NewCategory = null;
                 }
             });
+
+           
         }
 
         public string NewCategory

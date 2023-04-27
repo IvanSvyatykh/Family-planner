@@ -19,7 +19,13 @@ namespace Database
             return goods;
         }
 
-        public  List<string> GetAllUsersCategoriesName(uint userId) => db.Goods.Where(g => g.UserId == userId).Select(g=> new string(g.Name)).ToList();
+        public List<string> GetAllUsersCategoriesName(uint userId)
+        {
+            List<string> names =  db.Goods.Where(g => g.UserId == userId).Select(g => new string(g.Name)).ToList();
+            names.Sort((l, r) => l.CompareTo(r));
+            return names;
+        }
+
         public async Task<GoodsCategory> AddCategoryAsync(string categoryName, uint userId)
         {
             await db.Goods.AddAsync(new GoodsCategory { Name = categoryName, UserId = userId });

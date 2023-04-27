@@ -72,6 +72,8 @@
 
 
                 <Button Text="Delete selected expenses" TextColor="Black" FontSize="Medium" Command="{Binding DeleteExpenses}"/>
+
+                <Button Text="Refresh Category" TextColor="Black" FontSize="Medium" Command="{Binding RefreshCategory}"/>
             </VerticalStackLayout>
 
         </HorizontalStackLayout>
