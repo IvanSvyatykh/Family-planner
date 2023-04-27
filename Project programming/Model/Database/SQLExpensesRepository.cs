@@ -1,10 +1,5 @@
 ﻿using Classes;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Database
 {
@@ -19,7 +14,7 @@ namespace Database
 
         public List<Expenses> GetUserExpensesByCategoty(uint userId, string categoryName, byte monthInByte)
         {
-            var expenses = db.Expenses.Where(e => e.UserId == userId && e.ExpensesDate.Month==monthInByte && e.ExpensesName.Equals(categoryName)).ToList();
+            var expenses = db.Expenses.Where(e => e.UserId == userId && e.ExpensesDate.Month == monthInByte && e.ExpensesName.Equals(categoryName)).ToList();
             if (expenses.Count == 0)
             {
                 expenses.Add(new Expenses() { Cost = null, ExpensesName = null, UserId = null, Id = 0 });
@@ -56,6 +51,31 @@ namespace Database
             {
                 return false;
             }
+
+        }
+
+        public async Task<bool> RevomveAllCategoryExpensesAsync(uint userId, string categoryName)
+        {
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    var expenses = db.Expenses.Where(e => e.UserId == userId && e.ExpensesName == categoryName).ToList();
+
+                    foreach (var expense in expenses)
+                    {
+                        db.Expenses.Remove(expense);
+                        await db.SaveChangesAsync();
+                    }
+
+                });
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            
 
         }
     }
