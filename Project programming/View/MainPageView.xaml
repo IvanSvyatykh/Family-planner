@@ -11,7 +11,7 @@
 
     <ScrollView>
 
-        <input:FormView SubmitCommand="{Binding SignIn}">
+        <input:FormView SubmitCommand="{Binding SignIn}" >
             <VerticalStackLayout VerticalOptions="End" Spacing="30">
 
                 <Label Text="Welcome back" TextColor="White" FontSize="32"/>
@@ -27,7 +27,7 @@
 
 
 
-                    <Label Text="Registration" TextColor="White">
+                    <Label Text="Registration" TextColor="White" IsVisible="{Binding IsVisable}">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding Registration}"/>
                         </Label.GestureRecognizers>
@@ -42,7 +42,7 @@
                     </controls:TextField>
 
 
-                    <Label Text="Forget Password?" TextColor="White">
+                    <Label Text="Forget Password?" TextColor="White" IsVisible="{Binding IsVisable}">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding ForgetPassword}"/>
                         </Label.GestureRecognizers>
@@ -51,7 +51,7 @@
                 </HorizontalStackLayout>
 
                 <Button  WidthRequest="1000" 
-                    HorizontalOptions="Center"  Text="Sign in" TextColor="Black"  FontSize="Medium" input:FormView.IsSubmitButton="True" StyleClass="FilledButton"/>
+                    HorizontalOptions="Center"  Text="Sign in" TextColor="Black"  FontSize="Medium" input:FormView.IsSubmitButton="True" StyleClass="FilledButton" IsVisible="{Binding IsVisable}"/>
             </VerticalStackLayout>
 
         </input:FormView>

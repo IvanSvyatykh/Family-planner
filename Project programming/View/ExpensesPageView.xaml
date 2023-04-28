@@ -5,6 +5,7 @@
              xmlns:controls="clr-namespace:UraniumUI.Material.Controls;assembly=UraniumUI.Material"                         
              xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
              xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
+             
              x:Class="ExpensesPage.ExpensesView"
              Shell.FlyoutBehavior="Locked"
              BackgroundColor="Black">

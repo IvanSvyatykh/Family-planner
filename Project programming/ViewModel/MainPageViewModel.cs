@@ -27,20 +27,24 @@ namespace MainPage
         private Dictionary<string, object> MainPageData = (App.Current as App).currentData;
 
         private int _countTry = 0;
+
+        private bool _isVisable = true;
         public MainPageViewModel()
         {
+
             SignIn = new Command(async () =>
             {
+                IsVisable = false;
                 User user = new User(null, Password, Email);
                 if (!CheckEmailCorectness.ConnectionAvailable())
                 {
                     await App.AlertSvc.ShowAlertAsync("", "There is no internet, check your connection, please");
+                    IsVisable = true;
                 }
                 else if (await _userRepository.IsUserExistsAsync(user.Email))
                 {
                     if (await _userRepository.IsUserPasswordCorrectAsync(user))
-                    {
-                        await Task.Delay(1000);
+                    {                       
                         user = await _userRepository.GetFullPersonInformationAsync(Email);
                         MainPageData.Add("User", user);
                         ushort FamilyId = user.FamilyId;
@@ -52,19 +56,25 @@ namespace MainPage
                     {
                         await App.AlertSvc.ShowAlertAsync("", "You write wrong password");
                         _countTry++;
-
+                        IsVisable = true;
                         if (_countTry == 3)
                         {
                             _countTry = 0;
                             await Shell.Current.GoToAsync("ForgottenPasswordPage");
                         }
+
                     }
                 }
                 else
                 {
                     await App.AlertSvc.ShowAlertAsync("", "We don't have account with this Email");
+                    IsVisable = true;
                 }
+
+
             });
+
+
 
             ForgetPassword = new Command(async () =>
             {
@@ -76,6 +86,21 @@ namespace MainPage
                 await Shell.Current.GoToAsync("RegistrationPage");
             });
         }
+
+        public bool IsVisable
+        {
+            get => _isVisable;
+
+            set
+            {
+                if (_isVisable != value) 
+                {
+                    _isVisable = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
         public string Password
         {
             get => _password;

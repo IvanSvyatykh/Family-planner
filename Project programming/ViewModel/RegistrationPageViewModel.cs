@@ -15,6 +15,8 @@ namespace RegistrationPage
         public ICommand SendEmail { get; set; }
         public ICommand ReigistarationButtonIsPressed { get; set; }
 
+        public bool _isVisable = true;
+
         private SQLUserRepository _userRepository = new SQLUserRepository();
 
         private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
@@ -30,7 +32,6 @@ namespace RegistrationPage
         private int? _answer = null;
 
         private int? _confirmationCode = null;
-
 
         private Dictionary<string, object> RegistrationPageData = (App.Current as App).currentData;
 
@@ -59,10 +60,11 @@ namespace RegistrationPage
 
             ReigistarationButtonIsPressed = new Command(async () =>
             {
-
+                IsVisable = false;
                 if (await _userRepository.IsUserExistsAsync(Email))
                 {
                     await App.AlertSvc.ShowAlertAsync("Attention", $"Account with this Email alredy exist");
+                    IsVisable = true;
                 }
                 else if (Answer.Equals(_confirmationCode))
                 {
@@ -84,17 +86,33 @@ namespace RegistrationPage
                     else
                     {
                         await App.AlertSvc.ShowAlertAsync("", "You alreade have account");
+                        IsVisable = true;
 
                         await Shell.Current.GoToAsync("ForgottenPasswordPage");
                     }
                 }
                 else
                 {
+                    IsVisable = true;
                     await App.AlertSvc.ShowAlertAsync("", "Confirmation Code should be equal to your answer");
                     Answer = null;
                 }
             });
 
+        }
+
+        public bool IsVisable
+        {
+            get => _isVisable;
+
+            set
+            {
+                if (_isVisable != value)
+                {
+                    _isVisable = value;
+                    Registaration();
+                }
+            }
         }
         private void GiveANumberToCode() => _confirmationCode = PasswordLog.RandomNumberGenerator();
         public string Name

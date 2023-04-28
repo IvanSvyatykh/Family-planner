@@ -28,6 +28,8 @@ namespace ForgottenPasswordPage
 
         private int? _answer = null;
 
+        public bool _isVisable = true;
+
         private Dictionary<string, object> ForgottenPageData = (App.Current as App).currentData;
         public ForgottenPasswordPageViewModel()
         {
@@ -36,28 +38,30 @@ namespace ForgottenPasswordPage
                 GiveANumberToCode();
                 if (!CheckEmailCorectness.ConnectionAvailable())
                 {
-                    await App.AlertSvc.ShowAlertAsync("Ooops ", "There is no internet, check your connection, please", "ОК ");
+                    await App.AlertSvc.ShowAlertAsync("Ooops ", "There is no internet, check your connection, please");
                 }
                 else if (!EmailWriter.SendMessage(Email, "New Password", "Password : " + _newPassword.ToString()))
                 {
-                    await App.AlertSvc.ShowAlertAsync("O_o ", "You wrote non-existed Email", "ОК ");
+                    await App.AlertSvc.ShowAlertAsync("O_o ", "You wrote non-existed Email");
                 }
                 else if (await _userRepository.IsUserExistsAsync(Email))
                 {
                     _isSend = true;
-                    await App.AlertSvc.ShowAlertAsync("Confirmation Code", "We have sent you confirmation code on Email", "Ok");
+                    await App.AlertSvc.ShowAlertAsync("Confirmation Code", "We have sent you confirmation code on Email");
                 }
                 else
                 {
-                    await App.AlertSvc.ShowAlertAsync("Sorry", "But we cant't find account with this Email", "Ok");
+                    await App.AlertSvc.ShowAlertAsync("Sorry", "But we cant't find account with this Email");
                 }
             });
 
             Continue = new Command(async () =>
             {
+                IsVisable = false;
                 if (!Answer.Equals(_newPassword))
                 {
                     await App.AlertSvc.ShowAlertAsync("Attention", $"You have wrote wrong confirmation code");
+                    IsVisable = true;
                 }
                 else
                 {
@@ -77,12 +81,28 @@ namespace ForgottenPasswordPage
                     }
                     else
                     {
-                        await App.AlertSvc.ShowAlertAsync("", "Something ggoes wrong");
+                        IsVisable = true;
+                        await App.AlertSvc.ShowAlertAsync("", "Something goes wrong");
                     }
                 }
             },
             () => _isSend);
         }
+
+        public bool IsVisable
+        {
+            get => _isVisable;
+
+            set
+            {
+                if (_isVisable != value)
+                {
+                    _isVisable = value;
+                    ContinueChanged();
+                }
+            }
+        }
+
         private void GiveANumberToCode() => _newPassword = PasswordLog.RandomNumberGenerator();
         public string Email
         {

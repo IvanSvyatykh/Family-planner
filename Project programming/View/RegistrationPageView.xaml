@@ -52,7 +52,7 @@
                 </controls:EditorField>
 
                 <Button  BackgroundColor="WhiteSmoke" Text="Registrate" TextColor="Black" 
-                   WidthRequest="500" HorizontalOptions="Start" HeightRequest="50"  FontSize="Medium" input:FormView.IsSubmitButton="True"/>
+                   WidthRequest="500" HorizontalOptions="Start" HeightRequest="50"  FontSize="Medium" input:FormView.IsSubmitButton="True" IsVisible="{Binding IsVisable}"/>
 
             </input:FormView>
         </StackLayout>
