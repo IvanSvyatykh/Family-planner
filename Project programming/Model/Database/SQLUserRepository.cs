@@ -93,14 +93,14 @@ namespace Database
 
 
         }
-        public async Task<bool> RemoveMemberOfFamilyAsync(ushort FamilyId)
+        public async Task<bool> RemoveMemberOfFamilyAsync(uint FamilyId,  uint Id )
         {
             try
             {
                 await Task.Run(async () =>
                 {
 
-                    var userFromDb = await db.Users.FirstOrDefaultAsync(u => u.FamilyId == FamilyId);
+                    var userFromDb = await db.Users.FirstOrDefaultAsync(u => u.FamilyId == FamilyId && u.Id == Id);
                     userFromDb.ChangeFamilyId(0);
                     await db.SaveChangesAsync();
                 });

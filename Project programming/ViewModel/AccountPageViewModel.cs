@@ -26,12 +26,19 @@ namespace AccountPage
 
         private Family Family = AccountPageCurrentData["Family"] as Family;
 
+        private bool _isAdmin = false;
+
         public AccountPageViewModel()
         {
             DataPerson CurrentUserData = InitializationCurrentUser();
             Person.Add(CurrentUserData);
 
             FamilyMembers = GetAllFamilyAccount(_userRepository.GetAllAccountWithFamilyId(User.FamilyId));
+
+            if (Family != null && CurrentUserData.Email.Equals(Family.Email))
+            {
+                IsAdmin = true;
+            }
 
             RemoveMember = new Command(async () =>
             {
@@ -44,7 +51,7 @@ namespace AccountPage
                 {
                     foreach (var user in SelectedMember)
                     {
-                        await _userRepository.RemoveMemberOfFamilyAsync(user.FamilyId);
+                        await _userRepository.RemoveMemberOfFamilyAsync(user.FamilyId, user.Id);
                         FamilyMembers.Remove(user);
                     }
 
@@ -55,12 +62,12 @@ namespace AccountPage
 
                     foreach (var user in FamilyMembers)
                     {
-                        await _userRepository.RemoveMemberOfFamilyAsync(user.FamilyId);                      
+                        await _userRepository.RemoveMemberOfFamilyAsync(user.FamilyId, user.Id);
                         SelectedMember.Remove(user);
                         OnPropertyChanged();
                     }
                     FamilyMembers.Clear();
-                    if(await _familyRepository.RemoveFamily(Family.Id))
+                    if (await _familyRepository.RemoveFamily(Family.Id))
                     {
                         await App.AlertSvc.ShowAlertAsync("", "Family was deleted");
                     }
@@ -68,7 +75,7 @@ namespace AccountPage
                     {
                         await App.AlertSvc.ShowAlertAsync("", "Something goes wrong");
                     }
-                    
+
                 }
                 else
                 {
@@ -76,9 +83,23 @@ namespace AccountPage
                     OnPropertyChanged();
                 }
             });
-        
-        }      
-        
+
+        }
+
+        public bool NotAdmin => !IsAdmin;
+        public bool IsAdmin
+        {
+            get => _isAdmin;
+
+            set
+            {
+                if (_isAdmin != value)
+                {
+                    _isAdmin = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
         private ObservableCollection<FamilyMember> GetAllFamilyAccount(List<User> users)
         {
             ObservableCollection<FamilyMember> members = new ObservableCollection<FamilyMember>();
@@ -87,7 +108,7 @@ namespace AccountPage
             {
                 foreach (var user in users)
                 {
-                    FamilyMember familyMember = new FamilyMember(user.Name, user.Email, user.FamilyId);
+                    FamilyMember familyMember = new FamilyMember(user.Name, user.Email, user.FamilyId, user.Id);
                     members.Add(familyMember);
                 }
             }
@@ -100,7 +121,7 @@ namespace AccountPage
             DataPerson CurrentUserData;
             if (Family == null)
             {
-                CurrentUserData = new DataPerson(User.Name, User.Email,  null);
+                CurrentUserData = new DataPerson(User.Name, User.Email, null);
             }
             else
             {
