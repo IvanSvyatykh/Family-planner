@@ -20,7 +20,7 @@ namespace ForgottenPasswordPage
 
         private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
 
-        private int? _newPassword = null;
+        private int? _confirmationCode = null;
 
         private string _email;
 
@@ -29,6 +29,10 @@ namespace ForgottenPasswordPage
         private int? _answer = null;
 
         public bool _isVisable = true;
+
+        private string _password;
+
+        private string _repeatedPassword;
 
         private Dictionary<string, object> ForgottenPageData = (App.Current as App).currentData;
         public ForgottenPasswordPageViewModel()
@@ -40,7 +44,7 @@ namespace ForgottenPasswordPage
                 {
                     await App.AlertSvc.ShowAlertAsync("Ooops ", "There is no internet, check your connection, please");
                 }
-                else if (!EmailWriter.SendMessage(Email, "New Password", "Password : " + _newPassword.ToString()))
+                else if (!EmailWriter.SendMessage(Email, "New Password", "Password : " + _confirmationCode.ToString()))
                 {
                     await App.AlertSvc.ShowAlertAsync("O_o ", "You wrote non-existed Email");
                 }
@@ -58,14 +62,19 @@ namespace ForgottenPasswordPage
             Continue = new Command(async () =>
             {
                 IsVisable = false;
-                if (!Answer.Equals(_newPassword))
+                if (!ConfirmationCodeFromUser.Equals(_confirmationCode))
                 {
                     await App.AlertSvc.ShowAlertAsync("Attention", $"You have wrote wrong confirmation code");
                     IsVisable = true;
                 }
                 else
                 {
-                    if (await _userRepository.ChangeUserPasswordAsync(Email, Answer.ToString()))
+                    if (!Password.Equals(RepeatedPassword))
+                    {
+                        await App.AlertSvc.ShowAlertAsync("", "Passwords should be equals");
+                        IsVisable = true;
+                    }
+                    else if (await _userRepository.ChangeUserPasswordAsync(Email, Password.ToString()))
                     {
 
                         await App.AlertSvc.ShowAlertAsync("", "You changed your password");
@@ -89,6 +98,31 @@ namespace ForgottenPasswordPage
             () => _isSend);
         }
 
+        public string RepeatedPassword
+        {
+            get => _repeatedPassword;
+            set
+            {
+                if (_repeatedPassword != value)
+                {
+                    _repeatedPassword = value;
+                    ContinueChanged();
+                }
+            }
+        }
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                if (_password != value)
+                {
+                    _password = value;
+                    ContinueChanged();
+                }
+            }
+        }
+
         public bool IsVisable
         {
             get => _isVisable;
@@ -103,7 +137,7 @@ namespace ForgottenPasswordPage
             }
         }
 
-        private void GiveANumberToCode() => _newPassword = PasswordLog.RandomNumberGenerator();
+        private void GiveANumberToCode() => _confirmationCode = PasswordLog.RandomNumberGenerator();
         public string Email
         {
             get => _email;
@@ -116,7 +150,7 @@ namespace ForgottenPasswordPage
                 }
             }
         }
-        public int? Answer
+        public int? ConfirmationCodeFromUser
         {
             get => _answer;
             set
