@@ -12,7 +12,6 @@ namespace AccountPage
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand RemoveMember { get; set; }
-        public ICommand UpdateData { get; set; }
         public ObservableCollection<FamilyMember> FamilyMembers { get; set; } = new ObservableCollection<FamilyMember>();
         public ObservableCollection<FamilyMember> SelectedMember { get; set; } = new ObservableCollection<FamilyMember>();
         public ObservableCollection<DataPerson> Person { get; set; } = new ObservableCollection<DataPerson>();

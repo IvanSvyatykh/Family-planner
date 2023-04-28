@@ -28,7 +28,7 @@
                     <validation:RequiredValidation Message="Repeated password can not be null"/>
                 </controls:TextField>
 
-                <Button  BackgroundColor="WhiteSmoke" Text="Send confirmation code" TextColor="Black" 
+                <Button  Text="Send confirmation code" TextColor="Black" 
                    WidthRequest="500" HorizontalOptions="Start" HeightRequest="50"  FontSize="Medium" 
                      input:FormView.IsSubmitButton="True"/>
 
@@ -51,7 +51,7 @@
                     </controls:EditorField.Validations>
                 </controls:EditorField>
 
-                <Button  BackgroundColor="WhiteSmoke" Text="Registrate" TextColor="Black" 
+                <Button  Text="Registrate" TextColor="Black" 
                    WidthRequest="500" HorizontalOptions="Start" HeightRequest="50"  FontSize="Medium" input:FormView.IsSubmitButton="True" IsVisible="{Binding IsVisable}"/>
 
             </input:FormView>

@@ -27,39 +27,39 @@ namespace GoodsCategotyPage
 
         public event PropertyChangedEventHandler PropertyChanged;
         public ObservableCollection<GoodsCategory> Categories { get; set; }
-        public ObservableCollection<GoodsCategory> SelectedCategories { get; set; } = new ObservableCollection<GoodsCategory>();  
+        public ObservableCollection<GoodsCategory> SelectedCategories { get; set; } = new ObservableCollection<GoodsCategory>();
         public ICommand RemoveCategory { get; set; }
         public ICommand AddCategory { get; set; }
-          
+
 
         public GoodsCategoryPageViewModel()
         {
-            
+
             Categories = new ObservableCollection<GoodsCategory>(_categoriesRepository.GetAllUsersCategories(User.Id));
 
             RemoveCategory = new Command(async () =>
             {
-                if(SelectedCategories.Count == 0)
+                if (SelectedCategories.Count == 0)
                 {
                     await App.AlertSvc.ShowAlertAsync("", "You didn't choose any categories");
                 }
-                else if(await App.AlertSvc.ShowConfirmationAsync("Attention !" , "If you delete category of good you will delte all expenses in this category"))
+                else if (await App.AlertSvc.ShowConfirmationAsync("Attention !", "If you delete category of good you will delte all expenses in this category"))
                 {
 
-                    foreach(var category in SelectedCategories) 
+                    foreach (var category in SelectedCategories)
                     {
-                        if(! await _categoriesRepository.RemoveCategory(category) & ! await _expensesRepository.RevomveAllCategoryExpensesAsync(User.Id , category.Name))
+                        if (!await _categoriesRepository.RemoveCategory(category) & !await _expensesRepository.RevomveAllCategoryExpensesAsync(User.Id, category.Name))
                         {
                             await App.AlertSvc.ShowAlertAsync("", "Something goes wrong");
                         }
-                        Categories.Remove(category);    
-                    }                  
+                        Categories.Remove(category);
+                    }
                 }
             });
 
             AddCategory = new Command(async () =>
             {
-                if (!Categories.All(c => c.Name.Equals(NewCategory)))
+                if (Categories.Count == 0 || !Categories.All(c => c.Name.Equals(NewCategory)))
                 {
                     Categories.Add(await _categoriesRepository.AddCategoryAsync(NewCategory, User.Id));
                     NewCategory = null;
@@ -71,7 +71,7 @@ namespace GoodsCategotyPage
                 }
             });
 
-           
+
         }
 
         public string NewCategory

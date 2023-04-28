@@ -44,7 +44,7 @@ namespace ForgottenPasswordPage
                 {
                     await App.AlertSvc.ShowAlertAsync("Ooops ", "There is no internet, check your connection, please");
                 }
-                else if (!EmailWriter.SendMessage(Email, "New Password", "Password : " + _confirmationCode.ToString()))
+                else if (!EmailWriter.SendMessage(Email, "New Password", "Code : " + _confirmationCode.ToString()))
                 {
                     await App.AlertSvc.ShowAlertAsync("O_o ", "You wrote non-existed Email");
                 }

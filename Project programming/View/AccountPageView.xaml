@@ -48,7 +48,6 @@
                         <controls:DataGridColumn Binding="{Binding Status}" Title="Status" Width="100"/>
                     </controls:DataGrid.Columns>
                 </controls:DataGrid>
-                <Button Text="Save changes"  HorizontalOptions="Center" FontSize="Medium"/>
             </StackLayout>
         </VerticalStackLayout>
     </Grid>

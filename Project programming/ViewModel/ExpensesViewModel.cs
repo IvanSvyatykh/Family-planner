@@ -48,7 +48,11 @@ namespace ExpensesPage
 
             CategoryNames = new ObservableCollection<string>(_categoriesRepository.GetAllUsersCategoriesName(User.Id));
 
-            ChosenCategoryForTable = CategoryNames[0];
+            if (CategoryNames.Count() != 0)
+            {
+                ChosenCategoryForTable = CategoryNames[0];
+            }
+            
             Expenses = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategoty(User.Id, ChosenCategoryForTable,
                 ExtendedMonthes.GetMonthInByteFromString(ChosenMonth)));
 
