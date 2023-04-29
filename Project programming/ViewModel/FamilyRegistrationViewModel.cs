@@ -56,10 +56,12 @@ namespace FamilyRegistrationPage
                     else
                     {
                         User.ChangeFamilyId(await _familyRepository.GetFamilyIdAsync(_creatorEmaiJoin));
-                        Family = new Family(FamilyNameCreation, FamilyPasswordCreation, User.Email);
+                        Family = new Family(FamilyNameCreation, FamilyPasswordCreation, CreatorEmailJoin);
                         FamilyRegistrationPageData["User"] = User;
                         FamilyRegistrationPageData["Family"] = Family;
                         (App.Current as App).currentData = FamilyRegistrationPageData;
+                        CreatorEmailJoin = FamilyPasswordJoin = null;
+
                         App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
                     }
                 }
@@ -102,7 +104,7 @@ namespace FamilyRegistrationPage
                         FamilyRegistrationPageData["User"] = User;
                         FamilyRegistrationPageData["Family"] = Family;
                         (App.Current as App).currentData = FamilyRegistrationPageData;
-
+                        RepeatedFamilyPasswordCreation = FamilyPasswordCreation=FamilyNameCreation=null;
                         await App.AlertSvc.ShowAlertAsync("Good", "Creation is successful");
                     }
 

@@ -115,7 +115,6 @@ namespace AccountPage
             return members;
 
         }
-
         private DataPerson InitializationCurrentUser()
         {
             DataPerson CurrentUserData;
@@ -129,7 +128,6 @@ namespace AccountPage
             }
             return CurrentUserData;
         }
-
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
