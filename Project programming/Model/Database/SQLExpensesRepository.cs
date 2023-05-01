@@ -12,15 +12,15 @@ namespace Database
             db = new ApplicationContext();
         }
 
-        public List<Expenses> GetUserExpensesByCategoty(uint userId, string categoryName, byte monthInByte)
+        public List<Expenses> GetUserExpensesByCategotyAndDate(uint userId, string categoryName, byte monthInByte)
         {
             var expenses = db.Expenses.Where(e => e.UserId == userId && e.ExpensesDate.Month == monthInByte && e.ExpensesName.Equals(categoryName)).ToList();
             if (expenses.Count == 0)
             {
-                expenses.Add(new Expenses() { Cost = null, ExpensesName = null, UserId = null, Id = 0 });
+                expenses.Add(new Expenses() { Cost = 0, ExpensesName = null, UserId = null, Id = 0 });
             }
             return expenses;
-        }
+        }       
 
         public async Task<bool> AddExpenseAsync(Expenses expenses)
         {

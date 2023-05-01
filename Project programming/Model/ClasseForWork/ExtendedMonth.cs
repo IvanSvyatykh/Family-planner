@@ -39,5 +39,8 @@ namespace Classes
         public List<string> GetAllMonthes() => Monthes.Keys.ToList();
 
         public string GetMonthInStringFromByte(byte num) => Monthes.FirstOrDefault(m => m.Value == num).Key;
+
+        public int GetCurrentYear()=> DateTime.Now.Year;
+
     }
 }
