@@ -33,7 +33,7 @@ namespace RegistrationPage
 
         private int? _confirmationCode = null;
 
-        private Dictionary<string, object> RegistrationPageData = (App.Current as App).currentData;
+        private Dictionary<string, object> _registrationPageData = (App.Current as App).currentData;
 
         public RegistrationPageViewModel()
         {
@@ -76,10 +76,10 @@ namespace RegistrationPage
                         await Task.Delay(1000);
 
                         user = await _userRepository.GetFullPersonInformationAsync(Email);
-                        RegistrationPageData.Add("User", user);
+                        _registrationPageData.Add("User", user);
                         ushort FamilyId = user.FamilyId;
-                        RegistrationPageData.Add("Family", await _familyRepository.GetFullFamilyInformationAsync(FamilyId));
-                        (App.Current as App).currentData = RegistrationPageData;
+                        _registrationPageData.Add("Family", await _familyRepository.GetFullFamilyInformationAsync(FamilyId));
+                        (App.Current as App).currentData = _registrationPageData;
 
                         await Shell.Current.GoToAsync("AccountPageView");
                     }

@@ -23,11 +23,11 @@ namespace FamilyRegistrationPage
 
         private string _repeatedFamilyPasswordCreation = null;
 
-        private Dictionary<string, object> FamilyRegistrationPageData = (App.Current as App).currentData;
+        private Dictionary<string, object> _familyRegistrationPageData = (App.Current as App).currentData;
 
-        private User User;
+        private User _user;
 
-        private Family Family;
+        private Family _family;
 
 
         private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
@@ -35,10 +35,10 @@ namespace FamilyRegistrationPage
         private SQLUserRepository _userRepository = new SQLUserRepository();
         public FamilyRegistrationViewModel()
         {
-            User = FamilyRegistrationPageData["User"] as User;
+            _user = _familyRegistrationPageData["User"] as User;
             JoinToFamily = new Command(async () =>
             {
-                if (User.FamilyId != 0)
+                if (_user.FamilyId != 0)
                 {
                     await App.AlertSvc.ShowAlertAsync("", "You are alredy member of family");
                 }
@@ -49,17 +49,17 @@ namespace FamilyRegistrationPage
                 }
                 else if (await _familyRepository.IsFamilyPasswordCorrectAsync(CreatorEmailJoin, FamilyPasswordJoin))
                 {
-                    if (!await _userRepository.AddFamilyToUserAsync(CreatorEmailJoin, User.Email))
+                    if (!await _userRepository.AddFamilyToUserAsync(CreatorEmailJoin, _user.Email))
                     {
                         await App.AlertSvc.ShowAlertAsync("", "Sorry, but something goes wrong and we can not add Family Id");
                     }
                     else
                     {
-                        User.ChangeFamilyId(await _familyRepository.GetFamilyIdAsync(_creatorEmaiJoin));
-                        Family = new Family(FamilyNameCreation, FamilyPasswordCreation, CreatorEmailJoin);
-                        FamilyRegistrationPageData["User"] = User;
-                        FamilyRegistrationPageData["Family"] = Family;
-                        (App.Current as App).currentData = FamilyRegistrationPageData;
+                        _user.ChangeFamilyId(await _familyRepository.GetFamilyIdAsync(_creatorEmaiJoin));
+                        _family = new Family(FamilyNameCreation, FamilyPasswordCreation, CreatorEmailJoin);
+                        _familyRegistrationPageData["User"] = _user;
+                        _familyRegistrationPageData["Family"] = _family;
+                        (App.Current as App).currentData = _familyRegistrationPageData;
                         CreatorEmailJoin = FamilyPasswordJoin = null;
 
                         App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
@@ -73,7 +73,7 @@ namespace FamilyRegistrationPage
 
             CreateFamily = new Command(async () =>
             {
-                if (User.FamilyId != 0)
+                if (_user.FamilyId != 0)
                 {
                     await App.AlertSvc.ShowAlertAsync("", "You are alredy member of family");
                 }
@@ -89,21 +89,21 @@ namespace FamilyRegistrationPage
                 }
                 else
                 {
-                    Family = new Family(FamilyNameCreation, FamilyPasswordCreation, User.Email);
-                    if (!await _familyRepository.CreateFamilyAsync(Family))
+                    _family = new Family(FamilyNameCreation, FamilyPasswordCreation, _user.Email);
+                    if (!await _familyRepository.CreateFamilyAsync(_family))
                     {
                         await App.AlertSvc.ShowAlertAsync("Sorry", "But we can't create family, something goes wrong");
                     }
-                    else if (!await _userRepository.AddFamilyToUserAsync(User.Email, User.Email))
+                    else if (!await _userRepository.AddFamilyToUserAsync(_user.Email, _user.Email))
                     {
                         await App.AlertSvc.ShowAlertAsync("Sorry", "But we can't add familyId to user");
                     }
                     else
                     {
-                        User.ChangeFamilyId(await _familyRepository.GetFamilyIdAsync(User.Email));
-                        FamilyRegistrationPageData["User"] = User;
-                        FamilyRegistrationPageData["Family"] = Family;
-                        (App.Current as App).currentData = FamilyRegistrationPageData;
+                        _user.ChangeFamilyId(await _familyRepository.GetFamilyIdAsync(_user.Email));
+                        _familyRegistrationPageData["User"] = _user;
+                        _familyRegistrationPageData["Family"] = _family;
+                        (App.Current as App).currentData = _familyRegistrationPageData;
                         RepeatedFamilyPasswordCreation = FamilyPasswordCreation=FamilyNameCreation=null;
                         await App.AlertSvc.ShowAlertAsync("Good", "Creation is successful");
                     }

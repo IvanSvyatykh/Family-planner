@@ -1,6 +1,7 @@
 ﻿using DialogService;
 using AppService;
 
+
 namespace Maui.Controls
 {
     public static class MauiProgram
@@ -8,7 +9,7 @@ namespace Maui.Controls
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
-            builder
+            builder               
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {

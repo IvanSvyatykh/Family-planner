@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using AppService;
 using Classes;
@@ -15,9 +10,9 @@ namespace GoodsCategotyPage
 {
     public class GoodsCategoryPageViewModel : INotifyPropertyChanged
     {
-        private static Dictionary<string, object> GoodsCategoriesPageCurrentData = (App.Current as App).currentData;
+        private static Dictionary<string, object> _goodsCategoriesPageCurrentData = (App.Current as App).currentData;
 
-        private User User = GoodsCategoriesPageCurrentData["User"] as User;
+        private User _user = _goodsCategoriesPageCurrentData["User"] as User;
 
         private string _newCategory = null;
 
@@ -35,7 +30,7 @@ namespace GoodsCategotyPage
         public GoodsCategoryPageViewModel()
         {
 
-            Categories = new ObservableCollection<GoodsCategory>(_categoriesRepository.GetAllUsersCategories(User.Id));
+            Categories = new ObservableCollection<GoodsCategory>(_categoriesRepository.GetAllUsersCategories(_user.Id));
 
             RemoveCategory = new Command(async () =>
             {
@@ -48,7 +43,7 @@ namespace GoodsCategotyPage
 
                     foreach (var category in SelectedCategories)
                     {
-                        if (!await _categoriesRepository.RemoveCategory(category) & !await _expensesRepository.RevomveAllCategoryExpensesAsync(User.Id, category.Name))
+                        if (!await _categoriesRepository.RemoveCategory(category) & !await _expensesRepository.RevomveAllCategoryExpensesAsync(_user.Id, category.Name))
                         {
                             await App.AlertSvc.ShowAlertAsync("", "Something goes wrong");
                         }
@@ -61,7 +56,7 @@ namespace GoodsCategotyPage
             {
                 if (Categories.Count == 0 || !Categories.All(c => c.Name.Equals(NewCategory)))
                 {
-                    Categories.Add(await _categoriesRepository.AddCategoryAsync(NewCategory, User.Id));
+                    Categories.Add(await _categoriesRepository.AddCategoryAsync(NewCategory, _user.Id));
                     NewCategory = null;
                 }
                 else

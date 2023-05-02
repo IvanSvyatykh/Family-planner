@@ -20,11 +20,11 @@ namespace AccountPage
 
         private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
 
-        private static Dictionary<string, object> AccountPageCurrentData = (App.Current as App).currentData;
+        private static Dictionary<string, object> _accountPageCurrentData = (App.Current as App).currentData;
 
-        private User User = AccountPageCurrentData["User"] as User;
+        private User _user = _accountPageCurrentData["User"] as User;
 
-        private Family Family = AccountPageCurrentData["Family"] as Family;
+        private Family _family = _accountPageCurrentData["Family"] as Family;
 
         private bool _isAdmin = false;
 
@@ -33,9 +33,9 @@ namespace AccountPage
             DataPerson CurrentUserData = InitializationCurrentUser();
             Person.Add(CurrentUserData);
 
-            FamilyMembers = GetAllFamilyAccount(_userRepository.GetAllAccountWithFamilyId(User.FamilyId));
+            FamilyMembers = GetAllFamilyAccount(_userRepository.GetAllAccountWithFamilyId(_user.FamilyId));
 
-            if (Family != null && CurrentUserData.Email.Equals(Family.Email))
+            if (_family != null && CurrentUserData.Email.Equals(_family.Email))
             {
                 IsAdmin = true;
             }
@@ -47,7 +47,7 @@ namespace AccountPage
                 {
                     await App.AlertSvc.ShowAlertAsync("", "You did not choose anybody from family");
                 }
-                else if (!SelectedMember.All(m => m.MemberEmail.Equals(Family.Email)))
+                else if (!SelectedMember.All(m => m.MemberEmail.Equals(_family.Email)))
                 {
                     foreach (var user in SelectedMember)
                     {
@@ -67,7 +67,7 @@ namespace AccountPage
                         OnPropertyChanged();
                     }
                     FamilyMembers.Clear();
-                    if (await _familyRepository.RemoveFamily(Family.Id))
+                    if (await _familyRepository.RemoveFamily(_family.Id))
                     {
                         await App.AlertSvc.ShowAlertAsync("", "Family was deleted");
                     }
@@ -118,13 +118,13 @@ namespace AccountPage
         private DataPerson InitializationCurrentUser()
         {
             DataPerson CurrentUserData;
-            if (Family == null)
+            if (_family == null)
             {
-                CurrentUserData = new DataPerson(User.Name, User.Email, null);
+                CurrentUserData = new DataPerson(_user.Name, _user.Email, null);
             }
             else
             {
-                CurrentUserData = new DataPerson(User.Name, User.Email, Family.Email);
+                CurrentUserData = new DataPerson(_user.Name, _user.Email, _family.Email);
             }
             return CurrentUserData;
         }
