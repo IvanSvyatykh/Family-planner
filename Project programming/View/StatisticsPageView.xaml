@@ -5,7 +5,6 @@
              xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
              xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
              x:Class="StatisticsPage.StatisticsPageView"
-             Title="Statistics"
              BackgroundColor="Black"
              Shell.FlyoutBehavior="Locked">
 
@@ -21,16 +20,18 @@
             </controls:DataGrid.EmptyView>
         </controls:DataGrid>
         
-        <input:FormView SubmitCommand="{Binding ChangeData}">
+        <input:FormView SubmitCommand="{Binding ChangeData}" Spacing="20">
             <controls:PickerField ItemsSource="{Binding Monthes}" Title="Choose monthes"  SelectedItem="{Binding ChosenMonth}" 
                               AllowClear="True" TitleColor="White" TextColor="White" BorderColor="White" WidthRequest="300" AccentColor="White" HorizontalOptions="End">
                 <validation:RequiredValidation />
             </controls:PickerField>
 
-            <Button Text="See other month" TextColor="White" WidthRequest="200" FontSize="Medium" input:FormView.IsSubmitButton="True"/>
-
+            <Button Text="See expenses in month" TextColor="Black" WidthRequest="200" FontSize="Medium" input:FormView.IsSubmitButton="True"/>
+            
+            <Button Text="Refresh Category" TextColor="Black" FontSize="Medium" Command="{Binding RefreshCategory}"/>
         </input:FormView>
-       
+            
+        
 
 
 

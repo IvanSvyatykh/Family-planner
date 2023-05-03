@@ -16,6 +16,8 @@ namespace StatisticsPage
         public List<string> Monthes { get; set; }
         public ICommand ChangeData {  get; set; }   
 
+        public ICommand RefreshCategory { get; set; }   
+
         private ExtendedMonth _extendedMonthes = new ExtendedMonth();
 
         private static Dictionary<string, object> _statisticsPageCurrentData = (App.Current as App).currentData;
@@ -34,6 +36,12 @@ namespace StatisticsPage
 
             ChangeData = new Command(() =>
             {
+                ChangeDataForStatistics();
+            });
+
+            RefreshCategory = new Command(() =>
+            {
+                CategoryNames = new ObservableCollection<string>(_categoriesRepository.GetAllUsersCategoriesName(_user.Id));
                 ChangeDataForStatistics();
             });
 

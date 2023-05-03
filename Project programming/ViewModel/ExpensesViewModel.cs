@@ -106,7 +106,10 @@ namespace ExpensesPage
                 {
                     CategoryNames.Add(category);
                 }
-                ChosenCategoryForTable = CategoryNames[0];
+                if (CategoryNames.Count() != 0)
+                {
+                    ChosenCategoryForTable = CategoryNames[0];
+                }
             });
         }
         public string ChosenMonth
