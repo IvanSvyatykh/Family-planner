@@ -13,27 +13,27 @@
         <BackButtonBehavior IsVisible="False" IsEnabled="False" />
     </Shell.BackButtonBehavior>
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="3*"/>
-        </Grid.ColumnDefinitions>
-        <VerticalStackLayout Spacing="20" Margin="30" Grid.Column="1">
+    <HorizontalStackLayout Spacing="15" Margin="30">
 
-            <Label Text="Select Data for grapics" TextColor="White" FontSize="Medium"/>
-            <input:FormView  SubmitCommand="{Binding DrawNewGrapics}" Spacing="20" Margin="30">
-                <controls:PickerField Title="Choose category" ItemsSource="{Binding CategoryNames}" SelectedItem="{Binding ChosenCategory}" AllowClear="True" TitleColor="White" TextColor="White" BorderColor="White" WidthRequest="300" AccentColor="White" >
-                    <validation:RequiredValidation />
-                </controls:PickerField>
-                <controls:PickerField Title="Choose month of expense" ItemsSource="{Binding Monthes}" SelectedItem="{Binding ChosenMonth}" AllowClear="True" TitleColor="White" TextColor="White" BorderColor="White" WidthRequest="300" AccentColor="White" >
-                    <validation:RequiredValidation />
-                </controls:PickerField>
+        <controls:DataGrid ItemsSource="{Binding Data}" UseAutoColumns="True">
+            <controls:DataGrid.EmptyView>
+                <Label Text="There aren't expenses in chosen month" TextColor="Black" HorizontalOptions="Center"/>
+            </controls:DataGrid.EmptyView>
+        </controls:DataGrid>
+        
+        <input:FormView SubmitCommand="{Binding ChangeData}">
+            <controls:PickerField ItemsSource="{Binding Monthes}" Title="Choose monthes"  SelectedItem="{Binding ChosenMonth}" 
+                              AllowClear="True" TitleColor="White" TextColor="White" BorderColor="White" WidthRequest="300" AccentColor="White" HorizontalOptions="End">
+                <validation:RequiredValidation />
+            </controls:PickerField>
 
-                <Button Text="See expenses at chosen category" TextColor="Black" FontSize="Medium" input:FormView.IsSubmitButton="True"/>
-            </input:FormView>
+            <Button Text="See other month" TextColor="White" WidthRequest="200" FontSize="Medium" input:FormView.IsSubmitButton="True"/>
+
+        </input:FormView>
+       
 
 
 
-        </VerticalStackLayout>
-    </Grid>
+    </HorizontalStackLayout>
+
 </ContentPage>

@@ -21,28 +21,34 @@
         </Grid.RowDefinitions>
 
 
-        <HorizontalStackLayout Spacing="15" Grid.Row="0" Margin="30">
 
-            <controls:PickerField Title="Choose category" SelectedItem="{Binding ChosenCategoryForAdd}" ItemsSource="{Binding CategoryNames}" AllowClear="True" TitleColor="White" TextColor="White" BorderColor="White" WidthRequest="300" AccentColor="White">
-                <validation:RequiredValidation />
-            </controls:PickerField>
+        <input:FormView SubmitCommand="{Binding AddExpenses}" Grid.Row="0">
 
-
-            <controls:DatePickerField Title="Choose date" AllowClear="True" TitleColor="WhiteSmoke" BorderColor="White" WidthRequest="300" Date="{Binding DateOfPurshchase}">
-                <validation:RequiredValidation/>
-            </controls:DatePickerField>
+            <HorizontalStackLayout Spacing="15" Grid.Row="0" Margin="30">
+                <controls:PickerField Title="Choose category" SelectedItem="{Binding ChosenCategoryForAdd}" ItemsSource="{Binding CategoryNames}" AllowClear="True" TitleColor="White" TextColor="White" BorderColor="White" WidthRequest="300" AccentColor="White">
+                    <validation:RequiredValidation />
+                </controls:PickerField>
 
 
-
-            <controls:EditorField TitleColor="White" Title="Cost" BorderColor="White" TextColor="White" WidthRequest="300" AccentColor="White" Text="{Binding Cost}">
-                <controls:EditorField.Validations>
+                <controls:DatePickerField Title="Choose date" AllowClear="True" TitleColor="WhiteSmoke" BorderColor="White" WidthRequest="300" Date="{Binding DateOfPurshchase}">
                     <validation:RequiredValidation/>
-                    <validation:DigitsOnlyValidation Message="Cost can be written only in digit form"/>
-                </controls:EditorField.Validations>
-            </controls:EditorField>
+                </controls:DatePickerField>
 
-            <Button Text="Add purshcase" TextColor="White" WidthRequest="200" FontSize="Medium" Command="{Binding AddExpenses}"/>
-        </HorizontalStackLayout>
+
+
+                <controls:EditorField TitleColor="White" Title="Cost" BorderColor="White" TextColor="White" WidthRequest="300" AccentColor="White" Text="{Binding Cost}">
+                    <controls:EditorField.Validations>
+                        <validation:RequiredValidation/>
+                        <validation:DigitsOnlyValidation Message="Cost can be written only in digit form"/>
+                    </controls:EditorField.Validations>
+                </controls:EditorField>
+
+                <Button Text="Add purshcase" TextColor="White" WidthRequest="200" FontSize="Medium" input:FormView.IsSubmitButton="True"/>
+            </HorizontalStackLayout>
+
+        </input:FormView>
+
+
 
         <HorizontalStackLayout Grid.Row="1" Spacing="20" Margin="30">
 

@@ -10,7 +10,7 @@ namespace Classes
     {
         public uint Id { get; set; }
         public uint? UserId { get; set; }
-        public string? ExpensesName { get; set; }
+        public string ExpensesName { get; set; }
         public DateOnly ExpensesDate { get; set; }
         public uint Cost { get; set; }     
     }

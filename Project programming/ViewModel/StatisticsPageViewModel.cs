@@ -1,30 +1,26 @@
-﻿using Microsoft.Maui.Graphics;
-using AppService;
-using Database;
-using System.ComponentModel;
+﻿using AppService;
 using Classes;
+using Database;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using System.Linq;
 
 namespace StatisticsPage
 {
     public class StatisticsPageViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-        public ICommand DrawNewGrapics { get; set; }
+        public ObservableCollection<DataForStatistics> Data { get; set; } = new ObservableCollection<DataForStatistics>();
         public ObservableCollection<string> CategoryNames { get; set; }
-        public ObservableCollection<string> Monthes { get; set; }
-        public ObservableCollection<Expenses> ExpensesInMonth { get; set; }
-        public ObservableCollection<DataForGrapics> Data { get; set; } = new ObservableCollection<DataForGrapics>();
+        public List<string> Monthes { get; set; }
+        public ICommand ChangeData {  get; set; }   
 
         private ExtendedMonth _extendedMonthes = new ExtendedMonth();
 
         private static Dictionary<string, object> _statisticsPageCurrentData = (App.Current as App).currentData;
 
         private User _user = _statisticsPageCurrentData["User"] as User;
-        private string _chosenCategory { get; set; }
         private string _chosenMonth { get; set; }
 
         private SQLGoodsCategoriesRepository _categoriesRepository = new SQLGoodsCategoriesRepository();
@@ -33,54 +29,51 @@ namespace StatisticsPage
 
         public StatisticsPageViewModel()
         {
-            ChosenMonth = _extendedMonthes.GetMonthInStringFromByte((byte)DateTime.Now.Month);
-            Monthes = new ObservableCollection<string>(_extendedMonthes.GetAllMonthes());
+            InizalizationFields();
+            AddDataForStatistics();
 
-            CategoryNames = new ObservableCollection<string>(_categoriesRepository.GetAllUsersCategoriesName(_user.Id));
-
-            if (CategoryNames.Count() != 0)
+            ChangeData = new Command(() =>
             {
-                ChosenCategory = CategoryNames[0];
-            }
-
-            ExpensesInMonth = new ObservableCollection<Expenses>(_expensesRepository.GetUserExpensesByCategotyAndDate(_user.Id, ChosenCategory, _extendedMonthes.GetMonthInByteFromString(ChosenMonth)));
-
-            byte dayInMonth = (byte)DateTime.DaysInMonth(_extendedMonthes.GetCurrentYear(), _extendedMonthes.GetMonthInByteFromString(ChosenMonth));
-
-            for (byte i = 1; i < dayInMonth; i++)
-            {
-                Data.Add(new DataForGrapics(i, SumInDay(i)));
-            }
-
-            DrawNewGrapics = new Command(async () =>
-            {
-                await Task.Run(() =>
-                {
-                    ExpensesInMonth = new ObservableCollection<Expenses>(_expensesRepository.GetUserExpensesByCategotyAndDate(_user.Id, ChosenCategory, _extendedMonthes.GetMonthInByteFromString(ChosenMonth)));
-                    Data.Clear();
-                    byte dayInMonth = (byte)DateTime.DaysInMonth(_extendedMonthes.GetCurrentYear(), _extendedMonthes.GetMonthInByteFromString(ChosenMonth));
-
-                    for (byte i = 1; i < dayInMonth; i++)
-                    {
-                        Data.Add(new DataForGrapics(i, SumInDay(i)));
-                    }
-                });
+                ChangeDataForStatistics();
             });
 
         }
 
-        private uint SumInDay(byte date)
+        private void ChangeDataForStatistics()
         {
-            uint count = 0;
-            foreach(var e in ExpensesInMonth)
+            ObservableCollection<Expenses> ExpensesInMonth = new ObservableCollection<Expenses>(_expensesRepository.GetUserExpensesByMonth(_user.Id,
+               _extendedMonthes.GetMonthInByteFromString(ChosenMonth)));
+
+            Data.Clear();
+
+            foreach (var category in CategoryNames)
             {
-                if (e.ExpensesDate.Day == date)
-                { 
-                    count += e.Cost;
-                }
+                DataForStatistics data = new DataForStatistics(_expensesRepository.GetUserExpensesByCategotyAndDate(_user.Id, category,
+                    _extendedMonthes.GetMonthInByteFromString(ChosenMonth)));
+                Data.Add(data);
+            }
+        }
+
+        private void AddDataForStatistics()
+        {
+            ObservableCollection<Expenses> ExpensesInMonth = new ObservableCollection<Expenses>(_expensesRepository.GetUserExpensesByMonth(_user.Id,
+                _extendedMonthes.GetMonthInByteFromString(ChosenMonth)));
+
+            foreach (var category in CategoryNames)
+            {
+                DataForStatistics data = new DataForStatistics(_expensesRepository.GetUserExpensesByCategotyAndDate(_user.Id, category,
+                    _extendedMonthes.GetMonthInByteFromString(ChosenMonth)));
+                Data.Add(data);
             }
 
-            return count;
+        }
+
+        private void InizalizationFields()
+        {
+            ChosenMonth = _extendedMonthes.GetMonthInStringFromByte((byte)DateTime.Now.Month);
+            Monthes = _extendedMonthes.GetAllMonthes();
+
+            CategoryNames = new ObservableCollection<string>(_categoriesRepository.GetAllUsersCategoriesName(_user.Id));
         }
 
         public string ChosenMonth
@@ -96,19 +89,6 @@ namespace StatisticsPage
             }
         }
 
-        public string ChosenCategory
-        {
-            get => _chosenCategory;
-
-            set
-            {
-                if (value != _chosenCategory)
-                {
-                    _chosenCategory = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
 
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {

@@ -17,10 +17,20 @@ namespace Database
             var expenses = db.Expenses.Where(e => e.UserId == userId && e.ExpensesDate.Month == monthInByte && e.ExpensesName.Equals(categoryName)).ToList();
             if (expenses.Count == 0)
             {
+                expenses.Add(new Expenses() { Cost = 0, ExpensesName = categoryName, UserId = null, Id = 0 });
+            }
+            return expenses;
+        }
+
+        public List<Expenses> GetUserExpensesByMonth(uint userId, byte monthInByte)
+        {
+            var expenses = db.Expenses.Where(e => e.UserId == userId && e.ExpensesDate.Month == monthInByte).ToList();
+            if (expenses.Count == 0)
+            {
                 expenses.Add(new Expenses() { Cost = 0, ExpensesName = null, UserId = null, Id = 0 });
             }
             return expenses;
-        }       
+        }
 
         public async Task<bool> AddExpenseAsync(Expenses expenses)
         {
@@ -36,7 +46,7 @@ namespace Database
             }
         }
 
-        public async Task<bool> RemoveExpense(Expenses expense)
+        public async Task<bool> RemoveExpenseAsync(Expenses expense)
         {
             try
             {
@@ -75,7 +85,7 @@ namespace Database
             {
                 return false;
             }
-            
+
 
         }
     }

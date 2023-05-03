@@ -86,7 +86,7 @@ namespace ExpensesPage
                 foreach (var select in Selected)
                 {
                     Expenses.Remove(select);
-                    if (!await _expensesRepositiry.RemoveExpense(select))
+                    if (!await _expensesRepositiry.RemoveExpenseAsync(select))
                     {
                         await App.AlertSvc.ShowAlertAsync("Sorry", "Something goes wrong we can't delete expense");
                     }
