@@ -32,6 +32,12 @@ namespace Database
             await db.SaveChangesAsync();
             return await db.Goods.Where(g => g.Name.Equals(categoryName)).FirstOrDefaultAsync();
         }
+
+        public async void AddUniqueCategoryAsync(string categoryName, uint userId)
+        {
+            await db.Goods.AddAsync(new GoodsCategory { Name = categoryName, UserId = userId });
+            await db.SaveChangesAsync();
+        }
         public async Task<bool> RemoveCategory(GoodsCategory goodsCategory)
         {
             try

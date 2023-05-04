@@ -12,6 +12,8 @@ namespace AccountPage
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand RemoveMember { get; set; }
+
+        public ICommand GetUniqueCategories { get; set; }
         public ObservableCollection<FamilyMember> FamilyMembers { get; set; } = new ObservableCollection<FamilyMember>();
         public ObservableCollection<FamilyMember> SelectedMember { get; set; } = new ObservableCollection<FamilyMember>();
         public ObservableCollection<DataPerson> Person { get; set; } = new ObservableCollection<DataPerson>();
@@ -20,9 +22,11 @@ namespace AccountPage
 
         private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
 
+        private SQLGoodsCategoriesRepository _categoriesRepository = new SQLGoodsCategoriesRepository();
+
         private static Dictionary<string, object> _accountPageCurrentData = (App.Current as App).currentData;
 
-        private User _user = _accountPageCurrentData["User"] as User;
+        private User _userCurrent = _accountPageCurrentData["User"] as User;
 
         private Family _family = _accountPageCurrentData["Family"] as Family;
 
@@ -30,15 +34,7 @@ namespace AccountPage
 
         public AccountPageViewModel()
         {
-            DataPerson CurrentUserData = InitializationCurrentUser();
-            Person.Add(CurrentUserData);
-
-            FamilyMembers = GetAllFamilyAccount(_userRepository.GetAllAccountWithFamilyId(_user.FamilyId));
-
-            if (_family != null && CurrentUserData.Email.Equals(_family.Email))
-            {
-                IsAdmin = true;
-            }
+            InitializationFields();
 
             RemoveMember = new Command(async () =>
             {
@@ -54,7 +50,8 @@ namespace AccountPage
                         await _userRepository.RemoveMemberOfFamilyAsync(user.FamilyId, user.Id);
                         FamilyMembers.Remove(user);
                     }
-
+                    SelectedMember.Clear();
+                    OnPropertyChanged();
                     await App.AlertSvc.ShowAlertAsync("", "We deleted members");
                 }
                 else if (await App.AlertSvc.ShowConfirmationAsync("", "You chose creator account, if you delete this account, family will be deleted too. Are you sure?"))
@@ -84,9 +81,30 @@ namespace AccountPage
                 }
             });
 
+            GetUniqueCategories = new Command(async () =>
+            {
+                if (SelectedMember.Count == 0)
+                {
+                    await App.AlertSvc.ShowAlertAsync("", "You did not choose anybody from family");
+                }
+                else if (!SelectedMember.All(m => m.MemberEmail.Equals(_userCurrent.Email)))
+                {
+                    int uniqueCategories = 0;
+                    foreach (var user in SelectedMember)
+                    {
+                        uniqueCategories += await AddNewCategories(user.Id);
+                    }
+
+                    await App.AlertSvc.ShowAlertAsync("", $"We added {uniqueCategories} categories ");
+                }
+                else
+                {
+                    await App.AlertSvc.ShowAlertAsync("", "You chose your account, you can not add any unique categories");
+                    SelectedMember.Clear();
+                }
+            });
         }
 
-        public bool NotAdmin => !IsAdmin;
         public bool IsAdmin
         {
             get => _isAdmin;
@@ -115,18 +133,34 @@ namespace AccountPage
             return members;
 
         }
-        private DataPerson InitializationCurrentUser()
+        private void InitializationFields()
         {
-            DataPerson CurrentUserData;
             if (_family == null)
             {
-                CurrentUserData = new DataPerson(_user.Name, _user.Email, null);
+                Person.Add(new DataPerson(_userCurrent.Name, _userCurrent.Email, null));
             }
             else
             {
-                CurrentUserData = new DataPerson(_user.Name, _user.Email, _family.Email);
+                Person.Add(new DataPerson(_userCurrent.Name, _userCurrent.Email, _family.Email));
             }
-            return CurrentUserData;
+            FamilyMembers = GetAllFamilyAccount(_userRepository.GetAllAccountWithFamilyId(_userCurrent.FamilyId));
+
+            if (_family != null && Person[0].Email.Equals(_family.Email))
+            {
+                IsAdmin = true;
+            }
+        }
+        private async Task<int> AddNewCategories(uint userId)
+        {
+            List<string> existedCategories = _categoriesRepository.GetAllUsersCategoriesName(_userCurrent.Id);
+            List<string> newCategories = _categoriesRepository.GetAllUsersCategoriesName(userId).Except(existedCategories).ToList();
+
+            foreach (string category in newCategories)
+            {
+                await _categoriesRepository.AddCategoryAsync(category, _userCurrent.Id);
+            }
+
+            return newCategories.Count();
         }
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {

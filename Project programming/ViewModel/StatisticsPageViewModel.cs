@@ -112,7 +112,7 @@ namespace StatisticsPage
 
             _familyMembers = GetAllFamilyAccount(_userRepository.GetAllAccountWithFamilyId(_user.FamilyId));
 
-            IsCreator = (_user.Email.Equals(_family.Email));
+            IsCreator = (_family !=null && _user.Email.Equals(_family.Email));
 
             ChosenMember = _user.Email;
 

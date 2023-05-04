@@ -5,6 +5,8 @@
              x:Class="AccountPage.AccountPageView"                  
              BackgroundColor="Black"
              >
+
+
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsVisible="False" IsEnabled="False" />
     </Shell.BackButtonBehavior>
@@ -14,26 +16,12 @@
             <ColumnDefinition Width="*"/>
 
         </Grid.ColumnDefinitions>
+        
+        
 
         <VerticalStackLayout HorizontalOptions="Center" Margin="20" Grid.Column="0">
-
-            <StackLayout Spacing="20" HorizontalOptions="Center" IsVisible="{Binding NotAdmin}">
-                <Label Text="Information About Fmaily" TextColor="WhiteSmoke" FontSize="Medium"/>
-                <controls:DataGrid ItemsSource="{Binding FamilyMembers}"   SelectedItems="{Binding SelectedMember}"  BorderColor="White" SelectionColor="Grey">
-                    <controls:DataGrid.EmptyView>
-                        <Label Text="You are not a family member" TextColor="Black" HorizontalOptions="Center"/>
-                    </controls:DataGrid.EmptyView>
-                    <controls:DataGrid.Columns>
-                        <controls:DataGridColumn Binding="{Binding MemberName}"  Title="Name" Width="*"/>
-                        <controls:DataGridColumn Binding="{Binding MemberEmail}" Title="E-mail" Width="*"/>
-                    </controls:DataGrid.Columns>
-                </controls:DataGrid>
-
-
-                <Button Text="Delete Selected Member"  HorizontalOptions="Center" Command="{Binding RemoveMember}" FontSize="Medium"/>
-            </StackLayout>
-
-            <StackLayout Spacing="20" HorizontalOptions="Center" IsVisible="{Binding IsAdmin}">
+           
+            <StackLayout Spacing="20" HorizontalOptions="Center">
                 <Label Text="Information About Fmaily" TextColor="WhiteSmoke" FontSize="Medium"/>
                 <controls:DataGrid ItemsSource="{Binding FamilyMembers}"   SelectedItems="{Binding SelectedMember}"  BorderColor="White" SelectionColor="Grey">
                     <controls:DataGrid.EmptyView>
@@ -46,8 +34,9 @@
                     </controls:DataGrid.Columns>
                 </controls:DataGrid>
 
-
-                <Button Text="Delete Selected Member"  HorizontalOptions="Center" Command="{Binding RemoveMember}" FontSize="Medium"/>
+                <Button Text="Get unique member's categories"  HorizontalOptions="Center" Command="{Binding GetUniqueCategories}"  FontSize="Medium"/>
+                <Button Text="Delete Selected Member"  HorizontalOptions="Center" Command="{Binding RemoveMember}" IsVisible="{Binding IsAdmin}" FontSize="Medium"/>
+                
             </StackLayout>
 
 
