@@ -110,6 +110,7 @@ namespace ForgottenPasswordPage
                 }
             }
         }
+
         public string Password
         {
             get => _password;
@@ -138,6 +139,7 @@ namespace ForgottenPasswordPage
         }
 
         private void GiveANumberToCode() => _confirmationCode = PasswordLog.RandomNumberGenerator();
+
         public string Email
         {
             get => _email;
@@ -150,6 +152,7 @@ namespace ForgottenPasswordPage
                 }
             }
         }
+
         public int? ConfirmationCodeFromUser
         {
             get => _answer;
@@ -168,6 +171,7 @@ namespace ForgottenPasswordPage
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
             ((Command)SendEmail).ChangeCanExecute();
         }
+
         public void ContinueChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

@@ -50,7 +50,6 @@ namespace StatisticsPage
 
             RefreshCategory = new Command(() =>
             {
-                CategoryNames = new ObservableCollection<string>(_categoriesRepository.GetAllUsersCategoriesName(_user.Id));
                 ChangeDataForStatistics();
             });
 

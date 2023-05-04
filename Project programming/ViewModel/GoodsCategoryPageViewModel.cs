@@ -40,7 +40,6 @@ namespace GoodsCategotyPage
                 }
                 else if (await App.AlertSvc.ShowConfirmationAsync("Attention !", "If you delete category of good you will delte all expenses in this category"))
                 {
-
                     foreach (var category in SelectedCategories)
                     {
                         if (!await _categoriesRepository.RemoveCategory(category) & !await _expensesRepository.RevomveAllCategoryExpensesAsync(_user.Id, category.Name))

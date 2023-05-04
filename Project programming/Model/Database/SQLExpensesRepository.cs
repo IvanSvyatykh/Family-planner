@@ -19,6 +19,7 @@ namespace Database
             {
                 expenses.Add(new Expenses() { Cost = 0, ExpensesName = categoryName, UserId = null, Id = 0 });
             }
+            expenses.Sort((l, r) => l.ExpensesDate.CompareTo(r.ExpensesDate));
             return expenses;
         }
 
