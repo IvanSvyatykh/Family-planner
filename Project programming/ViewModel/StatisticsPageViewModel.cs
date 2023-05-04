@@ -13,21 +13,30 @@ namespace StatisticsPage
         public event PropertyChangedEventHandler PropertyChanged;
         public ObservableCollection<DataForStatistics> Data { get; set; } = new ObservableCollection<DataForStatistics>();
         public ObservableCollection<string> CategoryNames { get; set; }
+        public List<string> AccountsEmail { get; set; } = new List<string>();
         public List<string> Monthes { get; set; }
-        public ICommand ChangeData {  get; set; }   
+        public ICommand ChangeData { get; set; }
 
-        public ICommand RefreshCategory { get; set; }   
+        public ICommand RefreshCategory { get; set; }
 
         private ExtendedMonth _extendedMonthes = new ExtendedMonth();
 
         private static Dictionary<string, object> _statisticsPageCurrentData = (App.Current as App).currentData;
 
+        private List<FamilyMember> _familyMembers { get; set; } = new List<FamilyMember>();
+
         private User _user = _statisticsPageCurrentData["User"] as User;
+
+        private Family _family = _statisticsPageCurrentData["Family"] as Family;
         private string _chosenMonth { get; set; }
+        private string _chosenMember { get; set; }
+        private bool _isCreator { get; set; }
 
         private SQLGoodsCategoriesRepository _categoriesRepository = new SQLGoodsCategoriesRepository();
 
         private SQLExpensesRepository _expensesRepository = new SQLExpensesRepository();
+
+        private SQLUserRepository _userRepository = new SQLUserRepository();
 
         public StatisticsPageViewModel()
         {
@@ -52,14 +61,35 @@ namespace StatisticsPage
             ObservableCollection<Expenses> ExpensesInMonth = new ObservableCollection<Expenses>(_expensesRepository.GetUserExpensesByMonth(_user.Id,
                _extendedMonthes.GetMonthInByteFromString(ChosenMonth)));
 
+            FamilyMember user = _familyMembers.Where(f => f.MemberEmail.Equals(ChosenMember)).FirstOrDefault();
+
+            CategoryNames = new ObservableCollection<string>(_categoriesRepository.GetAllUsersCategoriesName(user.Id));
+
             Data.Clear();
 
             foreach (var category in CategoryNames)
             {
-                DataForStatistics data = new DataForStatistics(_expensesRepository.GetUserExpensesByCategotyAndDate(_user.Id, category,
+                DataForStatistics data = new DataForStatistics(_expensesRepository.GetUserExpensesByCategotyAndDate(user.Id, category,
                     _extendedMonthes.GetMonthInByteFromString(ChosenMonth)));
                 Data.Add(data);
             }
+        }
+
+        private List<FamilyMember> GetAllFamilyAccount(List<User> users)
+        {
+            List<FamilyMember> members = new List<FamilyMember>();
+
+            if (users != null)
+            {
+                foreach (var user in users)
+                {
+                    FamilyMember familyMember = new FamilyMember(user.Name, user.Email, user.FamilyId, user.Id);
+                    AccountsEmail.Add(user.Email);
+                    members.Add(familyMember);
+                }
+            }
+            return members;
+
         }
 
         private void AddDataForStatistics()
@@ -81,7 +111,49 @@ namespace StatisticsPage
             ChosenMonth = _extendedMonthes.GetMonthInStringFromByte((byte)DateTime.Now.Month);
             Monthes = _extendedMonthes.GetAllMonthes();
 
+            _familyMembers = GetAllFamilyAccount(_userRepository.GetAllAccountWithFamilyId(_user.FamilyId));
+
+            IsCreator = (_user.Email.Equals(_family.Email));
+
+            ChosenMember = _user.Email;
+
             CategoryNames = new ObservableCollection<string>(_categoriesRepository.GetAllUsersCategoriesName(_user.Id));
+        }
+
+        public bool IsCreator
+        {
+            get => _isCreator;
+
+            set
+            {
+                if (value != _isCreator)
+                {
+                    _isCreator = value;
+                    OnPropertyChanged();
+                }
+            }
+        }
+
+        public string ChosenMember
+        {
+            get => _chosenMember;
+
+            set
+            {
+                if (value != _chosenMember)
+                {
+                    if (_chosenMember == null)
+                    {
+                        _chosenMember = _user.Email;
+                        OnPropertyChanged();
+                    }
+                    else
+                    {
+                        _chosenMember = value;
+                        OnPropertyChanged();
+                    }
+                }
+            }
         }
 
         public string ChosenMonth
@@ -96,7 +168,6 @@ namespace StatisticsPage
                 }
             }
         }
-
 
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
