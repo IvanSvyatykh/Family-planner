@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using DataCollector;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using WorkWithEmail;
 
 namespace ExpensesPage
 {
@@ -42,59 +43,89 @@ namespace ExpensesPage
         {
             InizalizationFields();
 
-            ChangeCategory = new Command(() =>
+            ChangeCategory = new Command(async () =>
             {
-                var ExpensesFromTable = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategotyAndDate(_user.Id, ChosenCategoryForTable,
-                    _extendedMonthes.GetMonthInByteFromString(ChosenMonth)));
-                Expenses.Clear();
-                Selected.Clear();
-                foreach (var category in ExpensesFromTable)
+                if (!CheckEmailCorectness.ConnectionAvailable())
                 {
-                    Expenses.Add(category);
+                    await App.AlertSvc.ShowAlertAsync("", "There is no internet, check your connection, please");
                 }
-                OnPropertyChanged();
+                else
+                {
+                    var ExpensesFromTable = new ObservableCollection<Expenses>(_expensesRepositiry.GetUserExpensesByCategotyAndDate(_user.Id, ChosenCategoryForTable,
+                   _extendedMonthes.GetMonthInByteFromString(ChosenMonth)));
+                    Expenses.Clear();
+                    Selected.Clear();
+                    foreach (var category in ExpensesFromTable)
+                    {
+                        Expenses.Add(category);
+                    }
+                    OnPropertyChanged();
+                }
+                   
             });
 
             AddExpenses = new Command(async () =>
             {
-                if (!await _expensesRepositiry.AddExpenseAsync(new Expenses() { Cost = Cost, UserId = _user.Id, ExpensesName = ChosenCategoryForAdd, ExpensesDate = DateOnly.FromDateTime(DateOfPurshchase) }))
+
+                if (!CheckEmailCorectness.ConnectionAvailable())
+                {
+                    await App.AlertSvc.ShowAlertAsync("", "There is no internet, check your connection, please");
+                }
+                else if (!await _expensesRepositiry.AddExpenseAsync(new Expenses() { Cost = Cost, UserId = _user.Id, ExpensesName = ChosenCategoryForAdd, ExpensesDate = DateOnly.FromDateTime(DateOfPurshchase) }))
                 {
                     await App.AlertSvc.ShowAlertAsync("Sorry", "Something goes wrong we can't add expense");
                 }
                 ChosenCategoryForAdd = null;
                 DateOfPurshchase = DateTime.Today;
                 Cost = 0;
+
             });
 
             DeleteExpenses = new Command(async () =>
             {
-                foreach (var select in Selected)
+                if (!CheckEmailCorectness.ConnectionAvailable())
                 {
-                    Expenses.Remove(select);
-                    if (!await _expensesRepositiry.RemoveExpenseAsync(select))
+                    await App.AlertSvc.ShowAlertAsync("", "There is no internet, check your connection, please");
+                }
+                else
+                {
+                    foreach (var select in Selected)
                     {
-                        await App.AlertSvc.ShowAlertAsync("Sorry", "Something goes wrong we can't delete expense");
+                        Expenses.Remove(select);
+                        if (!await _expensesRepositiry.RemoveExpenseAsync(select))
+                        {
+                            await App.AlertSvc.ShowAlertAsync("Sorry", "Something goes wrong we can't delete expense");
+                        }
+                    }
+                    if (Expenses.Count == 0)
+                    {
+                        Expenses.Add(new Expenses() { Cost = 0, ExpensesName = null, UserId = null, Id = 0 });
                     }
                 }
-                if (Expenses.Count == 0)
-                {
-                    Expenses.Add(new Expenses() { Cost = 0, ExpensesName = null, UserId = null, Id = 0 });
-                }
+                
             });
 
-            RefreshCategory = new Command(() =>
+            RefreshCategory = new Command(async () =>
             {
-                ObservableCollection<string> NewCategories = new ObservableCollection<string>(_categoriesRepository.GetAllUsersCategoriesName(_user.Id));
-                CategoryNames.Clear();
+                if (!CheckEmailCorectness.ConnectionAvailable())
+                {
+                    await App.AlertSvc.ShowAlertAsync("", "There is no internet, check your connection, please");
+                }
+                else
+                {
+                    ObservableCollection<string> NewCategories = new ObservableCollection<string>(_categoriesRepository.GetAllUsersCategoriesName(_user.Id));
+                    CategoryNames.Clear();
 
-                foreach (var category in NewCategories)
-                {
-                    CategoryNames.Add(category);
+                    foreach (var category in NewCategories)
+                    {
+                        CategoryNames.Add(category);
+                    }
+                    if (CategoryNames.Count() != 0)
+                    {
+                        ChosenCategoryForTable = CategoryNames[0];
+                    }
                 }
-                if (CategoryNames.Count() != 0)
-                {
-                    ChosenCategoryForTable = CategoryNames[0];
-                }
+               
             });
         }
         private void InizalizationFields()

@@ -6,6 +6,7 @@ using AppService;
 using System.Collections.ObjectModel;
 using Database;
 using DataCollector;
+using WorkWithEmail;
 
 namespace AccountPage
 {
@@ -38,8 +39,11 @@ namespace AccountPage
             
             RemoveMember = new Command(async () =>
             {
-
-                if (SelectedMember.Count == 0)
+                if (!CheckEmailCorectness.ConnectionAvailable())
+                {
+                    await App.AlertSvc.ShowAlertAsync("", "There is no internet, check your connection, please");
+                }
+                else if (SelectedMember.Count == 0)
                 {
                     await App.AlertSvc.ShowAlertAsync("", "You did not choose anybody from family");
                 }
@@ -82,7 +86,11 @@ namespace AccountPage
 
             GetUniqueCategories = new Command(async () =>
             {
-                if (SelectedMember.Count == 0)
+                if (!CheckEmailCorectness.ConnectionAvailable())
+                {
+                    await App.AlertSvc.ShowAlertAsync("", "There is no internet, check your connection, please");
+                }
+                else if (SelectedMember.Count == 0)
                 {
                     await App.AlertSvc.ShowAlertAsync("", "You did not choose anybody from family");
                 }

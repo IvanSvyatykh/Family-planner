@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using WorkWithEmail;
 
 namespace StatisticsPage
 {
@@ -42,9 +43,17 @@ namespace StatisticsPage
             InizalizationFields();
             AddDataForStatistics();
 
-            ChangeData = new Command(() =>
+            ChangeData = new Command(async() =>
             {
-                ChangeDataForStatistics();
+                if (!CheckEmailCorectness.ConnectionAvailable())
+                {
+                    await App.AlertSvc.ShowAlertAsync("", "There is no internet, check your connection, please");
+                }
+                else
+                {
+                    ChangeDataForStatistics();
+                }
+                    
             });         
         }
 

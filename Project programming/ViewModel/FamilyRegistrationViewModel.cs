@@ -6,6 +6,7 @@ using AppService;
 using Database;
 using DataCollector;
 using PasswordLogic;
+using WorkWithEmail;
 
 namespace FamilyRegistrationPage
 {
@@ -41,10 +42,15 @@ namespace FamilyRegistrationPage
             _user = _appData.User;
             JoinToFamily = new Command(async () =>
             {
-                if (_user.FamilyId != 0)
+                if (!CheckEmailCorectness.ConnectionAvailable())
+                {
+                    await App.AlertSvc.ShowAlertAsync("", "There is no internet, check your connection, please");
+                }
+                else if (_user.FamilyId != 0)
                 {
                     await App.AlertSvc.ShowAlertAsync("", "You are alredy member of family");
                 }
+
                 else if (!await _familyRepository.IsExistFamilyAsync(CreatorEmailJoin))
                 {
                     await App.AlertSvc.ShowAlertAsync("", "Family with this Email does not exist");
@@ -74,7 +80,11 @@ namespace FamilyRegistrationPage
 
             CreateFamily = new Command(async () =>
             {
-                if (_user.FamilyId != 0)
+                if (!CheckEmailCorectness.ConnectionAvailable())
+                {
+                    await App.AlertSvc.ShowAlertAsync("", "There is no internet, check your connection, please");
+                }
+                else if (_user.FamilyId != 0)
                 {
                     await App.AlertSvc.ShowAlertAsync("", "You are alredy member of family");
                 }

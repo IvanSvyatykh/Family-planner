@@ -6,6 +6,7 @@ using AppService;
 using Classes;
 using Database;
 using DataCollector;
+using WorkWithEmail;
 
 namespace GoodsCategotyPage
 {
@@ -34,7 +35,11 @@ namespace GoodsCategotyPage
 
             RemoveCategory = new Command(async () =>
             {
-                if (SelectedCategories.Count == 0)
+                if (!CheckEmailCorectness.ConnectionAvailable())
+                {
+                    await App.AlertSvc.ShowAlertAsync("", "There is no internet, check your connection, please");
+                }
+                else if (SelectedCategories.Count == 0)
                 {
                     await App.AlertSvc.ShowAlertAsync("", "You didn't choose any categories");
                 }
@@ -53,7 +58,11 @@ namespace GoodsCategotyPage
 
             AddCategory = new Command(async () =>
             {
-                if (Categories.Count == 0 || !Categories.All(c => c.Name.Equals(NewCategory)))
+                if (!CheckEmailCorectness.ConnectionAvailable())
+                {
+                    await App.AlertSvc.ShowAlertAsync("", "There is no internet, check your connection, please");
+                }
+                else if (Categories.Count == 0 || !Categories.All(c => c.Name.Equals(NewCategory)))
                 {
                     Categories.Add(await _categoriesRepository.AddCategoryAsync(NewCategory, _user.Id));
                     NewCategory = null;
