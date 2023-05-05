@@ -5,6 +5,7 @@ using Classes;
 using AppService;
 using Database;
 using DataCollector;
+using PasswordLogic;
 
 namespace FamilyRegistrationPage
 {
@@ -33,6 +34,8 @@ namespace FamilyRegistrationPage
         private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
 
         private SQLUserRepository _userRepository = new SQLUserRepository();
+
+        private PasswordLog _passwordLog = new PasswordLog();
         public FamilyRegistrationViewModel()
         {
             _user = _appData.User;
@@ -47,7 +50,7 @@ namespace FamilyRegistrationPage
                     await App.AlertSvc.ShowAlertAsync("", "Family with this Email does not exist");
                     CreatorEmailJoin = null;
                 }
-                else if (await _familyRepository.IsFamilyPasswordCorrectAsync(CreatorEmailJoin, FamilyPasswordJoin))
+                else if (await _familyRepository.IsFamilyPasswordCorrectAsync(CreatorEmailJoin, _passwordLog.GetHash(FamilyPasswordJoin)))
                 {
                     if (!await _userRepository.AddFamilyToUserAsync(CreatorEmailJoin, _user.Email))
                     {
@@ -87,7 +90,7 @@ namespace FamilyRegistrationPage
                 }
                 else
                 {
-                    _family = new Family(FamilyNameCreation, FamilyPasswordCreation, _user.Email);
+                    _family = new Family(FamilyNameCreation, _passwordLog.GetHash(FamilyPasswordCreation), _user.Email);
                     if (!await _familyRepository.CreateFamilyAsync(_family))
                     {
                         await App.AlertSvc.ShowAlertAsync("Sorry", "But we can't create family, something goes wrong");
@@ -100,7 +103,7 @@ namespace FamilyRegistrationPage
                     {
                         _user.ChangeFamilyId(await _familyRepository.GetFamilyIdAsync(_user.Email));
                         SaveAppData();
-                        RepeatedFamilyPasswordCreation = FamilyPasswordCreation=FamilyNameCreation=null;
+                        RepeatedFamilyPasswordCreation = FamilyPasswordCreation = FamilyNameCreation = null;
 
                         await App.AlertSvc.ShowAlertAsync("Good", "Creation is successful");
                     }
