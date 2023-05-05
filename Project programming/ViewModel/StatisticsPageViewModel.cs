@@ -55,7 +55,14 @@ namespace StatisticsPage
 
             FamilyMember user = _familyMembers.Where(f => f.MemberEmail.Equals(ChosenMember)).FirstOrDefault();
 
-            CategoryNames = new ObservableCollection<string>(_categoriesRepository.GetAllUsersCategoriesName(user.Id));
+            if (user == null) 
+            {
+                CategoryNames = new ObservableCollection<string>(_categoriesRepository.GetAllUsersCategoriesName(_user.Id));
+            }
+            else
+            {
+                CategoryNames = new ObservableCollection<string>(_categoriesRepository.GetAllUsersCategoriesName(user.Id));
+            }    
 
             Data.Clear();
 
