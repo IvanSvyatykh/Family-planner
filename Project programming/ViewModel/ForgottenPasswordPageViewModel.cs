@@ -6,6 +6,7 @@ using System.Windows.Input;
 using AppService;
 using Database;
 using Classes;
+using DataCollector;
 
 namespace ForgottenPasswordPage
 {
@@ -34,7 +35,7 @@ namespace ForgottenPasswordPage
 
         private string _repeatedPassword;
 
-        private Dictionary<string, object> ForgottenPageData = (App.Current as App).currentData;
+        private static IAppData _appData = DependencyService.Get<IAppData>();
         public ForgottenPasswordPageViewModel()
         {
             SendEmail = new Command(async () =>
@@ -81,10 +82,9 @@ namespace ForgottenPasswordPage
                         await Task.Delay(1000);
 
                         User user = await _userRepository.GetFullPersonInformationAsync(Email);
-                        ForgottenPageData.Add("User", user);
+                        _appData.AddUser(user);
                         ushort FamilyId = user.FamilyId;
-                        ForgottenPageData.Add("Family", await _familyRepository.GetFullFamilyInformationAsync(FamilyId));
-                        (App.Current as App).currentData = ForgottenPageData;
+                        _appData.AddFamily(await _familyRepository.GetFullFamilyInformationAsync(FamilyId));
 
                         await Shell.Current.GoToAsync("AccountPageView");
                     }

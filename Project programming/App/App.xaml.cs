@@ -1,5 +1,6 @@
 ﻿using AccountPage;
 using Classes;
+using DataCollector;
 using DialogService;
 using ForgottenPasswordPage;
 using RegistrationPage;
@@ -11,7 +12,6 @@ namespace AppService
     {
         public static IServiceProvider Services;
         public static IAlertService AlertSvc;
-        public Dictionary<string , object> currentData = new Dictionary<string , object>();
         public App(IServiceProvider provider)
         {
             InitializeComponent();
@@ -20,6 +20,7 @@ namespace AppService
             Routing.RegisterRoute("RegistrationPage", typeof(RegistrationPageView));
             Routing.RegisterRoute("AccountPageView", typeof(AccountPageView));
             Routing.RegisterRoute("ForgottenPasswordPage", typeof(ForgottenPasswordPageView));
+            DependencyService.Register<IAppData, AppData>();
             MainPage = new AppShell();
         }
     }

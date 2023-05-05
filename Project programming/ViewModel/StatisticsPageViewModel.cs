@@ -1,6 +1,7 @@
 ﻿using AppService;
 using Classes;
 using Database;
+using DataCollector;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -21,13 +22,13 @@ namespace StatisticsPage
 
         private ExtendedMonth _extendedMonthes = new ExtendedMonth();
 
-        private static Dictionary<string, object> _statisticsPageCurrentData = (App.Current as App).currentData;
+        private static IAppData _appData = DependencyService.Get<IAppData>();
 
         private List<FamilyMember> _familyMembers { get; set; } = new List<FamilyMember>();
 
-        private User _user = _statisticsPageCurrentData["User"] as User;
+        private User _user;
 
-        private Family _family = _statisticsPageCurrentData["Family"] as Family;
+        private Family _family;
         private string _chosenMonth { get; set; }
         private string _chosenMember { get; set; }
         private bool _isCreator { get; set; }
@@ -107,6 +108,8 @@ namespace StatisticsPage
 
         private void InizalizationFields()
         {
+            _user = _appData.User;
+            _family = _appData.Family;
             ChosenMonth = _extendedMonthes.GetMonthInStringFromByte((byte)DateTime.Now.Month);
             Monthes = _extendedMonthes.GetAllMonthes();
 

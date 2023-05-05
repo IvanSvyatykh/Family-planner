@@ -4,6 +4,7 @@ using System.Windows.Input;
 using Classes;
 using AppService;
 using Database;
+using DataCollector;
 
 namespace FamilyRegistrationPage
 {
@@ -23,7 +24,7 @@ namespace FamilyRegistrationPage
 
         private string _repeatedFamilyPasswordCreation = null;
 
-        private Dictionary<string, object> _familyRegistrationPageData = (App.Current as App).currentData;
+        private static IAppData _appData = DependencyService.Get<IAppData>();
 
         private User _user;
 
@@ -35,7 +36,7 @@ namespace FamilyRegistrationPage
         private SQLUserRepository _userRepository = new SQLUserRepository();
         public FamilyRegistrationViewModel()
         {
-            _user = _familyRegistrationPageData["User"] as User;
+            _user = _appData.User;
             JoinToFamily = new Command(async () =>
             {
                 if (_user.FamilyId != 0)
@@ -57,9 +58,8 @@ namespace FamilyRegistrationPage
                     {
                         _user.ChangeFamilyId(await _familyRepository.GetFamilyIdAsync(_creatorEmaiJoin));
                         _family = new Family(FamilyNameCreation, FamilyPasswordCreation, CreatorEmailJoin);
-                        _familyRegistrationPageData["User"] = _user;
-                        _familyRegistrationPageData["Family"] = _family;
-                        (App.Current as App).currentData = _familyRegistrationPageData;
+                        _appData.AddUser(_user);
+                        _appData.AddFamily( _family);
                         CreatorEmailJoin = FamilyPasswordJoin = null;
 
                         App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
@@ -101,9 +101,8 @@ namespace FamilyRegistrationPage
                     else
                     {
                         _user.ChangeFamilyId(await _familyRepository.GetFamilyIdAsync(_user.Email));
-                        _familyRegistrationPageData["User"] = _user;
-                        _familyRegistrationPageData["Family"] = _family;
-                        (App.Current as App).currentData = _familyRegistrationPageData;
+                        _appData.AddUser(_user);
+                        _appData.AddFamily(_family);
                         RepeatedFamilyPasswordCreation = FamilyPasswordCreation=FamilyNameCreation=null;
                         await App.AlertSvc.ShowAlertAsync("Good", "Creation is successful");
                     }

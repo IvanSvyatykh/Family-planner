@@ -5,6 +5,7 @@ using System.Windows.Input;
 using AppService;
 using System.Collections.ObjectModel;
 using Database;
+using DataCollector;
 
 namespace AccountPage
 {
@@ -12,7 +13,6 @@ namespace AccountPage
     {
         public event PropertyChangedEventHandler PropertyChanged;
         public ICommand RemoveMember { get; set; }
-
         public ICommand GetUniqueCategories { get; set; }
         public ObservableCollection<FamilyMember> FamilyMembers { get; set; } = new ObservableCollection<FamilyMember>();
         public ObservableCollection<FamilyMember> SelectedMember { get; set; } = new ObservableCollection<FamilyMember>();
@@ -24,18 +24,20 @@ namespace AccountPage
 
         private SQLGoodsCategoriesRepository _categoriesRepository = new SQLGoodsCategoriesRepository();
 
-        private static Dictionary<string, object> _accountPageCurrentData = (App.Current as App).currentData;
+        private static IAppData _appData = DependencyService.Get<IAppData>();
 
-        private User _userCurrent = _accountPageCurrentData["User"] as User;
+        private User _userCurrent;
 
-        private Family _family = _accountPageCurrentData["Family"] as Family;
+        private Family _family;
 
         private bool _isAdmin = false;
+
+        
 
         public AccountPageViewModel()
         {
             InitializationFields();
-
+            
             RemoveMember = new Command(async () =>
             {
 
@@ -135,6 +137,9 @@ namespace AccountPage
         }
         private void InitializationFields()
         {
+            _userCurrent = _appData.User;
+            _family = _appData.Family;
+
             if (_family == null)
             {
                 Person.Add(new DataPerson(_userCurrent.Name, _userCurrent.Email, null));

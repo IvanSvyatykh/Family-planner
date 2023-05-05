@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using AppService;
 using Classes;
 using Database;
+using DataCollector;
 
 namespace MainPage
 {
@@ -24,11 +25,11 @@ namespace MainPage
 
         private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
 
-        private Dictionary<string, object> _mainPageData = (App.Current as App).currentData;
-
         private int _countTry = 0;
 
         private bool _isVisable = true;
+
+        private IAppData _appData = DependencyService.Get<IAppData>();
         public MainPageViewModel()
         {
 
@@ -46,10 +47,9 @@ namespace MainPage
                     if (await _userRepository.IsUserPasswordCorrectAsync(user))
                     {                       
                         user = await _userRepository.GetFullPersonInformationAsync(Email);
-                        _mainPageData.Add("User", user);
+                        _appData.AddUser(user);
                         ushort FamilyId = user.FamilyId;
-                        _mainPageData.Add("Family", await _familyRepository.GetFullFamilyInformationAsync(FamilyId));
-                        (App.Current as App).currentData = _mainPageData;
+                        _appData.AddFamily(await _familyRepository.GetFullFamilyInformationAsync(FamilyId));                      
                         await Shell.Current.GoToAsync("AccountPageView");
                     }
                     else

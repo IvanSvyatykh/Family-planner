@@ -6,6 +6,7 @@ using Classes;
 using System.Windows.Input;
 using AppService;
 using Database;
+using DataCollector;
 
 namespace RegistrationPage
 {
@@ -33,7 +34,7 @@ namespace RegistrationPage
 
         private int? _confirmationCode = null;
 
-        private Dictionary<string, object> _registrationPageData = (App.Current as App).currentData;
+        private static IAppData _appData = DependencyService.Get<IAppData>();
 
         public RegistrationPageViewModel()
         {
@@ -76,10 +77,9 @@ namespace RegistrationPage
                         await Task.Delay(1000);
 
                         user = await _userRepository.GetFullPersonInformationAsync(Email);
-                        _registrationPageData.Add("User", user);
+                        _appData.AddUser(user);
                         ushort FamilyId = user.FamilyId;
-                        _registrationPageData.Add("Family", await _familyRepository.GetFullFamilyInformationAsync(FamilyId));
-                        (App.Current as App).currentData = _registrationPageData;
+                        _appData.AddFamily(await _familyRepository.GetFullFamilyInformationAsync(FamilyId));
 
                         await Shell.Current.GoToAsync("AccountPageView");
                     }

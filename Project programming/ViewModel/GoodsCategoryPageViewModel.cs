@@ -5,14 +5,15 @@ using System.Windows.Input;
 using AppService;
 using Classes;
 using Database;
+using DataCollector;
 
 namespace GoodsCategotyPage
 {
     public class GoodsCategoryPageViewModel : INotifyPropertyChanged
     {
-        private static Dictionary<string, object> _goodsCategoriesPageCurrentData = (App.Current as App).currentData;
+        private static IAppData _appData = DependencyService.Get<IAppData>();
 
-        private User _user = _goodsCategoriesPageCurrentData["User"] as User;
+        private User _user;
 
         private string _newCategory = null;
 
@@ -26,10 +27,9 @@ namespace GoodsCategotyPage
         public ICommand RemoveCategory { get; set; }
         public ICommand AddCategory { get; set; }
 
-
         public GoodsCategoryPageViewModel()
         {
-
+            _user = _appData.User;
             Categories = new ObservableCollection<GoodsCategory>(_categoriesRepository.GetAllUsersCategories(_user.Id));
 
             RemoveCategory = new Command(async () =>

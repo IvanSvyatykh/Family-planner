@@ -3,7 +3,7 @@ using Classes;
 using Database;
 using AppService;
 using System.Runtime.CompilerServices;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using DataCollector;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -11,9 +11,9 @@ namespace ExpensesPage
 {
     public class ExpensesViewModel : INotifyPropertyChanged
     {
-        private static Dictionary<string, object> _expensesPageCurrentData = (App.Current as App).currentData;
+        private static IAppData _appData = DependencyService.Get<IAppData>();
 
-        private User _user = _expensesPageCurrentData["User"] as User;
+        private User _user;
 
         private SQLExpensesRepository _expensesRepositiry = new SQLExpensesRepository();
 
@@ -99,6 +99,7 @@ namespace ExpensesPage
         }
         private void InizalizationFields()
         {
+            _user = _appData.User;
             ChosenMonth = _extendedMonthes.GetMonthInStringFromByte((byte)DateTime.Now.Month);
             Monthes = new ObservableCollection<string>(_extendedMonthes.GetAllMonthes());
 
