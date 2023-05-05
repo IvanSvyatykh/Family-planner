@@ -31,8 +31,6 @@
             </controls:PickerField>
 
             <Button Text="See expenses in month" TextColor="Black" FontSize="Medium" input:FormView.IsSubmitButton="True"/>
-
-            <Button Text="Refresh Category" TextColor="Black" FontSize="Medium" Command="{Binding RefreshCategory}"/>
         </input:FormView>
     </HorizontalStackLayout>
 

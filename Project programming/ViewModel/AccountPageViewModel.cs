@@ -24,16 +24,14 @@ namespace AccountPage
 
         private SQLGoodsCategoriesRepository _categoriesRepository = new SQLGoodsCategoriesRepository();
 
-        private static IAppData _appData = DependencyService.Get<IAppData>();
+        private IAppData _appData = DependencyService.Get<IAppData>();
 
         private User _userCurrent;
 
         private Family _family;
 
         private bool _isAdmin = false;
-
-        
-
+       
         public AccountPageViewModel()
         {
             InitializationFields();
@@ -74,7 +72,6 @@ namespace AccountPage
                     {
                         await App.AlertSvc.ShowAlertAsync("", "Something goes wrong");
                     }
-
                 }
                 else
                 {
@@ -120,6 +117,7 @@ namespace AccountPage
                 }
             }
         }
+
         private ObservableCollection<FamilyMember> GetAllFamilyAccount(List<User> users)
         {
             ObservableCollection<FamilyMember> members = new ObservableCollection<FamilyMember>();
@@ -135,6 +133,7 @@ namespace AccountPage
             return members;
 
         }
+
         private void InitializationFields()
         {
             _userCurrent = _appData.User;
@@ -155,6 +154,7 @@ namespace AccountPage
                 IsAdmin = true;
             }
         }
+
         private async Task<int> AddNewCategories(uint userId)
         {
             List<string> existedCategories = _categoriesRepository.GetAllUsersCategoriesName(_userCurrent.Id);
@@ -167,6 +167,7 @@ namespace AccountPage
 
             return newCategories.Count();
         }
+
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

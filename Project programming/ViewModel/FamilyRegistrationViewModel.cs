@@ -24,12 +24,11 @@ namespace FamilyRegistrationPage
 
         private string _repeatedFamilyPasswordCreation = null;
 
-        private static IAppData _appData = DependencyService.Get<IAppData>();
+        private IAppData _appData = DependencyService.Get<IAppData>();
 
         private User _user;
 
         private Family _family;
-
 
         private SQLFamilyRepository _familyRepository = new SQLFamilyRepository();
 
@@ -58,8 +57,7 @@ namespace FamilyRegistrationPage
                     {
                         _user.ChangeFamilyId(await _familyRepository.GetFamilyIdAsync(_creatorEmaiJoin));
                         _family = new Family(FamilyNameCreation, FamilyPasswordCreation, CreatorEmailJoin);
-                        _appData.AddUser(_user);
-                        _appData.AddFamily( _family);
+                        SaveAppData();
                         CreatorEmailJoin = FamilyPasswordJoin = null;
 
                         App.AlertSvc.ShowAlert("Great", "You successfully connect to family");
@@ -101,14 +99,20 @@ namespace FamilyRegistrationPage
                     else
                     {
                         _user.ChangeFamilyId(await _familyRepository.GetFamilyIdAsync(_user.Email));
-                        _appData.AddUser(_user);
-                        _appData.AddFamily(_family);
+                        SaveAppData();
                         RepeatedFamilyPasswordCreation = FamilyPasswordCreation=FamilyNameCreation=null;
+
                         await App.AlertSvc.ShowAlertAsync("Good", "Creation is successful");
                     }
 
                 }
             });
+        }
+
+        public void SaveAppData()
+        {
+            _appData.AddUser(_user);
+            _appData.AddFamily(_family);
         }
 
         public string RepeatedFamilyPasswordCreation

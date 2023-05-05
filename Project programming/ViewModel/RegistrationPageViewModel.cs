@@ -34,7 +34,9 @@ namespace RegistrationPage
 
         private int? _confirmationCode = null;
 
-        private static IAppData _appData = DependencyService.Get<IAppData>();
+        private IAppData _appData = DependencyService.Get<IAppData>();
+
+        private PasswordLog _passwordLog = new PasswordLog();
 
         public RegistrationPageViewModel()
         {
@@ -69,7 +71,7 @@ namespace RegistrationPage
                 }
                 else if (Answer.Equals(_confirmationCode))
                 {
-                    User user = new User(Name, Password, Email);
+                    User user = new User(Name, _passwordLog.GetHash(Password), Email);
                     if (await _userRepository.AddUserAsync(user))
                     {
 

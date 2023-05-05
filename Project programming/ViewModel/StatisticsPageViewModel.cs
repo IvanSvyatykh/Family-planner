@@ -18,11 +18,9 @@ namespace StatisticsPage
         public List<string> Monthes { get; set; }
         public ICommand ChangeData { get; set; }
 
-        public ICommand RefreshCategory { get; set; }
-
         private ExtendedMonth _extendedMonthes = new ExtendedMonth();
 
-        private static IAppData _appData = DependencyService.Get<IAppData>();
+        private IAppData _appData = DependencyService.Get<IAppData>();
 
         private List<FamilyMember> _familyMembers { get; set; } = new List<FamilyMember>();
 
@@ -47,13 +45,7 @@ namespace StatisticsPage
             ChangeData = new Command(() =>
             {
                 ChangeDataForStatistics();
-            });
-
-            RefreshCategory = new Command(() =>
-            {
-                ChangeDataForStatistics();
-            });
-
+            });         
         }
 
         private void ChangeDataForStatistics()

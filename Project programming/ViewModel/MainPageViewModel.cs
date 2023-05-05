@@ -6,6 +6,7 @@ using AppService;
 using Classes;
 using Database;
 using DataCollector;
+using PasswordLogic;
 
 namespace MainPage
 {
@@ -29,6 +30,8 @@ namespace MainPage
 
         private bool _isVisable = true;
 
+        private PasswordLog _passwordLog= new PasswordLog();
+
         private IAppData _appData = DependencyService.Get<IAppData>();
         public MainPageViewModel()
         {
@@ -36,7 +39,7 @@ namespace MainPage
             SignIn = new Command(async () =>
             {
                 IsVisable = false;
-                User user = new User(null, Password, Email);
+                User user = new User(null, _passwordLog.GetHash(Password), Email);
                 if (!CheckEmailCorectness.ConnectionAvailable())
                 {
                     await App.AlertSvc.ShowAlertAsync("", "There is no internet, check your connection, please");
@@ -70,11 +73,7 @@ namespace MainPage
                     await App.AlertSvc.ShowAlertAsync("", "We don't have account with this Email");
                     IsVisable = true;
                 }
-
-
             });
-
-
 
             ForgetPassword = new Command(async () =>
             {
@@ -113,6 +112,7 @@ namespace MainPage
                 }
             }
         }
+
         public string Email
         {
             get => _email;
@@ -125,6 +125,7 @@ namespace MainPage
                 }
             }
         }
+
         public void OnPropertyChanged([CallerMemberName] string prop = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

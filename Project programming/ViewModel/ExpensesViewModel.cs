@@ -11,7 +11,7 @@ namespace ExpensesPage
 {
     public class ExpensesViewModel : INotifyPropertyChanged
     {
-        private static IAppData _appData = DependencyService.Get<IAppData>();
+        private IAppData _appData = DependencyService.Get<IAppData>();
 
         private User _user;
 

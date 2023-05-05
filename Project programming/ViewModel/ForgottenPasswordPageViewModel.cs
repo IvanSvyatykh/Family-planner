@@ -35,7 +35,9 @@ namespace ForgottenPasswordPage
 
         private string _repeatedPassword;
 
-        private static IAppData _appData = DependencyService.Get<IAppData>();
+        private IAppData _appData = DependencyService.Get<IAppData>();
+
+        private PasswordLog _passwordLog = new PasswordLog();
         public ForgottenPasswordPageViewModel()
         {
             SendEmail = new Command(async () =>
@@ -75,7 +77,7 @@ namespace ForgottenPasswordPage
                         await App.AlertSvc.ShowAlertAsync("", "Passwords should be equals");
                         IsVisable = true;
                     }
-                    else if (await _userRepository.ChangeUserPasswordAsync(Email, Password.ToString()))
+                    else if (await _userRepository.ChangeUserPasswordAsync(Email, _passwordLog.GetHash(Password)))
                     {
 
                         await App.AlertSvc.ShowAlertAsync("", "You changed your password");
