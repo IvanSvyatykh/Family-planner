@@ -29,7 +29,7 @@
                 </controls:TextField>
 
                 <Button  Text="Send confirmation code" TextColor="Black" 
-                   WidthRequest="500" HorizontalOptions="Start" HeightRequest="50"  FontSize="Medium" 
+                   WidthRequest="500" HorizontalOptions="Start" HeightRequest="50" IsVisible="{Binding IsVisable}"  FontSize="Medium" 
                      input:FormView.IsSubmitButton="True"/>
 
 
