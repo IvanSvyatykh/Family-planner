@@ -22,7 +22,6 @@ namespace StatisticsPage
         private ExtendedMonth _extendedMonthes = new ExtendedMonth();
 
         private IAppData _appData = DependencyService.Get<IAppData>();
-
         private List<FamilyMember> _familyMembers { get; set; } = new List<FamilyMember>();
 
         private User _user;
@@ -59,25 +58,30 @@ namespace StatisticsPage
 
         private void ChangeDataForStatistics()
         {
-            ObservableCollection<Expenses> ExpensesInMonth = new ObservableCollection<Expenses>(_expensesRepository.GetUserExpensesByMonth(_user.Id,
-               _extendedMonthes.GetMonthInByteFromString(ChosenMonth)));
-
+            
             FamilyMember user = _familyMembers.Where(f => f.MemberEmail.Equals(ChosenMember)).FirstOrDefault();
+
+            uint Id;
 
             if (user == null) 
             {
                 CategoryNames = new ObservableCollection<string>(_categoriesRepository.GetAllUsersCategoriesName(_user.Id));
+                Id = _user.Id;
             }
             else
             {
                 CategoryNames = new ObservableCollection<string>(_categoriesRepository.GetAllUsersCategoriesName(user.Id));
-            }    
+                Id = user.Id;
+            }
+
+            ObservableCollection<Expenses> ExpensesInMonth = new ObservableCollection<Expenses>(_expensesRepository.GetUserExpensesByMonth(_user.Id,
+               _extendedMonthes.GetMonthInByteFromString(ChosenMonth)));
 
             Data.Clear();
 
             foreach (var category in CategoryNames)
             {
-                DataForStatistics data = new DataForStatistics(_expensesRepository.GetUserExpensesByCategotyAndDate(user.Id, category,
+                DataForStatistics data = new DataForStatistics(_expensesRepository.GetUserExpensesByCategotyAndDate(Id, category,
                     _extendedMonthes.GetMonthInByteFromString(ChosenMonth)));
                 Data.Add(data);
             }

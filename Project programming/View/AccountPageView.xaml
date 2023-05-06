@@ -22,7 +22,7 @@
         <VerticalStackLayout HorizontalOptions="Center" Margin="20" Grid.Column="0">
            
             <StackLayout Spacing="20" HorizontalOptions="Center">
-                <Label Text="Information About Fmaily" TextColor="WhiteSmoke" FontSize="Medium"/>
+                <Label Text="Information About Family" TextColor="WhiteSmoke" FontSize="Medium"/>
                 <controls:DataGrid ItemsSource="{Binding FamilyMembers}"   SelectedItems="{Binding SelectedMember}"  BorderColor="White" SelectionColor="Grey">
                     <controls:DataGrid.EmptyView>
                         <Label Text="You are not a family member" TextColor="Black" HorizontalOptions="Center"/>
