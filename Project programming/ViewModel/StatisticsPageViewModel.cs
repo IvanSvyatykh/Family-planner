@@ -49,7 +49,7 @@ namespace StatisticsPage
                     await App.AlertSvc.ShowAlertAsync("", "There is no internet, check your connection, please");
                 }
                 else
-                {
+                {                  
                     ChangeDataForStatistics();
                 }
                     
@@ -58,7 +58,9 @@ namespace StatisticsPage
 
         private void ChangeDataForStatistics()
         {
-            
+            _user = _appData.User;
+            _family = _appData.Family;
+
             FamilyMember user = _familyMembers.Where(f => f.MemberEmail.Equals(ChosenMember)).FirstOrDefault();
 
             uint Id;
